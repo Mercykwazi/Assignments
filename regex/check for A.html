@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta name="viewport" content="width=1, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title> check for As in a string</title>
+
+<script>
+    function checksA(string) {
+        if (string.match(/a/g).length > 1) {
+            console.log("string :" + string)
+            console.log("you have" + string.match(/a/g).length + "A's in your string.")
+        }
+    }
+    this.checksA("i have a car that is very awesome and i always take a nap in it");
+
+</script>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta name="viewport" content="width=1, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title> The Grade Assigner</title>
+
+<script>
+    function assignGrade(num) {
+        var view;
+        if (num >= 1 && num <= 9) {
+            view = "F";
+        } else if (num >= 10 && num <= 19) {
+            view = "E";
+        } else if (num >= 20 && num <= 49) {
+            view = "D";
+        } else if (num >= 50 && num <= 60) {
+            view = "C";
+        } else if (num >= 70 && num <= 80) {
+            view = "B";
+        } else if (num >= 90 && num <= 100) {
+            view = "A";
+        }
+        console.log(view)
+    }
+    this.assignGrade(45);
+    this.assignGrade(90)
+
+</script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta name="viewport" content="width=1, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title> user</title>
+
+<script>
+    function checkAge(age) {
+        requirdAge = 20;
+        age=document.getElementById("value").value
+        if (age < requirdAge) {
+            console.log("you are still young");
+        } else if (age > requirdAge) {
+            console.log("you are old enough.");
+        }
+        
+    };
+//this.checkAge(21)
+
+</script>
+
+<body>
+
+
+    <input type="tel" id="value" value="" />
+
+    <button onclick="checkAge()">Enter your age</button>
+
+
+
+
+</body>
+
+</html>

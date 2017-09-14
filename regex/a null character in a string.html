@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search for a null character in a string </title>
+    
+    <script>
+        function checkForNullCharacter() {
+            var str = "Visit my website.\0Learn about me.";
+            var value = document.getElementById("value").value;
+            if (value.match(/\0/)) {
+                console.log("found a null character in a string");
+            }
+            else if (!value.match(/\0/))
+                console.log("Has notfound a null character in a string");
+        };
+
+    </script>
+</head>
+
+<body>
+<input type="text" id="value" name="name" value=""/>
+  <button type="button" onclick="checkForNullCharacter()">Check for null character</button>
+</body>
+
+</html>

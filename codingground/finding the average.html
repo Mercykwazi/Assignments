@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta name="viewport" content="width=1, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title> The Grade Assigner</title>
+
+<script>
+    function avarageMarks() {
+        var array = [60, 77, 88, 95, 45];
+        var avarage = 0;
+        var grade;
+        for (var i = 0; i < array.length; i++) {
+            avarage += array[i] / array.length;
+        }
+       
+        if (avarage < 60) {
+            grade = "F";
+        } else if (avarage < 70) {
+            grade = "D"
+        } else if (avarage < 80) {
+            grade = "C"
+        } else if (avarage < 90) {
+            grade = "B"
+        } else if (avarage < 100) {
+            grade = "A"
+        }
+         return "the average mark of the students is  " + avarage + " and their grade is " + grade;
+    };
+    console.log(avarageMarks());
+
+</script>
