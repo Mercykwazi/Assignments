@@ -5,17 +5,24 @@
     <meta charset=utf-8 />
     <title>Writing a JavaScript function that accepts two integers and display the smaller</title>
     <script>
-        function displayingSmallerInterger(firstNumber, secoundNumber) {
-            
-            if (firstNumber < secoundNumber) {
-                console.log("The smallest interger between" + firstNumber + "and" + secoundNumber + "is" + firstNumber);
+        function displayingSmallerInterger(firstNumber, secondNumber) {
+            var smallerInterger = 0;
+            if (firstNumber < secondNumber) {
+                smallerInterger = firstNumber;
             }
-            else if (secoundNumber < firstNumber) {
-                console.log("The smallest interger between" + firstNumber + "and" + secoundNumber + "is" + secoundNumber);
+            else if (secondNumber < firstNumber) {
+                smallerInterger = secondNumber
+            } else {
+                smallerInterger = secondNumber || firstNumber
             }
+            return smallerInterger
         };
-       this.myFunction(13,89);
-        this.myFunction(99,50);
+
+
+
+        console.log(this.displayingSmallerInterger(13, 89));
+        console.log(this.displayingSmallerInterger(100, 89));
+        console.log(this.displayingSmallerInterger(100, 100));
     </script>
 </head>
 
