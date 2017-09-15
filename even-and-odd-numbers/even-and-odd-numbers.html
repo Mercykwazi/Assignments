@@ -6,14 +6,23 @@
 <title> checking even and odd numbers</title>
 <script>
     function iteratesNumbers() {
-     var   number = 50;
-
+        number = 50;
+        var results = ""
         for (var i = 0; i < number; i++) {
-            var results = [number];
-          
+            var results = [number-1];
+
+            if (i % 2 === 0) {
+                results = "Even";
+            } else {
+                results = "Odd";
+            }
+
+            console.log(results);
+
+
         };
-        console.log(results);
-    }
+
+    };
     this.iteratesNumbers();
 
 </script>
