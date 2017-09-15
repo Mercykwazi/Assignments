@@ -5,24 +5,27 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title> checking even and odd numbers</title>
 <script>
-    function iteratesNumbers() {
-        number = 50;
+   var maxNumber = 50;
+    function iteratesNumbers(number) {
+       var output;
         var results = ""
-        for (var i = 0; i < number; i++) {
-            var results = [number-1];
+        for (var i = 0; i <= maxNumber; i++) {
+            var number = i;
 
             if (i % 2 === 0) {
-                results = "Even";
+                results = `${i} is even\n`;
             } else {
-                results = "Odd";
+                results = `${i} is odd\n`;
             }
+        
+        output += results;
 
-            console.log(results);
+           
 
-
-        };
-
-    };
-    this.iteratesNumbers();
+        }
+return output;
+    }
+    console.log(this.iteratesNumbers(maxNumber));
+ 
 
 </script>
