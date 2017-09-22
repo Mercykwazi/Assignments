@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Writing a JavaScript function that tells foturne</title>
+    <script>
+        function tellFortune(number, name, location, jobTitle) {
+           var fortune=`You will have ${number} children, be married to ${name} and stay in ${location} You will be a ${jobTitle}`;
+           return fortune;
+           
+           // var randomNumber = Math.floor(Math.random() * fortunes.length);
+           // console.log(fortunes)
+            document.getElementById("fortune").innerHTML = fortune;
+        }
+        console.log(tellFortune(6,"Sandile","Randforten","Doctor"));
+         console.log(tellFortune(5,"Peter","Yugoslavia","Chatterd accountant"));
+          console.log(tellFortune(2,"Sam","Europe","Teacher"));
+
+    </script>
+
+    <body>
+        <div id="container">
+            <h1>What is your Fortune?</h1>
+            <button onclick="tellFortune()">Press to find out your fortune...</button>
+            <div id="fortune"></div>
+    </body>
