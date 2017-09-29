@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title> evaluating a Greater Number</title>
+    <script>
+        function evaluateGreaterNum() {
+            var num1 = document.getElementById("firstNum").value;
+            var num2 = document.getElementById("secondNum").value;
+            var results = " ";
+
+            if (num1 < num2) {
+                results = `${num2} is greater`;
+            } else if (num1 === num2) {
+                results = `${num1} and ${num2} are equal`;
+            }
+            else {
+                results = `${num1} is greater`;
+
+            }
+            document.getElementById("answer").innerHTML = results;
+            return results;
+        }
+    </script>
+</head>
+
+<body>
+    <input type="int" id="firstNum" name="firstNumber"></input>
+    <input type="int" id="secondNum" name="secondNumber"></input>
+
+    <p id="answer"></p>
+
+    <button onclick="evaluateGreaterNum()">Check</button>
+
+</body>
+
+</html>
