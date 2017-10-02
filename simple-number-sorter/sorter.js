@@ -1,6 +1,6 @@
 var array = [0, -3, 2, 4];
 function myfunction(arr) {
-    var results = "";
+    var results = [4,2,0,-3];
     arr = Array.from(arguments);
 
     for (var i = 0; i < arr.length; i++); {
