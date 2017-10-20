@@ -5,3 +5,4 @@ function findingLastElement(arr) {
  return array;
 }
 console.log(findingLastElement(( "xyz" )))
+console.log(findingLastElement(( values )))
