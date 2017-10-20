@@ -1,6 +1,6 @@
-var values = [1, 2, 3, 4];
+var values = ("s,x,y");
 function findingLastElement(arr) {
- var array = values.pop();
+ var array = values.slice(-1);
  return array;
 }
 console.log(findingLastElement(values))
