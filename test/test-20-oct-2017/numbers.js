@@ -1,10 +1,10 @@
-var number = [1, 2, 3, NaN];
+var number = [1, 2, 3,];
 function numbers(num) {
     var arr = 0;
     var output = "";
     for (var i = 0; i < num.length; i++) {
         arr += num[i];
-        if (arr > 1) {
+        if (arr > 0) {
             output = true;
         } else
             output = false;
