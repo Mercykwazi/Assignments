@@ -1,15 +1,15 @@
-
-function findingLastElement(list) {
-    var results = " ";
+var list = (1, 2, 3, 4);
+function lastItem(item) {
     var array = Array.from(arguments);
-
-    if(list.length == undefined){
-        results = array[array.length - 1];
-    }else{
-        results = list[list.length -1];
+    array.slice(array[array.length - 1]);
+    if (item.length == undefined) {
+        return array[0]
+    } else {
+        return array[0][array[0].length-1];
     }
-    return results;
+
+
 }
-console.log(findingLastElement(( "xyz" )))
-console.log(findingLastElement((  1,2,3,4)))
-console.log(findingLastElement([1,2,3,4]))
+
+console.log(lastItem(list))
+console.log(lastItem([1, 2, 3, 4]))
