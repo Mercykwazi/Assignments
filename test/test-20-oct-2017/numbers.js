@@ -13,3 +13,4 @@ function numbers(num) {
 
 }
 console.log(numbers(number))   
+console.log(numbers(1,"a,",3))
