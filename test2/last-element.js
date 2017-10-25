@@ -16,3 +16,7 @@
 //3. If it is a string, find the last character in the string and return it
 
 //4. If there are multiple arguments, return the last argument passed in.
+
+function lastElement(){
+    
+}
