@@ -15,3 +15,4 @@ function arrHasDuplication(interger) {
     
 }
 console.log(arrHasDuplication(data));
+console.log(arrHasDuplication(1,2,3,4));
