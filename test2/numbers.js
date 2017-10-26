@@ -1,11 +1,9 @@
 function numbers(arr) {
     var array = Array.from(arguments);
     for (var i = 0; i < array.length; i++) {
-        if (typeof (array[i]) === "string") {
-
+        if (typeof (array[i]) !== 'number') {
             return false;
         }
-
     }
     return true;
 }
