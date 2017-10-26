@@ -11,5 +11,5 @@ function returnLessThan(array, number) {
 
 
 
-console.log(returnLessThan([1, 2, 3, 4, 10,7], 9))
+console.log(returnLessThan([1, 2, 3, 4, 10], 9))
 console.log("is my console.log working")

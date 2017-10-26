@@ -5,7 +5,7 @@ function lastItem(item) {
     if (item.length == undefined) {
         return array[0]
     } else {
-        return array[0][array[0].length-1];
+        return array[0][array[0].length - 1];
     }
 
 

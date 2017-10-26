@@ -1,7 +1,8 @@
-var value = [29372];
-function descendingOrder(num) {
-    num.sort(num-b);
-    return num;
 
+function descendingOrder(arr) {
+   arr.concat();
+   //arr.push(number);
+   return arr;
 }
-console.log(descendingOrder(value));
+
+console.log(descendingOrder([29372]));
