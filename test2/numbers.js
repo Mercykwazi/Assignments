@@ -1,22 +1,13 @@
 function numbers(arr) {
+    var results=[];
     var array = Array.from(arguments);
     for (var i = 0; i < array.length; i++) {
-        if (typeof (array[i]) !== 'number') {
-            return false;
+        if (typeof (array[i]) === 'number') {
+            results.push(array[i]);
         }
     }
-    return true;
+    return  results.length ==array.length? true:false;
 }
 console.log(numbers(1, 4, 3, 2, 5)); // true
 console.log(numbers(1, "a", 3));// false
-console.log(numbers(1, 2, NaN));// false
-// 3. Write a function named numbers that returns true if all the parameters it is passed are of the Number type. Otherwise, the function should return false. The function should accept any number of parameters.
-
-//   Example usage:
-
-// numbers(1, 4, 3, 2, 5); // true
-
-// numbers(1, "a", 3); // false
-
-// numbers(1, 3, NaN); // true
-//1 write a function named numbers.
+console.log(numbers(1, 2, NaN));// true

@@ -1,4 +1,4 @@
-function returnLessThan(array, number) {
+function returnLessThan(array,number) {
     var arr = [];
     for (var i = 0; i < array.length; i++) {
         if (array[i] < number) {
