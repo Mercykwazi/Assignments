@@ -1,18 +1,28 @@
 
+function isThereDuplication(value) {
 
-var data = [1, 3, 6,];
-function arrHasDuplication(interger) {
-    for (i = 0; i < interger.length; i++) {
-        for (j =  1; j < interger.length; j++) {
-            if (interger[i] == interger[j]) 
+    var values = Array.from(arguments);
+    values.sort(function (a, b) {
+        return a - b;
+    });
+    for (var i = 0; i < values.length; i++) {
+        for (var x = 1; x < values.length; x++) {
+            if (values[i] == values[x]) {
                 return true;
-            } 
-                return false;
+            
+             
+            }
+
         }
+           return false;
+    }
 
-
-
-    
 }
-console.log(arrHasDuplication(data));
-console.log(arrHasDuplication(1,2,3,4));
+
+
+console.log(isThereDuplication(1, 3, 4,1))
+
+
+console.log(isThereDuplication(1, 3, 4))
+
+
