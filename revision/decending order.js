@@ -1,9 +1,8 @@
 
-function descendingOrder(arr) {
-    
-   arr.split("");
-   //var answer = arr.push(number)
-   return arr;
+function descendingOrder(num) {
+    var array = num.toString().split("").sort().reverse();
+    return array.join("");
+
 }
 
 console.log(descendingOrder(29372));

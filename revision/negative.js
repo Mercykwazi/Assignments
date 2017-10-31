@@ -1,3 +1,0 @@
-function makeNegative(num) {
-  // Code?
-}
