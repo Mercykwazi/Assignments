@@ -9,7 +9,7 @@ function removeVowels(string) {
 
         var characterString = string[counter];
 
-        if (characterString != "a" && characterString != "e" && characterString != "i" || characterString != "o" || characterString != "u") {
+        if (characterString != "a" && characterString != "e" && characterString != "i" && characterString != "o" && characterString != "u") {
             array.push(characterString)
         }
     }
