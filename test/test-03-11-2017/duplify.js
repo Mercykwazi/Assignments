@@ -1,4 +1,8 @@
-function duplify(str,number){
-   return str.repeat(number);
+String.prototype.duplify=function (number){
+    var results ='';
+for(var i=0;i<number;i++){
+    results += this
 }
-console.log(duplify("mercy",5))
+return results;
+}
+console.log("mercy".duplify(5));
