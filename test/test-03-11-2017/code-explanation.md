@@ -12,12 +12,16 @@ var obj = {
     name: 'Satoshi Nakamoto',
     prop: {
         name: 'Adam Back',
-        getFullname: function() {
+        getFullName: function() {
             return this.name;
         }
     }
 };
+console.log(obj.prop.getFullName());
+
+var fullName=obj.prop.getFullName();
+console.log(fullName);
 
 ## My Explanation 
-This code will output Adam Back,because this uses parent scoping.
-In this case the parent scoping of name is prop so the name under prop belongs to Adam Back.
+The first console log will print the results Adam Back because of this which take the parent function which is prop and the second 
+The second console log will also print out Adam Back because it is still under the scoping of prop
