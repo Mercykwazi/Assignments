@@ -1,9 +1,0 @@
-function spinalCase(str) {
-  str = str.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase().replace (/\s+|_/gi, "-");
-  
-  
-  return str;
-  
-}
-
-spinalCase('AllThe_small Things');
