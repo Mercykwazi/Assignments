@@ -9,7 +9,10 @@ function sumFibs(num) {
      currentNum = currentNum + prevNumber;
     prevNumber = currentNum - prevNumber;
     
-    }
+}
+  return result;
    
 
 }
+console.log(sumFibs(10))
+console.log(sumFibs(5))
