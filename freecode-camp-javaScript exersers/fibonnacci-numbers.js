@@ -7,4 +7,5 @@ function sumFibs(num) {
             if (currentNum % 2 !== 0) {
             result += currentNum;
         }
+         currentNum = currentNum+prevNumber; 
 }
