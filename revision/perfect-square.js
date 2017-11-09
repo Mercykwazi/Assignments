@@ -9,5 +9,8 @@ function isItPerfectSquare(number) {
 
   return results;
 }
+console.log(isItPerfectSquare(27));
+console.log(isItPerfectSquare(4));
+
 
 
