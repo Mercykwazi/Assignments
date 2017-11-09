@@ -4,4 +4,7 @@ function sumFibs(num) {
         var result = 0;
          while(currentNum <= num) {
          }
+            if (currentNum % 2 !== 0) {
+            result += currentNum;
+        }
 }
