@@ -3,10 +3,13 @@ function sumFibs(num) {
     var currentNum = 1;
     var result = 0;
     while (currentNum <= num) {
-    }
-    if (currentNum % 2 !== 0) {
+        if (currentNum % 2 !== 0) {
         result += currentNum;
     }
-    currentNum = currentNum + prevNumber;
+     currentNum = currentNum + prevNumber;
     prevNumber = currentNum - prevNumber;
+    
+    }
+   
+
 }
