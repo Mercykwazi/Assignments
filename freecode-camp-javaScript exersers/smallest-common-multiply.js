@@ -4,12 +4,17 @@ function commonMultiple(array) {
     var first = array[0];
     var second = array[1];
     var multiple = second;
-    return array[1];
+
     function isValidMultiple(first,second,multiple){
         for(var index = first; index <= second;index ++){
             arr.push(index);
+            if(multiple % index !== 0){
+                return false
+            }
         }
+        return false
     }
+    
 }
 console.log(commonMultiple([1, 5]))
 /*Find the smallest common multiple of the provided parameters that can be evenly divided by both, as well as by all sequential numbers in the range between these parameters.
