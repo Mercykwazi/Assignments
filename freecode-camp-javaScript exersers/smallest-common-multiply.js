@@ -17,7 +17,7 @@ function commonMultiple(array) {
     While(!isValidMultiple(first,second,multiple));{
         multiple += second;
     }
-
+return multiple;
     
 }
 console.log(commonMultiple([1, 5]))
