@@ -9,15 +9,15 @@ function commonMultiple(array) {
         for(var index = first; index <= second;index ++){
             arr.push(index);
             if(multiple % index !== 0){
-                return false
+                return false;
             }
         }
-        return false
+        return true;
     }
-    While(!isValidMultiple(first,second,multiple));{
+    while(!isValidMultiple(first,second,multiple)){
         multiple += second;
     }
-return multiple;
+return multiple
     
 }
 console.log(commonMultiple([1, 5]))
