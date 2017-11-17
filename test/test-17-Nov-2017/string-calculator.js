@@ -4,9 +4,11 @@
     Start with the simplest output of an empty string and move to 1 and two numbers
     Remember to solve things as simply as possible so that you force yourself to write test scenarios you did not think about
     Remember to refactor after each successful output Allow the Add method to handle an unknown amount of numbers*/
-function addString(string) {
-    return string;
+function addString() {
+    var array = Array.from(arguments);
+    return array;
+
 }
-console.log(addString("1","2"))
+console.log(addString("1", "2"))
 
 
