@@ -5,21 +5,24 @@
     Remember to solve things as simply as possible so that you force yourself to write test scenarios you did not think about
     Remember to refactor after each successful output Allow the Add method to handle an unknown amount of numbers*/
 function addString(string) {
+    var spited = string.split(',');
     var arr = [];
-    var array = Array.from(arguments);
-    for (var i = 0; i < array.length; i++) {
-        arr.push(array[i])
-    }
-    var changed = Number(arr);
+
+    for (var i = 0; i < spited.length; i++) {
+        arr.push(spited[i])
+        if(arr[i]==""){
+            return 0;
+        };
+        }
     var sum = arr.reduce(function (a, b) {
-        return a + b;
+        return parseInt(a) + parseInt(b);
     });
 
 
     return sum;
 }
-console.log(addString("1", "2"))
-console.log(addString("1", "2", "7"))
+
+console.log(addString("1,2"))
 console.log(addString("1"))
 console.log(addString(""))
 
