@@ -15,4 +15,3 @@ function addInt(string) {
     return sum;
 }
 console.log(addInt("1,2"))
-console.log(addInt(""))
