@@ -1,6 +1,6 @@
 
 function descendingOrder(num) {
-    var array = num.toString().split("").sort().reverse();
+    var array = num.toString().split("").reverse();
     return array.join("");
 
 }
