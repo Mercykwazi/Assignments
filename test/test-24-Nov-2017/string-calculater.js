@@ -5,7 +5,8 @@ function addInt(string) {
         var numbers = string.match(/(-[0-9])|([0-9])/g);
         for (var i = 0; i < numbers.length; i++) {
             if (numbers[i] < 0) {
-               return   Error("negatives not allowed")
+                var message = `Negative numbers not allowed: ${numbers}`;
+                throw  Error(message);
             }
         }
         var sum = numbers.reduce(function (a, b) {
@@ -18,8 +19,8 @@ function addInt(string) {
 
 
 console.log(addInt("1,2"))
-console.log(addInt("-1,-2"))
 console.log(addInt(""))
 console.log(addInt("1\n2,3"));
-console.log(addInt("1//;n2,3"));
-//console.log(addInt("1,n"));
+console.log(addInt("1//;n2,"))
+console.log(addInt("-1,-2"))
+
