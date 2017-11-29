@@ -1,5 +1,6 @@
 function addString(string) {
     var spited = string.split(',');
+    var numbers = string.match(/(-[0-9])|([0-9])/g);
     var arr = [];
 
     for (var i = 0; i < spited.length; i++) {
@@ -13,9 +14,9 @@ function addString(string) {
     });
 
 
-    return sum;
+    return spited;
 }
-
+console.log(addString(""))
 console.log(addString("1,2"))
 console.log(addString("1"))
-console.log(addString("1,2,3,4,8"))
+console.log(addString("10,23"))
