@@ -13,7 +13,7 @@ function isItGreat(array, number, string) {
                results.push(array[i]);
            }
         } else if (string === "LessThan") {
-            if((array[i] <= number) === true){
+            if((array[i] < number) === true){
                results.push(array[i]);
            }
             
