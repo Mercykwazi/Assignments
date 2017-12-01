@@ -2,4 +2,9 @@
 someFunctionName('Perfect Practice Makes Perfect', 'Perfect') = True
 someFunctionName('We should have a growth Mindset', 'Fixed') = False
 */
-function 
+function isIt(str,str2){
+  for(var i =0;i<str.length;i++){
+      
+  }
+}
+console.log(isIt("my name is mercy","mercy"))
