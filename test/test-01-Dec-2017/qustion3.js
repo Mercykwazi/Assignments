@@ -5,3 +5,21 @@ This function should use a for loop.
 ExampleFunction([1,2,3,4,5,6,7], 3, "GreaterOrEqual") = [3,4,5,6,7]
 
 ExampleFunction([1,2,3,4,5,6,7], 5, "LessThan") = [1,2,3,4]*/
+function isItGreat(array, number, string) {
+    var results = []
+    for (var i = 0; i <= array.length; i++) {
+        if (string === "GreaterOrEqual") {
+           if((array[i] >= number) === true){
+               results.push(array[i]);
+           }
+        } else if (string === "LessThan") {
+            if((array[i] <= number) === true){
+               results.push(array[i]);
+           }
+            
+        }
+    }
+    return results;
+}
+console.log(isItGreat([1, 2, 3, 4, 5, 6, 7], 3, "GreaterOrEqual"))
+console.log(isItGreat([1, 2, 3, 4, 5, 6, 7], 5, "LessThan"))
