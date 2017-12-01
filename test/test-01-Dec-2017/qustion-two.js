@@ -20,4 +20,6 @@ function whatIsIt(integer) {
  
     return results;
 }
-console.log(whatIsIt("a"))
+console.log(whatIsIt("a"))//None
+console.log(whatIsIt("-1"))//or
+console.log(whatIsIt("67"))//And
