@@ -12,5 +12,5 @@ function compare(array, number, string) {
 
  return filtered;
 }
-console.log(isItGreat([1, 2, 3, 4, 5, 6, 7], 3, "GreaterOrEqual"))
-console.log(isItGreat([1, 2, 3, 4, 5, 6, 7], 5, "LessThan"))
+console.log(compare([1, 2, 3, 4, 5, 6, 7], 3, "GreaterOrEqual"))
+console.log(compare([1, 2, 3, 4, 5, 6, 7], 5, "LessThan"))
