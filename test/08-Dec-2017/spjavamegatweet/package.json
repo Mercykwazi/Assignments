@@ -1,0 +1,18 @@
+{
+  "name": "post-tweet",
+  "version": "0.0.1",
+  "description": "test twitter example",
+  "main": "tweet-poster",
+  "scripts": {
+    "test": "share tweet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "testing-twitter"
+  },
+  "author": "tcg-std",
+  "license": "ISC",
+  "dependencies": {
+    "twit": "^2.2.9"
+  }
+}

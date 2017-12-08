@@ -1,6 +1,6 @@
 function compare(array, number, string) {
     if (string === "GreaterOrEqual") {
-        var filtered = array.forEach(function (value) {
+        var filtered = array.filter(function (value) {
             return  value >= number;
         })
     } else if (string === "LessThan") {
