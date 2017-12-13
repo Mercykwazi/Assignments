@@ -8,13 +8,17 @@ var oauth = {
     token: "882553776430874624-TrDzjb5ac3i7joU4uvulkUxjNu9MORX",
     token_secret: "FEPJAyOf4ghPwZ48oo6xA02acsLnDMKUmyH11ECtESmw8"
 };
-    access_point = {
-        url: url,
-        oauth: oauth,
-        qs: {
-            status: "Its good to know its working"
-        }
-    };
+var callback = {
+    https:"//api.twitter.com/oauth/access_token",
+    callback: "http://localhost:3000/twitter/callback",
+}
+access_point = {
+    url: url,
+    oauth: oauth,
+    qs: {
+        status: "I'm just testing my app"
+    }
+};
 
 ;
 request.post(access_point, function (err, res, body) {
