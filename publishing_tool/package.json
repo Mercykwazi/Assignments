@@ -1,0 +1,16 @@
+{
+  "name": "publishing_tool",
+  "version": "1.0.0",
+  "description": "this is a publishing tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mercy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "request": "^2.83.0",
+    "require": "^2.4.20"
+  }
+}
