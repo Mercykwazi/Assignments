@@ -5,8 +5,10 @@ var app = express();
 var url = "https://api.twitter.com/1.1/statuses/update.json";
 
 app.get("/", function (req, res) {
-    res.send("Hi World");
+    app.listen(3000, () => console.log("The server has  started"));
+    res.send("Hi World welcome to my publishing tool");
 });
+
 const config = {
     consumerKey: "s44pagKGPoG53E3gGyZtpVRp5",
     consumerSecret: "jw8GB3iZV8ZHmIu484Ne0nXwuwwiqMPjpqDFZpBwr8rLOsGdYe",
@@ -30,7 +32,7 @@ var statusUpdate = {
     url: url,
     oauth: oauth,
     qs: {
-        status: "TCG rocks!"
+        status: "I  "
     }
 };
 request.post(statusUpdate, function (err, postRes, body) {
