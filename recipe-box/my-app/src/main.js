@@ -7,19 +7,20 @@ import './index.css';
 import Home from './home'
 
 
-ReactDOM.render(
+export default class Home extends React.Component {
 
-  <Router>
-    <div>
-      <Route path="/" component={Home} />
-      {/* <Route path="/Register" render={(props) => <Register auth={auth} {...props} />} />
-      <Route path="/requests" render={() => <AllRequests auth={auth} />} />
-      <Route path="/home" render={() => <Home />} />
-      <Route path="/callback" render={(props) => {
-          handleAuthentication(props);
-          return <Callback {...props} /> */}
-      }} />
-  </div>
-  </Router>,
-  document.getElementById('root')
-);
+  constructor(props) {
+      super(props)
+  }
+  render() {
+      return (
+          < div > 
+          <h1><i>
+              Welcome to Tec Finance</i>
+          </h1>
+            </div >
+      )
+  }
+}
+
+
