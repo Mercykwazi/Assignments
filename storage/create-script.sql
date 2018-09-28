@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS business (
     id serial PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     location_id INT REFERENCES location(id) NOT NULL,
-    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );CREATE TABLE IF NOT EXISTS unit_type (
     id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -27,6 +27,6 @@ CREATE TABLE IF NOT EXISTS business (
     name varchar(225) NOT NULL,
     block_id INT REFERENCES block(id) NOT NULL,
     unit_type_id INT REFERENCES unit_type(id) NOT NULL,
-    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
  
 );
