@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS business (
     id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
     contact_name varchar(255) NOT NULL,
     contact_email varchar(255) NOT NULL,
     contact_telephone varchar(100) NOT NULL,
-    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT NOW() NOT NULL
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );CREATE TABLE IF NOT EXISTS location (
     id serial PRIMARY KEY,
     address VARCHAR(255) NOT NULL,
