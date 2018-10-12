@@ -1,91 +1,113 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-//import { Field, reduxForm } from 'redux-form';
-import actions from 'redux-form/lib/actions';
+import * as actions from '../../actions/business';
 import { connect } from 'react-redux';
 class Business extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            input:"",
-            name: this.props.name,
-            contact_name: this.props.contact_name
+            businessName: this.props.name,
+            contactName: this.props.contactName,
+            telephone: this.props.telephone,
+            email:this.props.email
         }
-        this.inputName = this.inputName.bind(this)
-        this.submit=this.submit.bind(this)
+        this.businessName = this.businessName.bind(this)
+        this.contactName = this.contactName.bind(this)
+        this.telephone = this.telephone.bind(this)
+        this.email=this.email.bind(this)
+        this.submit = this.submit.bind(this)
     }
-    inputName(e) {
-        this.setState({ input: e.tagert.value })
+
+    email(e) {
+        var change = {};
+        change[e.target.name] = e.target.value;
+        this.props.updateEmail(e.target.value)
+        this.setState(change);
     }
+
+    businessName(e) {
+        var change = {};
+        change[e.target.name] = e.target.value;
+        this.props.updateName(e.target.value)
+        this.setState(change);
+    }
+    contactName(e) {
+        var change = {};
+        change[e.target.name] = e.target.value;
+        this.props.updateContactName(e.target.value)
+        this.setState(change);
+    }
+    telephone(e) {
+        var change = {};
+        change[e.target.name] = e.target.value;
+        this.props.updateTelephone(e.target.value)
+        this.setState(change);
+    }
+
+
     submit() {
-        this.setState({input: this.state.value })
+        this.setState({ input: this.state.value })
     }
 
     render() {
-        console.log(this.state);
-
-        return (
-
-            <div>
-                <h1>Register Your Business Below</h1>
-                <form>
-                    <div className="business">
-                        <div >
-                            <label htmlFor="firstName">Busines Name</label>
-                            <input name="businessName"  type="text" onChange={this.inputName} />
-                        </div>
-                        <br />
-                        <div >
-                            <label htmlFor="lastName">Contact Name</label>
-                            <input name="contactName"  type="text" />
-                        </div>
-                        <br />
-                        <div >
-                            <label htmlFor="telephone">Telephone</label>
-                            <input name="telephone"  type="tel" />
-                        </div>
-                        <br />
-                        <div >
-                            <label htmlFor="email">Email</label>
-                            <input name="email"  type="email" />
-                        </div>
-                        <br />
-                        <button onClick={this.submit}>submit</button>
+        console.log("dd", this.props);
+        return (<div>
+            <h1>Register Your Business Below</h1>
+            <form>
+                <div className="business">
+                    <div >
+                        <label htmlFor="firstName">Busines Name:</label>
+                        <input name="businessName" type="text" onChange={this.businessName} value={this.state.businessName} />
                     </div>
+                    <br />
+                    <div >
+                        <label htmlFor="lastName">Contact Name:</label>
+                        <input name="contactName" type="text" onChange={this.contactName} value={this.state.contactName} />
+                    </div>
+                    <br />
+                    <div >
+                        <label htmlFor="telephone">Telephone:</label>
+                        <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} />
+                    </div>
+                    <br />
+                    <div >
+                        <label htmlFor="email">Email:</label>
+                        <input name="email" type="email" onChange={this.email} value={this.state.email} />
+                    </div>
+                    <br />
+                    <button onClick={this.submit}>submit</button>
+                </div>
+            </form>
 
-                </form>
-
-            </div>
+        </div>
         )
     }
 
 }
 const mapStateToProps = (state) => {
     return {
-        name: state.name,
-        contact_name: state.contact_name
+        name: state.business.name,
+        contactName: state.business.contact_name,
+        telephone: state.business.contactTelephone,
+        email:state.business.contactEmail,
+        state: state
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateName: (name) => {
+        updateName: name => {
             dispatch(actions.name(name))
         },
-        updateContactName: (contact) => {
-            dispatch(actions.contactName(contact))
+        updateContactName: contactName => {
+            dispatch(actions.contactName(contactName))
+        },
+        updateTelephone: tel => {
+            dispatch(actions.telephone(tel))
+        }, updateEmail: email => {
+            dispatch(actions.email(email))
         }
     }
 }
-//const reduxForm= export default reduxForm({
-//           form: 'simple'
-//    })(Business)
+
 export default connect(mapStateToProps, mapDispatchToProps)(Business)
-// export default reduxForm({
-//        form: 'simple'
-//      })(Business)
-
-
-// export default reduxForm({
-//     form: 'simple'
-// })(Business)
 

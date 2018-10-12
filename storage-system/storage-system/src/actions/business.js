@@ -1,12 +1,18 @@
-export const name=(name)=>{
-    return{type:"NAME",value:name}
+const name = name => {
+    return { type: "NAME", value: name }
 }
-export const contactName=(name)=>{
-    return {type:"CONTACT-NAME",value:name}
+const contactName = (name) => {
+    return { type: "CONTACT_NAME", value: name }
 }
-export const telephone=(number)=>{
-    return {type:"TELEPHONE_NUMBER",value:number}
+const telephone = number => {
+    return { type: "TELEPHONE_NUMBER", value: number }
 }
-export const email=(email)=>{
-    return {type:"EMAIL_ADDRESS",value:email}
+const email = (email) => {
+    return { type: "EMAIL_ADDRESS", value: email }
+}
+module.exports = {
+    name,
+    contactName,
+    telephone,
+    email
 }

@@ -1,19 +1,24 @@
-export default function business(state = { id: "", name: "", contact_name: "", contact_email: "",contact_telephone: "",created_at: ""}, action) {
+export default function business(state = { id: "", name: "", contact_name: "", contactEmail: "", contactTelephone: "", created_at: "" }, action) {
     var nextState = state;
     switch (action.type) {
         case "NAME":
-            nextState = { ...nextState,name:action.value }
+            nextState = { ...nextState, name: action.value }
             break;
-            case "CONTACT-NAME":
-            nextState={...nextState, contactName:action.value}
+        case "CONTACT_NAME":
+            nextState = { ...nextState, contact_name: action.value }
             break;
-            case "TELEPHONE_NUMBER":
-            nextState={...nextState,telephone:action.value}
+        case "TELEPHONE_NUMBER":
+            console.log("what is the number", action.value);
+            nextState = { ...nextState, contactTelephone: action.value }
+            break;
             case "EMAIL_ADDRESS":
-            nextState={...nextState,email:action.value}
+            console.log("what is the email", action.value);
+            nextState = { ...nextState, contactEmail: action.value }
+            break;
         default:
             nextState = { ...nextState }
             break;
+
     }
-    return { ...nextState };
+    return nextState;
 }
