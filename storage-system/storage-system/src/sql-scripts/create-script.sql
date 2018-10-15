@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS business (
     contact_telephone varchar(25) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS location (
     id serial PRIMARY KEY,
     address1 VARCHAR(50) NOT NULL,
