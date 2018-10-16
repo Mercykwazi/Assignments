@@ -5,13 +5,19 @@ import store from './store/store';
 import Business from './components/forms/business';
 import Location from './components/forms/location';
 import UnitType from './components/forms/unit-type';
-
-
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import axios from 'axios';
 import './index.css';
 
 const app = document.getElementById("root")
 ReactDOM.render(
     <Provider store={store}>
-        <UnitType />
+    <Router>
+        <div>
+        <Route exact path='/' component={Business}/>
+        <Route path='/location' component={Location}/>
+        <Route path='/unit-type' component={UnitType}/>
+        </div>
+        </Router>
     </Provider>, app);
 

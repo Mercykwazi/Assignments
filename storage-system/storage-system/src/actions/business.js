@@ -1,4 +1,4 @@
-const name = name => {
+const businessName = (name) => {
     return { type: "NAME", value: name }
 }
 const contactName = (name) => {
@@ -11,7 +11,7 @@ const email = (email) => {
     return { type: "EMAIL_ADDRESS", value: email }
 }
 module.exports = {
-    name,
+    businessName,
     contactName,
     telephone,
     email
