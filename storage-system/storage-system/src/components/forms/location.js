@@ -15,7 +15,7 @@ class Location extends React.Component {
         this.address1 = this.address1.bind(this)
         this.address2 = this.address2.bind(this)
         this.block = this.block.bind(this)
-        this.submitData=this.submitData.bind(this)
+        this.submitData = this.submitData.bind(this)
     }
 
     address1(e) {
@@ -37,16 +37,29 @@ class Location extends React.Component {
         this.props.blockName(e.target.value)
         this.setState(change);
     }
+    async componentWillMount() {
+        await axios.get("http://localhost:3003/business").then(business => {
+            var businessDetails = business.data;
+            console.log('bu', business.data);
+           // console.log('busi', business);
+            
 
+        })
+    }
     async submitData(e) {
         e.preventDefault()
-        await axios.post("http://localhost:3003/location",{ address1: this.props.address1,address2:this.props.address2,block:this.props.block})
+        await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, block: this.props.block })
     }
 
     render() {
-        console.log('what is this',this.props.address1);
-        
+
         return (<div>
+            <div><select>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select></div>
             <h1>Your location details below</h1>
             <form>
                 <div className="location">

@@ -53,6 +53,8 @@ class Business extends React.Component {
             { businessName: this.props.name, contactName: this.props.contactName, phoneNumber: this.props.telephone, email: this.props.email }
 
         );
+        console.log('what',what);
+        
     }
 
     render() {
@@ -80,6 +82,7 @@ class Business extends React.Component {
                         <input name="email" type="email" onChange={this.email} value={this.state.email} />
                     </div>
                     <br />
+
                     <button onClick={this.saveData}>submit</button>
                 </div>
             </form>
