@@ -1,4 +1,4 @@
-export default function location(state = {  address1: "", address2: "",blockName: "", created_at: "", }, action) {
+export default function location(state = {  address1: "", address2: "",countryName: "", created_at: "", }, action) {
     var nextState = state;
     switch (action.type) {
         case "ADDRESS1":
@@ -8,8 +8,8 @@ export default function location(state = {  address1: "", address2: "",blockName
         case "ADDRESS2":
             nextState = { ...nextState, address2: action.value }
             break;
-            case "BLOCK_NAME":
-            nextState={...nextState,blockName:action.value}
+            case "COUNTRY_NAME":
+            nextState={...nextState,countryName:action.value}
         default:
             nextState = { ...nextState }
             break;

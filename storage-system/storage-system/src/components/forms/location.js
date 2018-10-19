@@ -10,11 +10,11 @@ class Location extends React.Component {
         this.state = {
             address1: this.props.address1,
             address2: this.props.address2,
-            block: this.props.block,
+            country: this.props.country,
         }
         this.address1 = this.address1.bind(this)
         this.address2 = this.address2.bind(this)
-        this.block = this.block.bind(this)
+        this.country = this.country.bind(this)
         this.submitData = this.submitData.bind(this)
     }
 
@@ -31,35 +31,23 @@ class Location extends React.Component {
         this.props.secoundAddress(e.target.value)
         this.setState(change);
     }
-    block(e) {
+    country(e) {
         var change = {};
         change[e.target.name] = e.target.value;
-        this.props.blockName(e.target.value)
+        this.props.countryName(e.target.value)
         this.setState(change);
     }
-    async componentWillMount() {
-        await axios.get("http://localhost:3003/business").then(business => {
-            var businessDetails = business.data;
-            console.log('bu', business.data);
-           // console.log('busi', business);
-            
-
-        })
-    }
+  
     async submitData(e) {
         e.preventDefault()
-        await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, block: this.props.block })
+        await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country })
     }
 
     render() {
+        console.log('props', this.props);
 
         return (<div>
-            <div><select>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
-            </select></div>
+
             <h1>Your location details below</h1>
             <form>
                 <div className="location">
@@ -74,8 +62,8 @@ class Location extends React.Component {
                     </div>
                     <br />
                     <div >
-                        <label htmlFor="block">BlockName:</label>
-                        <input name="block" type="text" onChange={this.block} value={this.state.block} />
+                        <label htmlFor="country">countryName:</label>
+                        <input name="country" type="text" onChange={this.country} value={this.state.country} />
                     </div>
                     <br />
                     <button onClick={this.submitData}>next</button>
@@ -91,7 +79,7 @@ const mapStateToProps = (state) => {
     return {
         address1: state.location.address1,
         address2: state.location.address2,
-        block: state.location.blockName,
+        country: state.location.countryName,
         state: state
     }
 }
@@ -103,8 +91,8 @@ const mapDispatchToProps = (dispatch) => {
         secoundAddress: address => {
             dispatch(actions.secoundAddress(address))
         },
-        blockName: block => {
-            dispatch(actions.blockName(block))
+        countryName: country => {
+            dispatch(actions.countryName(country))
         }
     }
 }

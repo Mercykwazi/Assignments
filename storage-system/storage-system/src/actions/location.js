@@ -5,12 +5,12 @@ const firstAddress = (name) => {
 const secoundAddress = text => {
  return { type: "ADDRESS2", value: text }
 }
-const blockName=block=>{
-    return{type:"BLOCK_NAME",value:block}
+const countryName=country=>{
+    return{type:"COUNTRY_NAME",value:country}
 }
 
 module.exports = {
     firstAddress,
     secoundAddress,
-    blockName
+    countryName
 }

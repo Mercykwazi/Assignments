@@ -15,37 +15,39 @@ const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 client.connect()
 
+
 app.post('/business', (req, res) => {
   try {
     const registryDetails = client.query(`INSERT INTO business( business_name, contact_name,contact_email, contact_telephone)VALUES('${req.body.businessName}','${req.body.contactName}','${req.body.phoneNumber}','${req.body.email}')`)
- console.log(registryDetails);
- 
+    console.log(registryDetails);
+
   } catch (err) {
     console.log(err)
   }
 }
 );
+client.query('SELECT business_name  FROM business', (err, result) => {
 app.get('/business', (req, res) => {
-  client.query('SELECT * FROM business', (err, result) => {
     res.send(result)
-    client.end()
+
   })
 
 })
-// app.post('/location', (req, res) => {
-//   try{
-// const locationDetails=client.query(`INSERT INTO location(address1,address1)VALUES()`)
-//   }catch(err){
-
-//   }
-//   var locationDetails = {
-//     firstAddress: req.body.address1,
-//     secondAddress: req.body.address2,
-//     blockName: req.body.block
-//   }
-// })
+app.post('/location', (req, res) => {
+  try {
+    const locationDetails = client.query(`INSERT INTO location(address1,address1,country)VALUES('${req.body.address1}','${req.body.address2}','${req.body.country}')`)
+  } catch (err) {
+    console.log(err);
+  }
+})
 app.get('/location', (req, res) => {
-  console.log("location wise");
+  var allLocations = client.query('SELECT * FROM location', (err, result) => {
+    res.send(result)
+    console.log('res', result);
+
+  })
+  console.log("all l", allLocations);
+
 
 })
 app.post('/unitType', (req, res) => {
