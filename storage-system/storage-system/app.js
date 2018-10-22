@@ -1,3 +1,4 @@
+// import { error } from "util";
 
 var express = require("express");
 const cors = require("cors");
@@ -16,22 +17,27 @@ const client = new pg.Client(connectionString);
 client.connect()
 
 
-app.post('/business', (req, res) => {
+app.post('/business', async (req, res) => {
+  const insertBusiness = 'INSERT INTO business ( business_name, contact_name,contact_email, contact_telephone)VALUES($1,$2,$3,$4)';
+  const businessDetails = [req.body.businessName, req.body.contactName, req.body.phoneNumber, req.body.email];
   try {
-    const registryDetails = client.query(`INSERT INTO business( business_name, contact_name,contact_email, contact_telephone)VALUES('${req.body.businessName}','${req.body.contactName}','${req.body.phoneNumber}','${req.body.email}')`)
-    console.log(registryDetails);
+    var result = await client.query(insertBusiness, businessDetails)
+    res.status(201).end();
 
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    res.status(500).end();
   }
-}
-);
-client.query('SELECT business_name  FROM business', (err, result) => {
+});
 app.get('/business', (req, res) => {
-    res.send(result)
-
-  })
-
+  try {
+    var businessDetails = client.query('SELECT id,business_name  FROM business', (err, result) => {
+      res.send(result)
+      res.status(2001).end()
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).end();
+  }
 })
 app.post('/location', (req, res) => {
   try {
@@ -46,9 +52,9 @@ app.get('/location', (req, res) => {
     console.log('res', result);
 
   })
+  //SELECT unit FROM business INNER JOIN location ON business.id=location.business_id INNER JOIN block ON location.id=location_id INNER JOIN unit ON block.id=block_id WHERE business_name='storage';
+
   console.log("all l", allLocations);
-
-
 })
 app.post('/unitType', (req, res) => {
   var unitType = {

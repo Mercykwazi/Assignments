@@ -11,13 +11,17 @@ class Location extends React.Component {
             address1: this.props.address1,
             address2: this.props.address2,
             country: this.props.country,
+            businessDetail: [],
         }
         this.address1 = this.address1.bind(this)
         this.address2 = this.address2.bind(this)
         this.country = this.country.bind(this)
         this.submitData = this.submitData.bind(this)
+        this.businessDetails = this.businessDetails.bind(this)
     }
-
+    componentDidMount() {
+        this.businessDetails()
+    }
     address1(e) {
         var change = {};
         change[e.target.name] = e.target.value;
@@ -37,17 +41,39 @@ class Location extends React.Component {
         this.props.countryName(e.target.value)
         this.setState(change);
     }
-  
+
     async submitData(e) {
         e.preventDefault()
         await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country })
     }
 
+    async businessDetails(e) {
+
+        console.log('is this called');
+
+        var business = await axios.get("http://localhost:3003/business").then(results => {
+            var businessD = results.data.rows;
+
+            this.setState({ businessDetail: businessD })
+        })
+
+
+    }
+
     render() {
-        console.log('props', this.props);
+        if (this.state.businessDetail) {
+            this.state.businessDetail.map(business => {
+               return business.id
 
+            })
+        }
         return (<div>
-
+            <select >
+                <option value="Select business">Select business:</option>
+                {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
+                    return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
+                }) : null}
+            </select>
             <h1>Your location details below</h1>
             <form>
                 <div className="location">
@@ -67,6 +93,8 @@ class Location extends React.Component {
                     </div>
                     <br />
                     <button onClick={this.submitData}>next</button>
+                    <br />
+
                 </div>
             </form>
 

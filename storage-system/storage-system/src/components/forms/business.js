@@ -4,6 +4,7 @@ import * as actions from '../../actions/business';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
+import {  Redirect } from 'react-router'
 class Business extends React.Component {
     constructor(props) {
         super(props)
@@ -12,7 +13,8 @@ class Business extends React.Component {
             businessName: this.props.name,
             contactName: this.props.contactName,
             telephone: this.props.telephone,
-            email: this.props.email
+            email: this.props.email,
+            redirect: false,
         }
         this.businessName = this.businessName.bind(this)
         this.contactName = this.contactName.bind(this)
@@ -49,15 +51,29 @@ class Business extends React.Component {
 
     async saveData(e) {
         e.preventDefault()
-        var what = await axios.post("http://localhost:3003/business",
-            { businessName: this.props.name, contactName: this.props.contactName, phoneNumber: this.props.telephone, email: this.props.email }
-
-        );
-        console.log('what',what);
+        var businessDetails = {
+            businessName: this.props.name,
+            contactName: this.props.contactName,
+            phoneNumber: this.props.telephone,
+            email: this.props.email
+        }
+        var api = await axios.post("http://localhost:3003/business", businessDetails)
+        console.log('this is called',api.status);
         
+        if (api.status === 201) {
+            this.setState({
+                redirect: true
+              })
+        }else if(api.status===500){
+
+        }
+
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/location' />
+          }
         return (<div>
             <h1>Register Your Business Below</h1>
             <form>

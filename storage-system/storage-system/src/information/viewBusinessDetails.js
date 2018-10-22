@@ -12,8 +12,8 @@ class BusinessDetails extends React.Component {
     }
     async viewBusiness() {
         await axios.get("http://localhost:3003/business").then(business => {
-            var businessDetails = business.data.rows[0];
-        console.log('bu',businessDetails[1]);
+            var businessDetails = business.data.rows;
+        console.log('bu',businessDetails);
         
         })
     }
