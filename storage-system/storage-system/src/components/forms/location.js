@@ -47,24 +47,23 @@ class Location extends React.Component {
         await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country })
     }
 
+    async addressDetails(e) {
+        e.preventDefault()
+        var locationDetails = await axios.get("http://localhost:3003/location").then(details => {
+            console.log("details", details);
+        })
+    }
     async businessDetails(e) {
-
-        console.log('is this called');
-
         var business = await axios.get("http://localhost:3003/business").then(results => {
             var businessD = results.data.rows;
-
             this.setState({ businessDetail: businessD })
         })
-
-
     }
 
     render() {
         if (this.state.businessDetail) {
             this.state.businessDetail.map(business => {
-               return business.id
-
+                return business.id
             })
         }
         return (<div>
@@ -92,7 +91,9 @@ class Location extends React.Component {
                         <input name="country" type="text" onChange={this.country} value={this.state.country} />
                     </div>
                     <br />
-                    <button onClick={this.submitData}>next</button>
+                    <button onClick={this.submitData}>next</button><br />
+                    <button onClick={this.addressDetails}>show</button>
+
                     <br />
 
                 </div>

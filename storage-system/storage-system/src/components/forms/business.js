@@ -48,7 +48,6 @@ class Business extends React.Component {
         this.props.updateTelephone(e.target.value)
         this.setState(change);
     }
-
     async saveData(e) {
         e.preventDefault()
         var businessDetails = {

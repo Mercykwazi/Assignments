@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS business (
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
 
+-- what ever business you select I need to capture its location
+
 CREATE TABLE IF NOT EXISTS location (
     id serial PRIMARY KEY,
     address1 VARCHAR(50) NOT NULL,
@@ -37,3 +39,4 @@ CREATE TABLE IF NOT EXISTS unit(
     unit_type_id INT REFERENCES unit_type(id) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
+
