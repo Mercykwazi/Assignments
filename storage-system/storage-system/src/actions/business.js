@@ -15,4 +15,5 @@ module.exports = {
     contactName,
     telephone,
     email
+
 }

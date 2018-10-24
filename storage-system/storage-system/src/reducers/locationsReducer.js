@@ -2,7 +2,7 @@ export default function location(state = {  address1: "", address2: "",countryNa
     var nextState = state;
     switch (action.type) {
         case "ADDRESS1":
-            console.log('all', action.value);
+           
             nextState = { ...nextState, address1: action.value }
             break;
         case "ADDRESS2":
