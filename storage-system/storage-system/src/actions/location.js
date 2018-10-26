@@ -2,7 +2,7 @@
 const firstAddress = (name) => {
     return { type: "ADDRESS1", value: name }
 }
-const secoundAddress = text => {
+const secondAddress = text => {
  return { type: "ADDRESS2", value: text }
 }
 const countryName=country=>{
@@ -11,6 +11,6 @@ const countryName=country=>{
 
 module.exports = {
     firstAddress,
-    secoundAddress,
+    secondAddress,
     countryName
 }

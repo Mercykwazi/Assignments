@@ -54,7 +54,7 @@ app.post('/location', async (req, res) => {
 
 app.post('/block', (req, res) => {
 
-  console.log("postofblock", req.body)
+  console.log("block", req.body)
   res.end()
 })
 
