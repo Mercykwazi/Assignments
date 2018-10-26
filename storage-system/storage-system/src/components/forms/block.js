@@ -30,7 +30,7 @@ class Block extends React.Component {
         var blockDetails = {
             blockName: this.props.blocks
         }
-        var Results = await axios.post("http://localhost:3003/block",blockDetails)
+        var Results = await axios.post("http://localhost:3003/block", blockDetails)
         console.log('re', Results)
     }
 
@@ -58,15 +58,11 @@ class Block extends React.Component {
             <form>
                 <div className="location">
                     <div >
-                        <label htmlFor="name">Block Name:</label>
+                        <label htmlFor="name">Block Name:</label><br />
                         <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name} />
                     </div>
                     <br />
                     <button onClick={this.submitData}>next</button><br />
-                    <br />
-                    <button onClick={this.locationDetails}>loc</button><br />
-
-
                 </div>
             </form>
 
