@@ -36,7 +36,7 @@ class Location extends React.Component {
     address2(e) {
         var change = {};
         change[e.target.name] = e.target.value;
-        this.props.secoundAddress(e.target.value)
+        this.props.secondAddress(e.target.value)
         this.setState(change);
     }
     country(e) {
@@ -67,6 +67,7 @@ class Location extends React.Component {
     }
 
     render() {
+        console.log("this.pros", this.props)
         if (this.state.redirect) {
             return <Redirect to='/blocks' />
         }
@@ -76,37 +77,33 @@ class Location extends React.Component {
                 {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
                     return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
                 }) : null}
-    
             </select>
             <h1>Your location details below</h1>
             <form>
                 <div className="location">
                     <div >
-                        <label htmlFor="address1">Address1:</label>
-                        <input name="address1" type="text" onChange={this.address1} value={this.state.firstAddress} />
+                        <label htmlFor="address1">Address1:</label><br />
+                        <input name="address1" type="text" placeholder="street name" onChange={this.address1} value={this.state.firstAddress} />
                     </div>
                     <br />
                     <div >
-                        <label htmlFor="address2">Address2:</label>
-                        <input name="address2s" type="text" placeholder="Country,city" onChange={this.address2} value={this.state.secoundAddress} />
+                        <label htmlFor="address2">Address2:</label><br />
+                        <input name="address2s" type="text" placeholder="city" onChange={this.address2} value={this.state.secoundAddress} />
                     </div>
                     <br />
                     <div >
-                        <label htmlFor="country">countryName:</label>
-                        <input name="country" type="text" onChange={this.country} value={this.state.country} />
+                        <label htmlFor="country">countryName:</label><br />
+                        <input name="country" type="text" onChange={this.country} value={this.state.country} required />
                     </div>
                     <br />
                     <button onClick={this.submitData}>next</button><br />
-
                     <br />
-
                 </div>
             </form>
 
         </div>
         )
     }
-
 }
 const mapStateToProps = (state) => {
     return {
@@ -121,8 +118,8 @@ const mapDispatchToProps = (dispatch) => {
         firstAddress: firstAddress => {
             dispatch(actions.firstAddress(firstAddress))
         },
-        secoundAddress: address => {
-            dispatch(actions.secoundAddress(address))
+        secondAddress: address => {
+            dispatch(actions.secondAddress(address))
         },
         countryName: country => {
             dispatch(actions.countryName(country))
