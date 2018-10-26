@@ -1,5 +1,5 @@
 html{
-background: peachpuff
+background: white;
 }
 h1{
     text-align: center;
@@ -21,7 +21,7 @@ input[type=text], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid green;
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -30,7 +30,7 @@ input[type=number], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid green;
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -40,7 +40,7 @@ input[type=tel], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid green;
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -50,11 +50,10 @@ input[type=email], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid green;
     border-radius: 4px;
     box-sizing: border-box;
 }
-
 
 .dropbtn {
     background-color: #4CAF50;
