@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS business (
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
 
--- what ever business you select I need to capture its location
+-- SELECT id FROM business WHERE business_name=$17
+-- SELECT ID FROM LOCATION WHERE ID=ID
 
 CREATE TABLE IF NOT EXISTS location (
     id serial PRIMARY KEY,

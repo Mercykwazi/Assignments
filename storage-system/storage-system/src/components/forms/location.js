@@ -14,7 +14,7 @@ class Location extends React.Component {
             address2: this.props.address2,
             country: this.props.country,
             businessDetail: [],
-            selectedBusiness: "",
+            selectedBusiness: "Select business:",
             redirect: false,
         }
         this.address1 = this.address1.bind(this)
@@ -76,6 +76,7 @@ class Location extends React.Component {
                 {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
                     return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
                 }) : null}
+    
             </select>
             <h1>Your location details below</h1>
             <form>

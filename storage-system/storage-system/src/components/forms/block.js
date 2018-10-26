@@ -13,7 +13,9 @@ class Block extends React.Component {
             name: this.props.blocks,
             redirect: false,
         }
-        this.storedBlocks = this.storedBlocks.bind(this)
+        this.storedBlocks = this.storedBlocks.bind(this);
+        this.submitData = this.submitData.bind(this);
+        this.locationDetails = this.locationDetails.bind(this)
     }
 
     storedBlocks(e) {
@@ -23,7 +25,34 @@ class Block extends React.Component {
         this.setState(change);
     }
 
+    async  submitData(e) {
+        e.preventDefault();
+        var blockDetails = {
+            blockName: this.props.blocks
+        }
+        var Results = await axios.post("http://localhost:3003/block",blockDetails)
+        console.log('re', Results)
+    }
+
+    async locationDetails(e) {
+        e.preventDefault();
+        var business = await axios.get("http://localhost:3003/location").then(results => {
+            // var locationD = results.data;
+            console.log('dd', results.data.rows)
+            console.log('res', results)
+
+            // this.setState({ businessDetail: businessD })
+        })
+        console.log('what');
+        console.log('result', business);
+
+
+    }
+
+
+
     render() {
+        console.log("state", this.state)
         return (<div>
             <h1>Block Details</h1>
             <form>
@@ -35,6 +64,8 @@ class Block extends React.Component {
                     <br />
                     <button onClick={this.submitData}>next</button><br />
                     <br />
+                    <button onClick={this.locationDetails}>loc</button><br />
+
 
                 </div>
             </form>

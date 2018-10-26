@@ -1,5 +1,3 @@
-// import { error } from "util";
-
 var express = require("express");
 const cors = require("cors");
 var bodyParser = require("body-parser");
@@ -29,11 +27,6 @@ app.post('/business', async (req, res) => {
   }
 });
 
-
-
-
-
-
 app.get('/business', async (req, res) => {
   try {
     var businessDetails = await client.query('SELECT id,business_name  FROM business', (err, result) => {
@@ -48,31 +41,40 @@ app.get('/business', async (req, res) => {
 app.post('/location', async (req, res) => {
   const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.businessName]);
   const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
+
   const locationDetails = [req.body.address1, req.body.address2, req.body.country, businessId.rows[0].id]
   try {
     const Results = await client.query(insertLocations, locationDetails)
     res.status(201).end()
-    console.log('res', Results);
-
   } catch (err) {
     console.log(err);
     res.status(500).end()
   }
 })
 
-// app.get('/location', async (req, res) => {
-//   try {
-//     console.log(req.body);
+app.post('/block', (req, res) => {
 
-//     var allLocations = await client.query("SELECT address1,address2,country FROM location INNER JOIN business  ON location.business_id = business.id WHERE business_name = $1;", [req.body.businessName])
-//     console.log(allLocations);
+  console.log("postofblock", req.body)
+  res.end()
+})
 
-//     console.log('res', result);
-//   } catch (error) {
-//     console.log(error);
 
-//   }
-// })
+
+
+
+app.get('/location', async (req, res) => {
+  try {
+    var allLocations = await client.query("SELECT address1,address2,country FROM location", (err, result) => {
+      res.send(result)
+      console.log('this is the res', res);
+
+    })
+
+  } catch (error) {
+    console.log(error);
+
+  }
+})
 app.post('/unitType', (req, res) => {
   var unitType = {
     storageType: req.body.storageType,
@@ -83,6 +85,7 @@ app.post('/unitType', (req, res) => {
 
   }
 })
+
 app.get('/unitType', (req, res) => {
 })
 app.listen(port, () => {
