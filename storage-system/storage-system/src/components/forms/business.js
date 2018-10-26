@@ -4,7 +4,7 @@ import * as actions from '../../actions/business';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
-import {  Redirect } from 'react-router'
+import { Redirect } from 'react-router'
 class Business extends React.Component {
     constructor(props) {
         super(props)
@@ -57,13 +57,13 @@ class Business extends React.Component {
             email: this.props.email
         }
         var api = await axios.post("http://localhost:3003/business", businessDetails)
-        console.log('this is called',api.status);
-        
+        console.log('this is called', api.status);
+
         if (api.status === 201) {
             this.setState({
                 redirect: true
-              })
-        }else if(api.status===500){
+            })
+        } else if (api.status === 500) {
 
         }
 
@@ -72,29 +72,29 @@ class Business extends React.Component {
     render() {
         if (this.state.redirect) {
             return <Redirect to='/location' />
-          }
+        }
         return (<div>
             <h1>Register Your Business Below</h1>
             <form>
                 <div className="business">
                     <div >
-                        <label htmlFor="firstName">Business Name:</label><br />
-                        <input name="businessName" type="text" onChange={this.businessName} value={this.state.businessName} />
+                        <label htmlFor="firstName" >Business Name:</label><br />
+                        <input name="businessName" type="text" onChange={this.businessName} value={this.state.businessName} required />
                     </div>
                     <br />
                     <div >
                         <label htmlFor="lastName">Contact Name:</label><br />
-                        <input name="contactName" type="text" onChange={this.contactName} value={this.state.contactName} />
+                        <input name="contactName" type="text" onChange={this.contactName} value={this.state.contactName} required />
                     </div>
                     <br />
                     <div >
                         <label htmlFor="telephone">Telephone:</label><br />
-                        <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} />
+                        <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} required />
                     </div>
                     <br />
                     <div >
                         <label htmlFor="email">Email:</label><br />
-                        <input name="email" type="email" onChange={this.email} value={this.state.email} />
+                        <input name="email" type="email" onChange={this.email} value={this.state.email}  required/>
                     </div>
                     <br />
 
