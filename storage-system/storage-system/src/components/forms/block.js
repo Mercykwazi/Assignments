@@ -4,66 +4,26 @@ import * as actions from '../../actions/block';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
+import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
+
 
 class Block extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: this.props.blocks,
-            redirect: false,
         }
-        this.storedBlocks = this.storedBlocks.bind(this);
-        this.submitData = this.submitData.bind(this);
-        this.locationDetails = this.locationDetails.bind(this)
     }
-
-    storedBlocks(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.availableBlocks(e.target.value)
-        this.setState(change);
-    }
-
-    async  submitData(e) {
-        e.preventDefault();
-        var blockDetails = {
-            blockName: this.props.blocks
-        }
-        var Results = await axios.post("http://localhost:3003/block", blockDetails)
-        console.log('re', Results)
-    }
-
-    async locationDetails(e) {
-        e.preventDefault();
-        var business = await axios.get("http://localhost:3003/location").then(results => {
-            // var locationD = results.data;
-            console.log('dd', results.data.rows)
-            console.log('res', results)
-
-            // this.setState({ businessDetail: businessD })
-        })
-        console.log('what');
-        console.log('result', business);
-
-
-    }
-
-
-
     render() {
-        console.log("state", this.state)
+        const { handleSubmit } = this.props
         return (<div>
-            <h1>Block Details</h1>
-            <form>
-                <div className="location">
-                    <div >
-                        <label htmlFor="name">Block Name:</label><br />
-                        <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name} />
-                    </div>
-                    <br />
-                    <button onClick={this.submitData}>next</button><br />
+            <h1>Enter your block/(s)</h1>
+            <form >
+                <div>
+                    <label htmlFor="firstName">Block Name</label><br />
+                    <Field name="firstName" component="input" type="text" />
                 </div>
+                <button onClick={handleSubmit} type="submit">Submit</button>
             </form>
 
         </div>
@@ -71,19 +31,8 @@ class Block extends React.Component {
     }
 
 }
-const mapStateToProps = (state) => {
-    return {
-        blocks: state.block.blockName,
-        state: state
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        availableBlocks: name => {
-            dispatch(actions.blockName(name))
-        }
-    }
-}
+Block = reduxForm({
+    form: 'contact'
+})(Block)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Block)
-
+export default Block

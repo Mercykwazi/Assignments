@@ -4,128 +4,43 @@ import * as actions from '../../actions/location';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
+import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
-
 class Location extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            address1: this.props.address1,
-            address2: this.props.address2,
-            country: this.props.country,
-            businessDetail: [],
-            selectedBusiness: "Select business:",
-            redirect: false,
         }
-        this.address1 = this.address1.bind(this)
-        this.address2 = this.address2.bind(this)
-        this.country = this.country.bind(this)
-        this.submitData = this.submitData.bind(this)
-        this.businessDetails = this.businessDetails.bind(this)
-    }
-    componentDidMount() {
-        this.businessDetails()
-    }
-    address1(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.firstAddress(e.target.value)
-        this.setState(change);
-    }
-
-    address2(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.secondAddress(e.target.value)
-        this.setState(change);
-    }
-    country(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.countryName(e.target.value)
-        this.setState(change);
-    }
-
-    async submitData(e) {
-        e.preventDefault()
-        var results = await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country, businessName: this.state.selectedBusiness })
-        if (results.status === 201) {
-            this.setState({
-                redirect: true
-            })
-        } else if (results.status === 500) {
-
-        }
-    }
-
-    async businessDetails(e) {
-        var business = await axios.get("http://localhost:3003/business").then(results => {
-            var businessD = results.data.rows;
-
-            this.setState({ businessDetail: businessD })
-        })
     }
 
     render() {
-        console.log("this.pros", this.props)
-        if (this.state.redirect) {
-            return <Redirect to='/blocks' />
-        }
+        const { handleSubmit } = this.props
         return (<div>
-            <select value={this.state.selectedBusiness} onChange={(e) => this.setState({ selectedBusiness: e.target.value })}>
-                <option value="Select business">Select business:</option>
-                {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
-                    return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
-                }) : null}
-            </select>
-            <h1>Your location details below</h1>
-            <form>
-                <div className="location">
-                    <div >
-                        <label htmlFor="address1">Address1:</label><br />
-                        <input name="address1" type="text" placeholder="street name" onChange={this.address1} value={this.state.firstAddress} />
-                    </div>
-                    <br />
-                    <div >
-                        <label htmlFor="address2">Address2:</label><br />
-                        <input name="address2s" type="text" placeholder="city" onChange={this.address2} value={this.state.secoundAddress} />
-                    </div>
-                    <br />
-                    <div >
-                        <label htmlFor="country">countryName:</label><br />
-                        <input name="country" type="text" onChange={this.country} value={this.state.country} required />
-                    </div>
-                    <br />
-                    <button onClick={this.submitData}>next</button><br />
-                    <br />
+            <h1>Your Location Details Below</h1>
+            <form >
+                <div>
+                    <label htmlFor="firstName">Address1</label><br />
+                    <Field name="firstName" component="input" type="text" />
                 </div>
+                <div>
+                    <label htmlFor="lastName">Address2</label><br />
+                    <Field name="lastName" component="input" type="text" />
+                </div>
+                <div>
+                    <label htmlFor="email">Country</label><br />
+                    <Field name="email" component="input" type="tel" />
+                </div>
+                <button onClick={handleSubmit} type="submit">Submit</button>
             </form>
 
         </div>
         )
     }
-}
-const mapStateToProps = (state) => {
-    return {
-        address1: state.location.address1,
-        address2: state.location.address2,
-        country: state.location.countryName,
-        state: state
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        firstAddress: firstAddress => {
-            dispatch(actions.firstAddress(firstAddress))
-        },
-        secondAddress: address => {
-            dispatch(actions.secondAddress(address))
-        },
-        countryName: country => {
-            dispatch(actions.countryName(country))
-        }
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Location)
+}
+Location = reduxForm({
+    form: 'contact'
+})(Location)
+
+export default Location
 

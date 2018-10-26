@@ -4,102 +4,38 @@ import * as actions from '../../actions/business';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
+import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 class Business extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            input: '',
-            businessName: this.props.name,
-            contactName: this.props.contactName,
-            telephone: this.props.telephone,
-            email: this.props.email,
-            redirect: false,
         }
-        this.businessName = this.businessName.bind(this)
-        this.contactName = this.contactName.bind(this)
-        this.telephone = this.telephone.bind(this)
-        this.email = this.email.bind(this)
-        this.saveData = this.saveData.bind(this)
-    }
-
-    email(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.updateEmail(e.target.value)
-        this.setState(change);
-    }
-
-    businessName(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.updateName(e.target.value)
-        this.setState(change);
-    }
-    contactName(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.updateContactName(e.target.value)
-        this.setState(change);
-    }
-    telephone(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.updateTelephone(e.target.value)
-        this.setState(change);
-    }
-    async saveData(e) {
-        e.preventDefault()
-        var businessDetails = {
-            businessName: this.props.name,
-            contactName: this.props.contactName,
-            phoneNumber: this.props.telephone,
-            email: this.props.email
-        }
-        var api = await axios.post("http://localhost:3003/business", businessDetails)
-        console.log('this is called', api.status);
-
-        if (api.status === 201) {
-            this.setState({
-                redirect: true
-            })
-        } else if (api.status === 500) {
-
-        }
-
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/location' />
-        }
+        console.log('str',this.props)
+        const { handleSubmit } = this.props
         return (<div>
             <h1>Register Your Business Below</h1>
-            <form>
-                <div className="business">
-                    <div >
-                        <label htmlFor="firstName" >Business Name:</label><br />
-                        <input name="businessName" type="text" onChange={this.businessName} value={this.state.businessName} required />
-                    </div>
-                    <br />
-                    <div >
-                        <label htmlFor="lastName">Contact Name:</label><br />
-                        <input name="contactName" type="text" onChange={this.contactName} value={this.state.contactName} required />
-                    </div>
-                    <br />
-                    <div >
-                        <label htmlFor="telephone">Telephone:</label><br />
-                        <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} required />
-                    </div>
-                    <br />
-                    <div >
-                        <label htmlFor="email">Email:</label><br />
-                        <input name="email" type="email" onChange={this.email} value={this.state.email}  required/>
-                    </div>
-                    <br />
-
-                    <button onClick={this.saveData}>submit</button>
+            <form >
+                <div>
+                    <label htmlFor="firstName">Business Name</label><br />
+                    <Field name="firstName" component="input" type="text" />
                 </div>
+                <div>
+                    <label htmlFor="lastName">Contact Name</label><br />
+                    <Field name="lastName" component="input" type="text" />
+                </div>
+                <div>
+                    <label htmlFor="email">Telephone</label><br />
+                    <Field name="email" component="input" type="tel" />
+                </div>
+                <div>
+                    <label htmlFor="email">Email</label><br />
+                    <Field name="email" component="input" type="email" />
+                </div>
+                <button onClick={handleSubmit} type="submit">Submit</button>
             </form>
 
         </div>
@@ -107,30 +43,15 @@ class Business extends React.Component {
     }
 
 }
-const mapStateToProps = (state) => {
-    return {
-        name: state.business.name,
-        contactName: state.business.contact_name,
-        telephone: state.business.contactTelephone,
-        email: state.business.contactEmail,
-        state: state
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateName: name => {
-            dispatch(actions.businessName(name))
-        },
-        updateContactName: contactName => {
-            dispatch(actions.contactName(contactName))
-        },
-        updateTelephone: tel => {
-            dispatch(actions.telephone(tel))
-        }, updateEmail: email => {
-            dispatch(actions.email(email))
-        }
-    }
-}
+Business = reduxForm({
+    form: 'contact'
+})(Business)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Business)
+const mapStateToProps = state => {
+    return {
+        businessForm: state.form.contact,
+        state: state
+    };
+}
+export default connect(mapStateToProps, null)(Business);
 
