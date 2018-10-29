@@ -55,14 +55,14 @@ app.post('/location', async (req, res) => {
 
 app.post('/block', async (req, res) => {
   console.log('req', req.body);
- const businessId = await client.query('SELECT id FROM location WHERE business_name=$1', [req.body.businessName]);
+  const businessId = await client.query('SELECT id FROM location WHERE business_name=$1', [req.body.businessName]);
   console.log("bus", businessId)
   const insertBlocks = 'INSERT INTO block(name,location_id)VALUES($1,$2,)';
 
-  const blocksDetails = [req.body.blockName,businessId[0].id]
+  const blocksDetails = [req.body.blockName, businessId[0].id]
   console.log("block", blocksDetails)
   try {
- const Results = await client.query(insertBlocks, blocksDetails)
+    const Results = await client.query(insertBlocks, blocksDetails)
     res.status(201).end()
   } catch (err) {
     console.log(err);
