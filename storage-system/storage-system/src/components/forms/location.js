@@ -13,19 +13,15 @@ class Location extends React.Component {
             address1: this.props.address1,
             address2: this.props.address2,
             country: this.props.country,
-            businessDetail: [],
-            selectedBusiness: "Select business:",
             redirect: false,
+            businessName: this.props.business,
         }
         this.address1 = this.address1.bind(this)
         this.address2 = this.address2.bind(this)
         this.country = this.country.bind(this)
         this.submitData = this.submitData.bind(this)
-        this.businessDetails = this.businessDetails.bind(this)
     }
-    componentDidMount() {
-        this.businessDetails()
-    }
+
     address1(e) {
         var change = {};
         change[e.target.name] = e.target.value;
@@ -48,7 +44,8 @@ class Location extends React.Component {
 
     async submitData(e) {
         e.preventDefault()
-        var results = await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country, businessName: this.state.selectedBusiness })
+        console.log('am I called');
+        var results = await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country, business: this.state.businessName })
         if (results.status === 201) {
             this.setState({
                 redirect: true
@@ -58,26 +55,11 @@ class Location extends React.Component {
         }
     }
 
-    async businessDetails(e) {
-        var business = await axios.get("http://localhost:3003/business").then(results => {
-            var businessD = results.data.rows;
-
-            this.setState({ businessDetail: businessD })
-        })
-    }
-
     render() {
-        console.log("this.pros", this.props)
-        if (this.state.redirect) {
+        if(this.state.redirect){
             return <Redirect to='/blocks' />
         }
         return (<div>
-            <select value={this.state.selectedBusiness} onChange={(e) => this.setState({ selectedBusiness: e.target.value })}>
-                <option value="Select business">Select business:</option>
-                {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
-                    return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
-                }) : null}
-            </select>
             <h1>Your location details below</h1>
             <form>
                 <div className="location">
@@ -105,11 +87,13 @@ class Location extends React.Component {
         )
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         address1: state.location.address1,
         address2: state.location.address2,
         country: state.location.countryName,
+        business: state.viewBusiness.selectedBusiness,
         state: state
     }
 }

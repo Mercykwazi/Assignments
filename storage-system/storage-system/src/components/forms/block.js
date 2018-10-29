@@ -11,7 +11,7 @@ class Block extends React.Component {
         super(props)
         this.state = {
             name: this.props.blocks,
-            redirect: false,
+            businessName: this.props.business
         }
         this.storedBlocks = this.storedBlocks.bind(this);
         this.submitData = this.submitData.bind(this);
@@ -28,7 +28,8 @@ class Block extends React.Component {
     async  submitData(e) {
         e.preventDefault();
         var blockDetails = {
-            blockName: this.props.blocks
+            blockName: this.props.blocks,
+            businessName: this.state.businessName
         }
         var Results = await axios.post("http://localhost:3003/block", blockDetails)
         console.log('re', Results)
@@ -74,6 +75,7 @@ class Block extends React.Component {
 const mapStateToProps = (state) => {
     return {
         blocks: state.block.blockName,
+        business: state.viewBusiness.selectedBusiness,
         state: state
     }
 }
