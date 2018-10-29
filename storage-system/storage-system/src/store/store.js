@@ -1,5 +1,5 @@
 import { createStore } from 'redux'
-import business from '../reducers/index'
+import combineReducers from '../reducers/index'
 
-const store=createStore(business)
+const store = createStore(combineReducers, window.devToolsExtension())
 export default store;
