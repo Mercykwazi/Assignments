@@ -60,7 +60,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setTheBusiness: name => {
-            dispatch(actions.name(name))
+            dispatch(actions.businessName(name))
         },
     }
 }

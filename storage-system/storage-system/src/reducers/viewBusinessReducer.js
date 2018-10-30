@@ -1,7 +1,7 @@
 export default function viewBusiness(state = { selectedBusiness:""}, action) {
     var newState = state;
     switch (action.type) {
-        case "NAME":
+        case "BUSINESS_NAME":
             newState = { ...newState, selectedBusiness: action.value }
             break;
         default:
