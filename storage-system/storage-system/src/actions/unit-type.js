@@ -1,5 +1,5 @@
-const name = (name) => {
-  return { type: "NAME", value: name }
+const unitType = (name) => {
+  return { type: "UNIT_TYPE", value: name }
 };
 
 const length = (length) => {
@@ -13,7 +13,5 @@ const width = (width) => {
 const height = (height) => {
     return { type: "HEIGHT", value: height }
 };
-const storageType = (type) => {
-    return { type: "STORAGE_NAME", value: type }
-};
-module.exports = { name, length, width, height, storageType }
+
+module.exports = { unitType, length, width, height }
