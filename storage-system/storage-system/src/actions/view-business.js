@@ -1,5 +1,4 @@
-const name = (name) => {
-    console.log("name",name)
-    return { type: "NAME", value: name }
+const businessName = (name) => {
+    return { type: "BUSINESS_NAME", value: name }
   };
-     module.exports={name}
+     module.exports={businessName}
