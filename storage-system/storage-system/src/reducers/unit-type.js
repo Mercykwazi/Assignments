@@ -1,8 +1,8 @@
-export default function unitType(state = { name: "", length: "", width: "", height: "",storageName:"" }, action) {
+export default function unitType(state = { unitName: "", length: "", width: "", height: "",  }, action) {
     var newState = state;
     switch (action.type) {
-        case "NAME":
-            newState = { ...newState, name: action.value }
+        case "UNIT_TYPE":
+            newState = { ...newState, unitName: action.value }
             break;
         case "LENGTH":
             newState = { ...newState, length: action.value }
@@ -12,9 +12,6 @@ export default function unitType(state = { name: "", length: "", width: "", heig
             break;
         case "HEIGHT":
             newState = { ...newState, height: action.value }
-            break;
-            case "STORAGE_NAME":
-            newState={...newState,storageName:action.value}
             break;
         default:
             newState = { ...newState }
