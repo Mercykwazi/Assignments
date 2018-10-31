@@ -4,7 +4,8 @@ import * as actions from '../../actions/business';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+
 class Business extends React.Component {
     constructor(props) {
         super(props)

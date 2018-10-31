@@ -14,10 +14,11 @@ class Block extends React.Component {
         this.state = {
             name: this.props.blocks,
             businessName: this.props.business,
-            redirect:false,
+            redirect: false,
         }
         this.storedBlocks = this.storedBlocks.bind(this);
         this.submitData = this.submitData.bind(this);
+        this.next = this.next.bind(this)
     }
 
     storedBlocks(e) {
@@ -34,26 +35,29 @@ class Block extends React.Component {
             businessName: this.state.businessName
         }
         var Results = await axios.post("http://localhost:3003/block", blockDetails)
-        if(Results.status=201){
-           this.setState({redirect:true})
-        }
+
+    }
+    next() {
+        this.setState({ redirect: true })
     }
 
-  
+
     render() {
-        if(this.state.redirect){
-            return <Redirect to='/unit-type' />
+        if (this.state.redirect) {
+            return <Redirect to='/view-blocks' />
         }
         return (<div>
             <h1>Enter your block/(s)</h1>
             <form >
-               <div className="location">
+                <div className="location">
                     <div >
                         <label htmlFor="name">Block Name:</label><br />
                         <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name} />
                     </div>
                     <br />
-                    <button onClick={this.submitData}>next</button><br />
+                    <div><button onClick={this.submitData}>add</button></div><br />
+                    <button onClick={this.next}>next</button>
+
                 </div>
             </form>
 

@@ -4,21 +4,22 @@ import * as actions from '../../actions/location';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 
 class Location extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             address1: this.props.address1,
-            address2: this.props.address2,
+            region: this.props.address2,
             country: this.props.country,
             redirect: false,
             businessName: this.props.business,
         }
         this.address1 = this.address1.bind(this)
-        this.address2 = this.address2.bind(this)
-        this.country = this.country.bind(this)
+        this.selectRegion = this.selectRegion.bind(this)
+        this.selectCountry = this.selectCountry.bind(this)
         this.submitData = this.submitData.bind(this)
     }
 
@@ -28,23 +29,25 @@ class Location extends React.Component {
         this.props.firstAddress(e.target.value)
         this.setState(change);
     }
-
-    address2(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.secondAddress(e.target.value)
-        this.setState(change);
+    selectRegion(val) {
+        this.props.secondAddress(val)
+        this.setState({ region: val });
     }
-    country(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.props.countryName(e.target.value)
-        this.setState(change);
+
+    // address2(e) {
+    //     var change = {};
+    //     change[e.target.name] = e.target.value;
+    //     this.props.secondAddress(e.target.value)
+    //     this.setState(change);
+    // }
+    selectCountry(val) {
+        console.log('this is val', val)
+        this.props.countryName(val)
+        this.setState({ country: val });
     }
 
     async submitData(e) {
         e.preventDefault()
-        console.log('am I called');
         var results = await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country, business: this.state.businessName })
         if (results.status === 201) {
             this.setState({
@@ -56,7 +59,9 @@ class Location extends React.Component {
     }
 
     render() {
-        if(this.state.redirect){
+        console.log('st',this.state);
+        
+        if (this.state.redirect) {
             return <Redirect to='/blocks' />
         }
         return (<div>
@@ -68,15 +73,21 @@ class Location extends React.Component {
                         <input name="address1" type="text" placeholder="street name" onChange={this.address1} value={this.state.firstAddress} />
                     </div>
                     <br />
+
                     <div >
-                        <label htmlFor="address2">Address2:</label><br />
-                        <input name="address2s" type="text" placeholder="city" onChange={this.address2} value={this.state.secoundAddress} />
+                        <label htmlFor="address2">Country:</label><br />
+                        <CountryDropdown
+                            value={this.state.country}
+                            onChange={(val) => this.selectCountry(val)} />
+                    </div>
+
+
+                    <div >
+                        <label htmlFor="address2">Region:</label><br />
+                        <RegionDropdown country={this.state.country} type="text" placeholder="city" onChange={this.selectRegion} value={this.state.region} />
                     </div>
                     <br />
-                    <div >
-                        <label htmlFor="country">countryName:</label><br />
-                        <input name="country" type="text" onChange={this.country} value={this.state.country} required />
-                    </div>
+
                     <br />
                     <button onClick={this.submitData}>next</button><br />
                     <br />

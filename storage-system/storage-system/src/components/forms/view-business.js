@@ -38,7 +38,7 @@ class ViewBusiness extends React.Component {
             return <Redirect to='/location' />
         }
         return (<div>
-            <h2>Select the Business business</h2>
+            <h2>Select the Business</h2>
             <div className="view-business">
                 <select onChange={(e) => this.props.setTheBusiness(e.target.value)}>
                     <option value="Select business">Select business:</option>
