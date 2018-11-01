@@ -22,10 +22,8 @@ class ViewBlocks extends React.Component {
     }
 
     async blocksDetails() {
-        var blocks = await axios.get("http://localhost:3003/block").then(results => {
-            console.log('res', results);
-
-            var blocksD = results.data.rows;
+        var blocks = await axios.get("http://localhost:3003/block/" + this.props.selectedBusiness).then(results => {
+            var blocksD = results.data;
             this.setState({ blocksDetail: blocksD })
         })
     }
@@ -56,6 +54,7 @@ class ViewBlocks extends React.Component {
 const mapStateToProps = (state) => {
     return {
         select: state.viewBlock.selectedBlock,
+        selectedBusiness: state.viewBusiness.selectedBusiness,
         state: state
     }
 }
