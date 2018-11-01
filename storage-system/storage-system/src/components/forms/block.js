@@ -34,8 +34,9 @@ class Block extends React.Component {
             blockName: this.props.blocks,
             businessName: this.state.businessName
         }
-        var Results = await axios.post("http://localhost:3003/block", blockDetails)
-
+        console.log("is this called", blockDetails);
+        var Results = await axios.post("http://localhost:3003/block", blockDetails);
+        this.setState({ name: "" })
     }
     next() {
         this.setState({ redirect: true })
@@ -49,13 +50,13 @@ class Block extends React.Component {
         return (<div>
             <h1>Enter your block/(s)</h1>
             <form >
-                <div className="location">
+                <div className="blocks">
                     <div >
                         <label htmlFor="name">Block Name:</label><br />
                         <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name} />
                     </div>
                     <br />
-                    <div><button onClick={this.submitData}>add</button></div><br />
+                    <div><button onClick={this.submitData} disabled={!this.state.name}>add</button></div><br />
                     <button onClick={this.next}>next</button>
 
                 </div>
