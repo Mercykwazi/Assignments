@@ -34,14 +34,8 @@ class Location extends React.Component {
         this.setState({ region: val });
     }
 
-    // address2(e) {
-    //     var change = {};
-    //     change[e.target.name] = e.target.value;
-    //     this.props.secondAddress(e.target.value)
-    //     this.setState(change);
-    // }
+  
     selectCountry(val) {
-        console.log('this is val', val)
         this.props.countryName(val)
         this.setState({ country: val });
     }
@@ -59,8 +53,6 @@ class Location extends React.Component {
     }
 
     render() {
-        console.log('st',this.state);
-        
         if (this.state.redirect) {
             return <Redirect to='/blocks' />
         }
