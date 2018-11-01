@@ -21,7 +21,6 @@ app.post('/business', async (req, res) => {
   try {
     var result = await client.query(insertBusiness, businessDetails)
     res.status(201).end();
-
   } catch (error) {
     res.status(500).end();
   }
@@ -40,11 +39,14 @@ app.get('/business', async (req, res) => {
 })
 
 app.post('/location', async (req, res) => {
+
   const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.business]);
   const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
   const locationDetails = [req.body.address1, req.body.address2, req.body.country, businessId.rows[0].id]
+
   try {
     const Results = await client.query(insertLocations, locationDetails)
+
     res.status(201).end()
   } catch (err) {
     console.log(err);
@@ -52,26 +54,36 @@ app.post('/location', async (req, res) => {
   }
 })
 
-
 app.post('/block', async (req, res) => {
   const businessId = await client.query('SELECT location.id FROM business INNER JOIN location on business.id = location.business_id WHERE business_name = $1;', [req.body.businessName]);
   const insertBlocks = 'INSERT INTO block(name,location_id)VALUES($1,$2)';
   const blocksDetails = [req.body.blockName, businessId.rows[0].id]
   try {
     const Results = await client.query(insertBlocks, blocksDetails)
-    res.status(201).end()
+    res.send(Results).status(201).end()
   } catch (err) {
     console.log(err);
 
   }
 })
+app.get('/block/:businessName', async (req, res) => {
+  console.log('blocks', req.params.businessName);
+
+  try {
+    var blockDetails = await client.query('SELECT block.name FROM block INNER JOIN location ON block.location_id=location.id INNER JOIN business ON location.business_id=business.id  WHERE business.business_name=$1', [req.params.businessName])
+    res.send(blockDetails.rows).status(201).end()
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).end();
+  }
+})
+
+
 
 app.get('/location', async (req, res) => {
   try {
     var allLocations = await client.query("SELECT address1,address2,country FROM location", (err, result) => {
       res.send(result)
-      console.log('this is the res', res);
-
     })
 
   } catch (error) {
@@ -79,17 +91,12 @@ app.get('/location', async (req, res) => {
   }
 })
 
-app.post('/unitType', async(req, res) => {
-  console.log('what is this', req.body);
-  const businessId = await client.query('SELECT unit.name FROM business INNER JOIN unit_type on business.id = unit_type.business_id INNER JOIN unit on unit_type.id = unit.unit_type_id WHERE business_name = $1;', [req.body.businessName])
-  console.log('buzz', businessId)
-  // var unitType = {
-  //   storageType: req.body.storageType,
-  //   length: req.body.length,
-  //   width: req.body.width,
-  //   height: req.body.height,
-  // }
+app.post('/unitType', async (req, res) => {
+  const insertUnitTypes = 'INSERT INTO unit_type(name,length,width,height)VALUES($1,$2,$3,$4)'
+  const unitTypeDetails = [req.body.storageType, req.body.length, req.body.width, req.body.height]
   try {
+    var results = await client.query(insertUnitTypes, unitTypeDetails)
+    res.send(results)
     res.status(200).end()
   } catch (err) {
     console.log(err);
@@ -97,8 +104,27 @@ app.post('/unitType', async(req, res) => {
   }
 })
 
-app.get('/unitType', (req, res) => {
+app.get('/unitType', async (req, res) => {
+  try {
+    var blockDetails = await client.query('SELECT * from unit_type', (err, result) => {
+      res.send(result)
+      res.status(201).end()
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).end();
+  }
+
 })
+
+
+app.post('/units', async (req, res) => {
+
+})
+
+
+
+
 app.listen(port, () => {
   console.log("server running on localhost:3003 ");
 });
