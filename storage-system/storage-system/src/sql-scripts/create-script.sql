@@ -6,10 +6,6 @@ CREATE TABLE IF NOT EXISTS business (
     contact_telephone varchar(25) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
-
--- SELECT id FROM business WHERE business_name=$17
--- SELECT ID FROM LOCATION WHERE ID=ID
-
 CREATE TABLE IF NOT EXISTS location (
     id serial PRIMARY KEY,
     address1 VARCHAR(50) NOT NULL,
@@ -17,27 +13,22 @@ CREATE TABLE IF NOT EXISTS location (
     country VARCHAR(50),
     business_id INT REFERENCES business(id) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
-);
-CREATE TABLE IF NOT EXISTS block(
+);CREATE TABLE IF NOT EXISTS block(
     id serial PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     location_id INT REFERENCES location(id) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
-);
-CREATE TABLE IF NOT EXISTS unit_type (
+);CREATE TABLE IF NOT EXISTS unit_type (
     id serial PRIMARY KEY,
     name varchar(25) NOT NULL,
-    length NUMERIC(7,2) NOT NULL,
-    width NUMERIC(7,2) NOT NULL,
-    height NUMERIC(7,2) NOT NULL,
+    length NUMERIC(7, 2) NOT NULL,
+    width NUMERIC(7, 2) NOT NULL,
+    height NUMERIC(7, 2) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS unit(
+);CREATE TABLE IF NOT EXISTS unit(
     id serial PRIMARY KEY,
     name varchar(25) NOT NULL,
     block_id INT REFERENCES block(id) NOT NULL,
     unit_type_id INT REFERENCES unit_type(id) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
-
