@@ -67,8 +67,6 @@ app.post('/block', async (req, res) => {
   }
 })
 app.get('/block/:businessName', async (req, res) => {
-  console.log('blocks', req.params.businessName);
-
   try {
     var blockDetails = await client.query('SELECT block.name FROM block INNER JOIN location ON block.location_id=location.id INNER JOIN business ON location.business_id=business.id  WHERE business.business_name=$1', [req.params.businessName])
     res.send(blockDetails.rows).status(201).end()
@@ -104,12 +102,13 @@ app.post('/unitType', async (req, res) => {
   }
 })
 
-app.get('/unitType', async (req, res) => {
+app.get('/unitType/:businessName', async (req, res) => {
+  console.log("unitType", req.params.businessName);
+
   try {
-    var blockDetails = await client.query('SELECT * from unit_type', (err, result) => {
-      res.send(result)
-      res.status(201).end()
-    })
+    var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.params.businessName])
+    res.send(blockDetails).status(201).end()
+
   } catch (error) {
     console.log(error);
     res.status(500).end();
