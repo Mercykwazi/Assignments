@@ -10,7 +10,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import ViewBusiness from './components/forms/view-business'
 import axios from 'axios';
 import './index.css';
-import ViewBlocks from './components/forms/view-blocks'
+import ViewBlocks from './components/forms/view-blocks';
+import Units from './components/forms/units'
 
 const app = document.getElementById("root")
 ReactDOM.render(
@@ -23,7 +24,7 @@ ReactDOM.render(
                 <Route path='/unit-type' component={UnitType} />
                 <Route path='/blocks' component={Block} />
                 <Route path='/view-blocks' component={ViewBlocks} />
-                
+                <Route path='/units' component={Units} />
                 
             </div>
         </Router>
