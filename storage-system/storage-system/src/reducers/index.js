@@ -3,9 +3,10 @@ import business from "./businessReducer";
 import location from "./locationsReducer";
 import unitType from "./unit-type";
 import block from "./blockNameReducer";
-import viewBusiness from "./viewBusinessReducer"
-import viewBlock from "./viewBlockReducer"
+import viewBusiness from "./viewBusinessReducer";
+import viewBlock from "./viewBlockReducer";
+import units from "./unitsReducer";
 
 export default combineReducers({
-    business, location, unitType, block, viewBusiness,viewBlock
+    business, location, unitType, block, viewBusiness,viewBlock,units
 });

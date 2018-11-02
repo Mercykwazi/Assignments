@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import * as actions from '../../actions/block';
+import * as actions from '../../actions/units';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
@@ -8,54 +8,70 @@ import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 
 
-class Block extends React.Component {
+class Units extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: this.props.blocks,
-            businessName: this.props.business,
-            redirect: false,
+            name: this.props.units,
+            selectedUnitType:this.props.unitType,
+            unitTypeDetail:[]
+
         }
-        this.storedBlocks = this.storedBlocks.bind(this);
-        this.submitData = this.submitData.bind(this);
+        this.unitName = this.unitName.bind(this);
+        this.unitTypeDetails = this.unitTypeDetails.bind(this);
         this.next = this.next.bind(this)
     }
 
-    storedBlocks(e) {
+    componentDidMount() {
+        this.unitTypeDetails()
+    }
+
+    unitName(e) {
         var change = {};
         change[e.target.name] = e.target.value;
-        this.props.availableBlocks(e.target.value)
+        this.props.availableUnits(e.target.value)
         this.setState(change);
     }
-
-    async  submitData(e) {
-        e.preventDefault();
-        var blockDetails = {
-            blockName: this.props.blocks,
-            businessName: this.state.businessName
-        }
-        var Results = await axios.post("http://localhost:3003/block", blockDetails)
+    async unitTypeDetails() {
+        console.log('business',this.props.bus)
+        var results = await axios.get("http://localhost:3003/unitType/" + this.props.business)
+        var unitType = results.data.rows
+        console.log('uni',unitType);
+        
+        this.setState({ unitTypeDetail: unitType })
 
     }
+
     next() {
         this.setState({ redirect: true })
     }
 
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/view-blocks' />
-        }
+        console.log('state', this.state);
+        console.log('props', this.props);
+        
+        
         return (<div>
+            <div className="selectedUnit">
+            <select onChange={(e) => this.props.selectedUnitType(e.target.value)}>
+                    <option value="Select unit type">Select Unit type:</option>
+                    {this.state.unitTypeDetail.length > 0 ? this.state.unitTypeDetail.map(item => {
+                        console.log('what is',item);
+                        
+                        return <option key={this.state.unitTypeDetail.indexOf(item)} value={item.business_name}> {item.name} ,{item.length}, {item.width}, {item.height} </option>
+                    }) : null}
+                </select>
+            </div>
             <h1>units available</h1>
             <form >
                 <div className="location">
                     <div >
-                        <label htmlFor="name">Block Name:</label><br />
-                        <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name} />
+                        <label htmlFor="name">Unit Name:</label><br />
+                        <input name="name" type="text" onChange={this.unitName} value={this.state.name} />
                     </div>
                     <br />
-                    <div><button onClick={this.submitData}>add</button></div><br />
+                    <div><button onClick={this.unitTypeDetails}>add</button></div><br />
                     <button onClick={this.next}>next</button>
 
                 </div>
@@ -68,19 +84,23 @@ class Block extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        blocks: state.block.blockName,
+        units: state.units.unitName,
         business: state.viewBusiness.selectedBusiness,
+        unitType:state.units.selectedUnit,
         state: state
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        availableBlocks: name => {
-            dispatch(actions.blockName(name))
+        availableUnits: name => {
+            dispatch(actions.unitName(name))
+        },
+        selectedUnitType:unit=>{
+            dispatch(actions.selectedUnit(unit))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Block)
+export default connect(mapStateToProps, mapDispatchToProps)(Units)
 
 

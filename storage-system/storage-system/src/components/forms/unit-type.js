@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import * as actions from '../../actions/unit-type';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Redirect } from 'react-router'
+
 
 
 
@@ -15,12 +17,14 @@ class UnitType extends React.Component {
             width: this.props.width,
             height: this.props.height,
             businessName: this.props.business,
+            redirect: false,
         }
         this.locationName = this.locationName.bind(this)
         this.length = this.length.bind(this)
         this.width = this.width.bind(this)
         this.height = this.height.bind(this)
         this.submit = this.submit.bind(this)
+        this.next = this.next.bind(this)
     }
 
     length(e) {
@@ -60,9 +64,14 @@ class UnitType extends React.Component {
             selectedBusiness: this.state.businessName
         }
         var unitTypeDetails = await axios.post("http://localhost:3003/unitType", insertUnits)
-
+    }
+    next() {
+        this.setState({ redirect: true })
     }
     render() {
+        if (this.state.redirect) {
+          return  <Redirect to='/units' />
+        }
         return (<div>
             <h1>Specify your unit type</h1>
             <form>
@@ -87,7 +96,10 @@ class UnitType extends React.Component {
                         <input name="height" placeholder='800' type="number" onChange={this.height} value={this.state.height} />
                     </div>
                     <br />
-                    <button onClick={this.submit}>submit</button>
+                    <button onClick={this.submit}>submit</button><br/>
+                    <button onClick={this.next}>next</button>
+                    
+
                 </div>
             </form>
 
