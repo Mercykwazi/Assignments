@@ -34,8 +34,6 @@ class ViewBusiness extends React.Component {
 
 
     render() {
-        console.log('yes',this.props.select);
-        
         if (this.state.redirect) {
             return <Redirect to='/location' />
         }

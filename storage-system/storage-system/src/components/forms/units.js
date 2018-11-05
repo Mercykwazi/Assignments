@@ -13,12 +13,13 @@ class Units extends React.Component {
         super(props)
         this.state = {
             name: this.props.units,
-            selectedUnitType:this.props.unitType,
-            unitTypeDetail:[]
+            selectedUnitType: this.props.unitType,
+            unitTypeDetail: []
 
         }
         this.unitName = this.unitName.bind(this);
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
+        this.unitsDetails = this.unitsDetails.bind(this);
         this.next = this.next.bind(this)
     }
 
@@ -33,33 +34,62 @@ class Units extends React.Component {
         this.setState(change);
     }
     async unitTypeDetails() {
-        console.log('business',this.props.bus)
-        var results = await axios.get("http://localhost:3003/unitType/" + this.props.business)
+        var results = await axios.get("http://localhost:3003/unitType/")
         var unitType = results.data.rows
-        console.log('uni',unitType);
-        
+
         this.setState({ unitTypeDetail: unitType })
 
     }
 
-    next() {
-        this.setState({ redirect: true })
+    async unitsDetails(e) {
+        console.log('what is this');
+
+        e.preventDefault();
+        var units = {
+            name: this.props.units,
+            id: this.state.unitTypeDetail,
+            selectedUnit: this.props.unitType,
+            selectedBusiness: this.props.business,
+        }
+
+        console.log('yes am called', units);
+        // var results = await axios.post("http://localhost:3003/units/", units)
+
+    }
+    next(e) {
+        e.preventDefault()
+        console.log("findTheItem1", this.props.unitType);
+        
+        var findTheItem = this.props.unitType.split(" ")
+        console.log("findTheItem", findTheItem);
+        var unitType = this.state.unitTypeDetail
+        var results = unitType.filter(item => {
+            var returningObjects = item.name === findTheItem[0]
+            console.log('what the hell11', returningObjects);
+
+            return returningObjects
+        }).map(item=>{
+            console.log('wat is this',item);
+            
+        })
+
+        console.log('what the hell', results);
+
     }
 
+    // next() {
+    //     this.setState({ redirect: true })
+    // }
 
     render() {
-        console.log('state', this.state);
-        console.log('props', this.props);
-        
-        
+        console.log('props', this.props.unitType, this.state.unitTypeDetail);
+
         return (<div>
             <div className="selectedUnit">
-            <select onChange={(e) => this.props.selectedUnitType(e.target.value)}>
+                <select onChange={(e) => this.props.selectedUnitType(e.target.value)}>
                     <option value="Select unit type">Select Unit type:</option>
                     {this.state.unitTypeDetail.length > 0 ? this.state.unitTypeDetail.map(item => {
-                        console.log('what is',item);
-                        
-                        return <option key={this.state.unitTypeDetail.indexOf(item)} value={item.business_name}> {item.name} ,{item.length}, {item.width}, {item.height} </option>
+                        return <option key={this.state.unitTypeDetail.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
                     }) : null}
                 </select>
             </div>
@@ -71,7 +101,7 @@ class Units extends React.Component {
                         <input name="name" type="text" onChange={this.unitName} value={this.state.name} />
                     </div>
                     <br />
-                    <div><button onClick={this.unitTypeDetails}>add</button></div><br />
+                    <div><button onClick={this.unitsDetails}>add</button></div><br />
                     <button onClick={this.next}>next</button>
 
                 </div>
@@ -86,7 +116,7 @@ const mapStateToProps = (state) => {
     return {
         units: state.units.unitName,
         business: state.viewBusiness.selectedBusiness,
-        unitType:state.units.selectedUnit,
+        unitType: state.units.selectedUnit,
         state: state
     }
 }
@@ -95,7 +125,7 @@ const mapDispatchToProps = (dispatch) => {
         availableUnits: name => {
             dispatch(actions.unitName(name))
         },
-        selectedUnitType:unit=>{
+        selectedUnitType: unit => {
             dispatch(actions.selectedUnit(unit))
         }
     }

@@ -34,7 +34,6 @@ class Block extends React.Component {
             blockName: this.props.blocks,
             businessName: this.state.businessName
         }
-        console.log("is this called", blockDetails);
         var Results = await axios.post("http://localhost:3003/block", blockDetails);
         this.setState({ name: "" })
     }

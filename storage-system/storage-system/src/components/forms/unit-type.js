@@ -99,7 +99,6 @@ class UnitType extends React.Component {
                     <button onClick={this.submit}>submit</button><br/>
                     <button onClick={this.next}>next</button>
                     
-
                 </div>
             </form>
 

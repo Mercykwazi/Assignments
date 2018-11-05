@@ -102,12 +102,10 @@ app.post('/unitType', async (req, res) => {
   }
 })
 
-app.get('/unitType/:businessName', async (req, res) => {
-  console.log("unitType", req.params.businessName);
-
+app.get('/unitType/', async (req, res) => {
   try {
-    var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.params.businessName])
-    res.send(blockDetails).status(201).end()
+    var unitTypeDetails = await client.query('SELECT * FROM unit_type')
+    res.send(unitTypeDetails).status(201).end()
 
   } catch (error) {
     console.log(error);
@@ -118,6 +116,29 @@ app.get('/unitType/:businessName', async (req, res) => {
 
 
 app.post('/units', async (req, res) => {
+  console.log('req', req.body);
+
+  var unitTypeId = req.body.id
+  var unitTypeIdResults = unitTypeId.map(item => {
+    console.log('item',item);
+    
+    return item.id
+
+  })
+  var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.body.selectedBusiness])
+  var insertUnits = 'INSERT INTO unit (name,block_id,unit_type_id) VALUES ($1,$2,$3)';
+  var unitsDetails = [req.body.name, blockDetails, unitTypeIdResults];
+  console.log('yes it was called',unitTypeIdResults);
+  
+  try {
+    var results = await client.query(insertUnits, unitsDetails)
+    res.send(results).status(201)
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).end()
+
+  }
 
 })
 
