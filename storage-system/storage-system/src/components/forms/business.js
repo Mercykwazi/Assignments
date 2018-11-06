@@ -89,14 +89,14 @@ class Business extends React.Component {
                     <br />
                     <div >
                         <label htmlFor="telephone">Telephone:</label><br />
-                        <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} required />
+                        <input name="telephone" type="number" onChange={this.telephone} value={this.state.telephone} required />
                     </div>
                     <br />
                     <div >
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />
                     </div>
-                    <button onClick={this.saveData}>submit</button>
+                    <button className="button" onClick={this.saveData}>submit</button>
                     </div>
             </form>
 
