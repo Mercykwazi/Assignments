@@ -45,9 +45,9 @@ class ViewBusiness extends React.Component {
                     {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
                         return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
                     }) : null}
-                </select>
-            </div>
+                </select><br/>
             <button className="next" onClick={this.submitData}>next</button><br />
+            </div>
         </div>)
     }
 }
