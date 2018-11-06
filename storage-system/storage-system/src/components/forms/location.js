@@ -81,7 +81,7 @@ class Location extends React.Component {
                     <br />
 
                     <br />
-                    <button onClick={this.submitData}>next</button><br />
+                    <button className="next" onClick={this.submitData}>next</button><br />
                     <br />
                 </div>
             </form>
