@@ -11,14 +11,16 @@ import ViewBusiness from './components/forms/view-business'
 import axios from 'axios';
 import './index.css';
 import ViewBlocks from './components/forms/view-blocks';
-import Units from './components/forms/units'
+import Units from './components/forms/units';
+import Welcome from './components/welcome'
 
 const app = document.getElementById("root")
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <div>
-                <Route exact path='/' component={Business} />
+                <Route exact path='/' component={Welcome} />
+                <Route exact path='/business' component={Business} />
                 <Route path='/view-business' component={ViewBusiness} />
                 <Route path='/location' component={Location} />
                 <Route path='/unit-type' component={UnitType} />
