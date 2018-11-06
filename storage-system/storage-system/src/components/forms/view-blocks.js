@@ -45,9 +45,9 @@ class ViewBlocks extends React.Component {
                     {this.state.blocksDetail.length > 0 ? this.state.blocksDetail.map(item => {
                         return <option key={this.state.blocksDetail.indexOf(item)} value={item.name}>{item.name}</option>
                     }) : null}
-                </select>
-            </div>
+                </select><br/>
             <button className="next" onClick={this.submitData}>next</button><br />
+            </div>
         </div>)
     }
 }
