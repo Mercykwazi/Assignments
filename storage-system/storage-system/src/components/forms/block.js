@@ -52,11 +52,11 @@ class Block extends React.Component {
                 <div className="blocks">
                     <div >
                         <label htmlFor="name">Block Name:</label><br />
-                        <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name} />
+                        <input name="name" type="text" onChange={this.storedBlocks} value={this.state.name}  /> <button className="btn"  onClick={this.submitData} disabled={!this.state.name}>add</button>
                     </div>
                     <br />
-                    <div><button onClick={this.submitData} disabled={!this.state.name}>add</button></div><br />
-                    <button onClick={this.next}>next</button>
+                    <div> </div><br />
+                    <button className="next" onClick={this.next}>next</button>
 
                 </div>
             </form>
