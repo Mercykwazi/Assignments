@@ -64,13 +64,14 @@ class UnitType extends React.Component {
             selectedBusiness: this.state.businessName
         }
         var unitTypeDetails = await axios.post("http://localhost:3003/unitType", insertUnits)
+        this.setState({ unitType: '', length: '', width: '', height: '' })
     }
     next() {
         this.setState({ redirect: true })
     }
     render() {
         if (this.state.redirect) {
-          return  <Redirect to='/units' />
+            return <Redirect to='/units' />
         }
         return (<div>
             <h1>Specify your unit type</h1>
@@ -93,12 +94,11 @@ class UnitType extends React.Component {
                     <br />
                     <div >
                         <label htmlFor="height">height(m):</label><br />
-                        <input name="height" placeholder='800' type="number" onChange={this.height} value={this.state.height} />
+                        <input name="height" placeholder='800' type="number" onChange={this.height} value={this.state.height} />  <button className="btn" onClick={this.submit} disabled={!this.state.unitType} disabled={!this.state.length} disabled={!this.state.width} disabled={!this.state.height}  >add</button><br />
                     </div>
                     <br />
-                    <button onClick={this.submit}>submit</button><br/>
-                    <button onClick={this.next}>next</button>
-                    
+                    <button className="next" onClick={this.next}>next</button>
+
                 </div>
             </form>
 
