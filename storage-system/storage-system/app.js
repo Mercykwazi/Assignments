@@ -110,9 +110,20 @@ app.get('/unitType/', async (req, res) => {
     console.log(error);
     res.status(500).end();
   }
-
 })
 
+app.post('/customer', async (req, res) => {
+  const insertCustomerDetails = 'INSERT INTO customer(contact_name,surname,contact_email,contact_telephone,password) VALUES($1,$2,$3,$4,$5)';
+  const customerDetails = [req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.password]
+  try {
+    var results = await client.query(insertCustomerDetails, customerDetails)
+    res.send(results).status(201).end()
+  } catch (err) {
+    console.log(err);
+    res.status(500).end()
+
+  }
+})
 
 app.post('/units', async (req, res) => {
   var unitTypeId = req.body.foundObject.id
@@ -128,6 +139,17 @@ app.post('/units', async (req, res) => {
 
   }
 
+})
+
+app.get('/units', async (req, res) => {
+  try {
+    var unitsDetails = await client.query('SELECT * FROM unit')
+    
+    res.send(unitsDetails).status(201).end()
+  } catch (err) {
+    console.log(err)
+    res.status(500)
+  }
 })
 
 
