@@ -14,7 +14,8 @@ class Units extends React.Component {
         this.state = {
             name: this.props.units,
             selectedUnitType: this.props.unitType,
-            unitTypeDetail: []
+            unitTypeDetail: [],
+            redirect: false
 
         }
         this.unitName = this.unitName.bind(this);
@@ -58,9 +59,13 @@ class Units extends React.Component {
     }
     next(e) {
         e.preventDefault()
+        this.setState({ redirect: true })
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/view-units' />
+        }
         return (<div>
             <div className="selectedUnit">
                 <p>Available unit types</p>
