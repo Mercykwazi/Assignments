@@ -12,7 +12,9 @@ import axios from 'axios';
 import './index.css';
 import ViewBlocks from './components/forms/view-blocks';
 import Units from './components/forms/units';
-import Welcome from './components/welcome'
+import Welcome from './components/welcome';
+import SignUp from './components/customer/sign-up';
+import ViewUnits from './components/customer/available-units';
 
 const app = document.getElementById("root")
 ReactDOM.render(
@@ -27,6 +29,10 @@ ReactDOM.render(
                 <Route path='/blocks' component={Block} />
                 <Route path='/view-blocks' component={ViewBlocks} />
                 <Route path='/units' component={Units} />
+                <Route path='/sign-up' component={SignUp} />
+                <Route path='/view-units' component={ViewUnits} />
+                
+                
                 
             </div>
         </Router>
