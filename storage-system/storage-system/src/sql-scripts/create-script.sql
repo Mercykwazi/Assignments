@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS business (
     contact_email varchar(25) NOT NULL,
     contact_telephone varchar(25) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
-);
-CREATE TABLE IF NOT EXISTS location (
+);CREATE TABLE IF NOT EXISTS location (
     id serial PRIMARY KEY,
     address1 VARCHAR(50) NOT NULL,
     address2 VARCHAR(50),
@@ -30,5 +29,15 @@ CREATE TABLE IF NOT EXISTS location (
     name varchar(25) NOT NULL,
     block_id INT REFERENCES block(id) NOT NULL,
     unit_type_id INT REFERENCES unit_type(id) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
+);
+CREATE EXTENSION chkpass;
+CREATE TABLE IF NOT EXISTS customer(
+    id serial PRIMARY KEY,
+    contact_name varchar(25) NOT NULL,
+    surname varchar(25) NOT NULL,
+    contact_email varchar(25) NOT NULL,
+    contact_telephone varchar(25) NOT NULL,
+    password chkpass,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
