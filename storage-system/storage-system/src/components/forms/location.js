@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import * as actions from '../../actions/location';
 import { connect } from 'react-redux';
 import axios from 'axios';

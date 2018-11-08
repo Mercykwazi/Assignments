@@ -10,6 +10,7 @@ export default function location(state = {  address1: "", address2: "",countryNa
             break;
             case "COUNTRY_NAME":
             nextState={...nextState,countryName:action.value}
+            break;
         default:
             nextState = { ...nextState }
             break;

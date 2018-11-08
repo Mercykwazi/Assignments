@@ -1,9 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import * as actions from '../../actions/view-business';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
 import { Redirect } from 'react-router'
 
 class ViewBusiness extends React.Component {
@@ -45,8 +43,8 @@ class ViewBusiness extends React.Component {
                     {this.state.businessDetail.length > 0 ? this.state.businessDetail.map(item => {
                         return <option key={this.state.businessDetail.indexOf(item)} value={item.business_name}>{item.business_name}</option>
                     }) : null}
-                </select><br/>
-            <button className="next" onClick={this.submitData}>next</button><br />
+                </select><br />
+                <button className="next" onClick={this.submitData}>next</button><br />
             </div>
         </div>)
     }

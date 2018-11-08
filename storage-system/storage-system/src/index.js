@@ -8,7 +8,6 @@ import UnitType from './components/forms/unit-type';
 import Block from './components/forms/block';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ViewBusiness from './components/forms/view-business'
-import axios from 'axios';
 import './index.css';
 import ViewBlocks from './components/forms/view-blocks';
 import Units from './components/forms/units';

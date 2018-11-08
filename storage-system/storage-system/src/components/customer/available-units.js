@@ -11,7 +11,7 @@ class ViewUnits extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            unitsDetail: [],
+            unitTypeDetail: [],
             redirect: false,
         }
         this.unitsDetails = this.unitsDetails.bind(this)
@@ -23,11 +23,10 @@ class ViewUnits extends React.Component {
     }
 
     async unitsDetails() {
-        var business = await axios.get("http://localhost:3003/units").then(results => {
-            console.log('what', results);
-            var businessD = results.data.rows;
-            this.setState({ unitsDetail: businessD })
-        })
+        var business = await axios.get("http://localhost:3003/unitType")
+            console.log('what', business);
+            var unitsD = business.data.rows;
+            this.setState({ unitTypeDetail: unitsD })
     }
 
     render() {
@@ -35,8 +34,12 @@ class ViewUnits extends React.Component {
             <h1>Available unit/(s)</h1>
             <form >
                 <div className="blocks">
-                    <div >
-                    </div>
+                <select onChange={(e) => this.props.selectedUnitType(e.target.value)}>
+                    <option value="Select unit type">Select Unit type:</option>
+                    {this.state.unitTypeDetail.length > 0 ? this.state.unitTypeDetail.map(item => {
+                        return <option key={this.state.unitTypeDetail.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
+                    }) : null}
+                </select>
                     <br />
                     <div> </div><br />
                     <button className="next" onClick={this.next}>next</button>

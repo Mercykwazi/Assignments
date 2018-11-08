@@ -1,8 +1,6 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
 import { Redirect } from 'react-router';
 
 class SignUp extends React.Component {
@@ -75,8 +73,6 @@ class SignUp extends React.Component {
         var results = await axios.post("http://localhost:3003/customer", customerDetails)
        
     }
-
-
 
     render() {
         console.log('what is state', this.state)

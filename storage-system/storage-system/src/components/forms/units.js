@@ -1,10 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import * as actions from '../../actions/units';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
-import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 
 
@@ -55,7 +52,7 @@ class Units extends React.Component {
             selectedBusiness: this.props.business,
             foundObject: results
         }
-        var results = await axios.post("http://localhost:3003/units/", units)
+        var unitsResults = await axios.post("http://localhost:3003/units/", units)
     }
     next(e) {
         e.preventDefault()

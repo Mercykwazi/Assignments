@@ -1,9 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import * as actions from '../../actions/view-blocks';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
 import { Redirect } from 'react-router'
 
 class ViewBlocks extends React.Component {

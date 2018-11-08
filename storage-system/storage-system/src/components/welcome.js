@@ -1,31 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
 import { Redirect } from 'react-router';
 
 class Welcome extends React.Component {
-    constructor(){
+    constructor() {
         super()
-        this.state={
-            redirect:false
+        this.state = {
+            redirectToBusiness: false,
+            redirectToCustomer: false
         }
-        this.getStarted=this.getStarted.bind(this)
+        this.registerStorage = this.registerStorage.bind(this);
+        this.rentStorage = this.rentStorage.bind(this)
     }
 
-  getStarted() {
-        this.setState({redirect:true})
+    registerStorage() {
+        this.setState({ redirectToBusiness: true })
     }
+    rentStorage() {
+        this.setState({ redirectToCustomer: true })
+
+    }
+
+
+
 
 
     render() {
-        if(this.state.redirect){
+        if (this.state.redirectToBusiness) {
             return <Redirect to='/business' />
+        }
+        if (this.state.redirectToCustomer) {
+            return <Redirect to='/sign-up' />
         }
         return (
             <div>
                 <h1 className="storage">Welcome to storage facility </h1>
-                <div>  <button className="getStarted" onClick={this.getStarted}>Get Started</button></div>
+                <button className="getStarted" onClick={this.registerStorage}>Register Storage</button> <button className="rentStorage" onClick={this.rentStorage}>Rent Storage</button>
+
             </div>
         )
     }

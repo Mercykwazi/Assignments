@@ -44,9 +44,22 @@ font-family: Arial, Helvetica, sans-serif;
     text-decoration: none;
     padding: 1rem 2rem;
     border: #015665 1px solid;
-    margin-top: 40px;
-    margin-left: 850px;
+    margin-left: 550px;
+    margin-right: 250px;
+    
   }
+.rentStorage{
+    font-size: 1rem;
+    background: none;
+    display: inline-block;
+    color: #015665;
+    padding: 1rem 2rem;
+    border: #015665 1px solid;
+     margin-left: 90px;
+}
+
+
+
 .unit-type{
     text-align: left
 }
@@ -81,7 +94,6 @@ input {
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
-    
     display: inline-block;
     border: 1px solid green;
     border-radius: 4px;
@@ -132,7 +144,8 @@ color: white;
 
 .units{
 text-align: left;
-margin-top: 190px
+margin-top: 190px;
+color: white
 }
 .next{
     text-align: left;

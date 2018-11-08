@@ -1,10 +1,7 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import * as actions from '../../actions/block';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
-import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 
 
