@@ -6,7 +6,8 @@ import block from "./blockNameReducer";
 import viewBusiness from "./viewBusinessReducer";
 import viewBlock from "./viewBlockReducer";
 import units from "./unitsReducer";
+import selectUnitType from "./selectedUnits"
 
 export default combineReducers({
-    business, location, unitType, block, viewBusiness,viewBlock,units
+    business, location, unitType, block, viewBusiness,viewBlock,units,selectUnitType
 });

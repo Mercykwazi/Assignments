@@ -22,10 +22,6 @@ class Welcome extends React.Component {
 
     }
 
-
-
-
-
     render() {
         if (this.state.redirectToBusiness) {
             return <Redirect to='/business' />

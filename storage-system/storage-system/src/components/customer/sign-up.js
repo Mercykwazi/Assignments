@@ -60,8 +60,6 @@ class SignUp extends React.Component {
     }
     async saveData(e) {
         e.preventDefault()
-        console.log('what is state here',this.state);
-        
         var customerDetails = {
             name: this.state.firstName,
             surname: this.state.lastName,
@@ -71,11 +69,9 @@ class SignUp extends React.Component {
         }
     
         var results = await axios.post("http://localhost:3003/customer", customerDetails)
-       
     }
 
     render() {
-        console.log('what is state', this.state)
         return (<div>
             <h1 >Fill in your personal details</h1>
             <form  >
@@ -101,9 +97,8 @@ class SignUp extends React.Component {
                     <div className="password"   >
                         Password:<br />
                         {this.state.isPasswordVisible ?
-                            <   input name="password" type="text" onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} required /> :
+                            <input name="password" type="text" onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} required /> :
                             <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />} 
-                     
                         <p  className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
 
