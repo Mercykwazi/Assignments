@@ -9,7 +9,7 @@ class SignUp extends React.Component {
         this.state = {
             password: "",
             firstName: "",
-            lastName: "",  
+            lastName: "",
             telephone: "",
             email: "",
             redirect: false,
@@ -21,8 +21,8 @@ class SignUp extends React.Component {
         this.telephone = this.telephone.bind(this)
         this.email = this.email.bind(this)
         this.password = this.password.bind(this)
-        this.lastName=this.lastName.bind(this)
-        this.saveData=this.saveData.bind(this)
+        this.lastName = this.lastName.bind(this)
+        this.saveData = this.saveData.bind(this)
 
     }
 
@@ -65,13 +65,18 @@ class SignUp extends React.Component {
             surname: this.state.lastName,
             phoneNumber: this.state.telephone,
             email: this.state.email,
-            password:this.state.password,
+            password: this.state.password,
         }
-    
+
+
         var results = await axios.post("http://localhost:3003/customer", customerDetails)
+        this.setState({ redirect: true })
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/view-units' />
+        }
         return (<div>
             <h1 >Fill in your personal details</h1>
             <form  >
@@ -84,7 +89,7 @@ class SignUp extends React.Component {
                     <div >
                         <label htmlFor="lastName">Last Name:</label><br />
                         <input name="lastName" type="text" onChange={this.lastName} value={this.state.lastName} required />
-                    </div><br/>
+                    </div><br />
                     <div >
                         <label htmlFor="telephone">Telephone:</label><br />
                         <input name="telephone" type="number" onChange={this.telephone} value={this.state.telephone} required />
@@ -98,8 +103,8 @@ class SignUp extends React.Component {
                         Password:<br />
                         {this.state.isPasswordVisible ?
                             <input name="password" type="text" onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} required /> :
-                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />} 
-                        <p  className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
+                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}
+                        <p className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
 
                     <button className="button" onClick={this.saveData}>submit</button>
