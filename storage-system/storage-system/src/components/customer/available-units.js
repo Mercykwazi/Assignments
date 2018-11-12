@@ -15,19 +15,51 @@ class ViewUnits extends React.Component {
             unitTypeDetail: [],
             redirect: false,
             selectedUnitType: this.props.unitType,
-
+            unitsDetail: [],
+            units: []
         }
-        this.unitsDetails = this.unitsDetails.bind(this)
+        this.unitsDetails = this.unitsDetails.bind(this);
+        this.unitTypeDetails = this.unitTypeDetails.bind(this);
+        this.next = this.next.bind(this)
     }
 
     componentDidMount() {
+        this.unitTypeDetails()
         this.unitsDetails()
     }
 
-    async unitsDetails() {
-        var business = await axios.get("http://localhost:3003/unitType")
+
+    async unitTypeDetails() {
+        var business = await axios.get("http://localhost:3003/unitType/")
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
+    }
+    async unitsDetails() {
+        var details = await axios.get("http://localhost:3003/units/")
+        var unitDetail = details.data.rows;
+        this.setState({ unitsDetail: unitDetail })
+        console.log('what is details', unitDetail)
+    }
+    next(e) {
+        e.preventDefault()
+        var findTheItem = this.props.unitType.split(" ")
+        console.log(findTheItem);
+
+        var unitType = this.state.unitTypeDetail
+        var results = unitType.find(item => {
+            var returningObjects = item.name === findTheItem[0] && item.length === findTheItem[1] && item.width === findTheItem[2] && item.height === findTheItem[3]
+            return returningObjects
+        })
+        var allUnitTypes = this.state.unitsDetail.map(item => {
+            console.log('item',item);
+            
+            var foundId = item.unit_type_id
+            if (foundId === results.id)
+                return item.name
+
+        })
+        this.setState({ units: allUnitTypes })
+        console.log('whatever', allUnitTypes);
     }
 
     render() {
@@ -44,7 +76,7 @@ class ViewUnits extends React.Component {
                     </select>
                     <br />
                     <button className="next" onClick={this.next}>next</button>
-
+                    <p>your unit is:{this.state.units}</p>
                 </div>
             </form>
 
