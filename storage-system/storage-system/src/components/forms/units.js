@@ -60,9 +60,6 @@ class Units extends React.Component {
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/view-units' />
-        }
         return (<div>
             <div className="selectedUnit">
                 <p>Available unit types</p>
