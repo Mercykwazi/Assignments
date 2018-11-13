@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'
 
-
-
-
 class UnitType extends React.Component {
     constructor(props) {
         super(props)
