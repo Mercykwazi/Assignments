@@ -7,7 +7,6 @@ import { log } from 'util';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 
-
 class ViewUnits extends React.Component {
     constructor(props) {
         super(props)
@@ -20,7 +19,8 @@ class ViewUnits extends React.Component {
         }
         this.unitsDetails = this.unitsDetails.bind(this);
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
-        this.next = this.next.bind(this)
+        this.getUnites = this.getUnites.bind(this)
+        this.selectedUnit = this.selectedUnit.bind(this)
     }
 
     componentDidMount() {
@@ -28,55 +28,55 @@ class ViewUnits extends React.Component {
         this.unitsDetails()
     }
 
-
     async unitTypeDetails() {
         var business = await axios.get("http://localhost:3003/unitType/")
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
     }
+
     async unitsDetails() {
         var details = await axios.get("http://localhost:3003/units/")
         var unitDetail = details.data.rows;
         this.setState({ unitsDetail: unitDetail })
-        console.log('what is details', unitDetail)
     }
-    next(e) {
+
+    async selectedUnit() {
+        var details = await axios.get("http://localhost:3003/selectUnit/" + this.props.unitType)
+        var availableUnits = details.data
+        console.log('av', availableUnits);
+
+        this.setState({ units: availableUnits })
+    }
+
+    getUnites(e) {
         e.preventDefault()
-        var findTheItem = this.props.unitType.split(" ")
-        console.log(findTheItem);
-
-        var unitType = this.state.unitTypeDetail
-        var results = unitType.find(item => {
-            var returningObjects = item.name === findTheItem[0] && item.length === findTheItem[1] && item.width === findTheItem[2] && item.height === findTheItem[3]
-            return returningObjects
-        })
-        var allUnitTypes = this.state.unitsDetail.map(item => {
-            console.log('item',item);
-            
-            var foundId = item.unit_type_id
-            if (foundId === results.id)
-                return item.name
-
-        })
-        this.setState({ units: allUnitTypes })
-        console.log('whatever', allUnitTypes);
+        this.props.selectedUnitType(e.target.value)
+        setTimeout(() => {
+            this.selectedUnit();
+        }, 1000);
     }
-
     render() {
-        console.log("what is selected", this.props.unitType)
+        console.log('st', this.state.units);
+
         return (<div>
             <h1>Available unit/(s)</h1>
             <form >
                 <div className="blocks">
-                    <select onChange={(e) => this.props.selectedUnitType(e.target.value)}>
+                    <select onChange={this.getUnites}>
                         <option value="Select unit type">Select Unit type:</option>
                         {this.state.unitTypeDetail.length > 0 ? this.state.unitTypeDetail.map(item => {
                             return <option key={this.state.unitTypeDetail.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
                         }) : null}
                     </select>
                     <br />
-                    <button className="next" onClick={this.next}>next</button>
-                    <p>your unit is:{this.state.units}</p>
+                    <h2>Units</h2>
+                    <select>
+                        <option value="select your your unit">select your unit:</option>
+                        {this.state.units.length > 0 ? this.state.units.map(unit => {
+                            console.log('what is this unit', unit)
+                            return <option key={this.state.units.indexOf(unit)} value={unit}>{unit}</option>
+                        }) : null}
+                    </select>
                 </div>
             </form>
 
