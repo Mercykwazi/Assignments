@@ -144,12 +144,40 @@ app.post('/units', async (req, res) => {
 app.get('/units', async (req, res) => {
   try {
     var unitsDetails = await client.query('SELECT * FROM unit')
-    
+
     res.send(unitsDetails).status(201).end()
   } catch (err) {
     console.log(err)
     res.status(500)
   }
+})
+app.get('/selectUnit/:selectedUnitType', async (req, res) => {
+  console.log('what is selected',req.params);
+  
+  var selectedUnitTypes = req.params.selectedUnitType.split(" ")
+  var unitsDetails = await client.query('SELECT * FROM unit')
+  var unitTypeDetails = await client.query('SELECT * FROM unit_type')
+  var unitType = unitTypeDetails.rows
+  var units = unitsDetails.rows;
+  var results = unitType.find(item => {
+    var returningObjects = item.name === selectedUnitTypes[0] && item.length === selectedUnitTypes[1] && item.width === selectedUnitTypes[2] && item.height === selectedUnitTypes[3]
+    return returningObjects
+  })
+  var allAvailableUnits = units.filter(unit => {
+    var foundId = unit.unit_type_id
+    if (foundId === results.id) {
+      return unit.name
+    }
+  }).map(units => {
+    return units.name
+  })
+  try {
+    res.send(allAvailableUnits).status(201).end()
+
+  } catch (error) {
+    res.status(500).end()
+  }
+
 })
 
 
