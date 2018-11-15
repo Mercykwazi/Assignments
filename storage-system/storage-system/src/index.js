@@ -30,9 +30,6 @@ ReactDOM.render(
                 <Route path='/units' component={Units} />
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/view-units' component={ViewUnits} />
-                
-                
-                
             </div>
         </Router>
     </Provider>, app);
