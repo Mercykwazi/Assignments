@@ -21,7 +21,7 @@ ReactDOM.render(
         <Router>
             <div>
                 <Route exact path='/' component={Welcome} />
-                <Route exact path='/business' component={Business} />
+                <Route exact path='/business' component={props => <Business  {...props} />} />
                 <Route path='/view-business' component={ViewBusiness} />
                 <Route path='/location' component={Location} />
                 <Route path='/unit-type' component={UnitType} />

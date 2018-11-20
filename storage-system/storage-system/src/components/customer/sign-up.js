@@ -78,21 +78,13 @@ class SignUp extends React.Component {
             return <Redirect to='/view-units' />
         }
         return (<div>
+            <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
             <form  >
                 <div className="business">
                     <div >
                         <label htmlFor="firstName">First Name:</label><br />
                         <input name="firstName" type="text" onChange={this.contactName} value={this.state.firstName} required />
-                    </div>
-                    <br />
-                    <div >
-                        <label htmlFor="lastName">Last Name:</label><br />
-                        <input name="lastName" type="text" onChange={this.lastName} value={this.state.lastName} required />
-                    </div><br />
-                    <div >
-                        <label htmlFor="telephone">Telephone:</label><br />
-                        <input name="telephone" type="number" onChange={this.telephone} value={this.state.telephone} required />
                     </div>
                     <br />
                     <div >

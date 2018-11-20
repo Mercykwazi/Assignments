@@ -56,9 +56,9 @@ class Business extends React.Component {
             phoneNumber: this.props.telephone,
             email: this.props.email
         }
-    
+
+
         var api = await axios.post("http://localhost:3003/business", businessDetails)
-        console.log('what', api)
         if (api.status === 201) {
             this.setState({
                 redirect: true
@@ -70,9 +70,20 @@ class Business extends React.Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to='/view-business' />
+            this.props.history.push('/view-business')
         }
         return (<div>
+            <div class="topnav">
+                <a class="active" href="/business">Register</a>
+                <a href="/view-business">view-business</a>
+                <a href="/location">Location</a>
+                <a href="/blocks">blocks</a>
+                <a href="/view-blocks">View-blocks</a>
+                <a href="/unit-type">unit-types</a>
+                <a href="/units">units</a>
+                
+                
+            </div>
             <h1 >Register Your Business Below</h1>
             <form  >
                 <div className="business">
@@ -96,7 +107,7 @@ class Business extends React.Component {
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />
                     </div>
                     <button className="button" onClick={this.saveData}>submit</button>
-                    </div>
+                </div>
             </form>
 
         </div>

@@ -31,13 +31,10 @@ CREATE TABLE IF NOT EXISTS business (
     unit_type_id INT REFERENCES unit_type(id) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
-CREATE EXTENSION chkpass;
 CREATE TABLE IF NOT EXISTS customer(
     id serial PRIMARY KEY,
     contact_name varchar(25) NOT NULL,
-    surname varchar(25) NOT NULL,
     contact_email varchar(25) NOT NULL,
-    contact_telephone varchar(25) NOT NULL,
-    password chkpass,
+    password
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );

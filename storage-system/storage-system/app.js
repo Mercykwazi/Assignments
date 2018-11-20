@@ -9,6 +9,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+var exphbs = require("express-handlebars");
+var passport     = require('passport');
+var flash        = require('connect-flash');
+var cookieParser = require('cookie-parser');
+var session      = require('express-session'); 
+
+
+
 const pg = require('pg');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
@@ -75,8 +83,6 @@ app.get('/block/:businessName', async (req, res) => {
     res.status(500).end();
   }
 })
-
-
 
 app.get('/location', async (req, res) => {
   try {
@@ -152,10 +158,9 @@ app.get('/units', async (req, res) => {
   }
 })
 app.get('/selectUnit/:selectedUnitType', async (req, res) => {
-  console.log('what is selected',req.params);
-  
   var selectedUnitTypes = req.params.selectedUnitType.split(" ")
   var unitsDetails = await client.query('SELECT * FROM unit')
+  console.log('what is unitsD', unitsDetails)
   var unitTypeDetails = await client.query('SELECT * FROM unit_type')
   var unitType = unitTypeDetails.rows
   var units = unitsDetails.rows;
