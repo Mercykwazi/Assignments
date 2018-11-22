@@ -87,8 +87,8 @@ app.get('/block/:businessName', async (req, res) => {
 
 app.get('/location', async (req, res) => {
   try {
-    var allLocations = await client.query("SELECT address1,address2,country FROM location", (err, result) => {
-      console.log('allLocations',allLocations)
+    var allLocations = await client.query("SELECT * FROM location", (err, result) => {
+      console.log('allLocations', allLocations)
       res.send(result)
     })
 
@@ -212,7 +212,18 @@ app.get('/selectUnit/:selectedUnitType', async (req, res) => {
 
 })
 
-
+app.get('/selectLocation/:selectedLocation', async (req, res) => {
+  console.log('req', req.params.selectedLocation)
+  var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1', [req.params.selectedLocation])
+  console.log('blockingDetails', blockDetails.rows)
+  var finalBlockDetails = blockDetails.rows
+  try {
+    res.send(finalBlockDetails).status(201).end()
+  } catch (err) {
+    console.log(err)
+    res.status(500).end()
+  }
+})
 
 
 app.listen(port, () => {

@@ -13,10 +13,11 @@ class ViewUnits extends React.Component {
         this.state = {
             unitTypeDetail: [],
             locationDetail: [],
+            availableUnitType:[],
             redirect: false,
             selectedUnitType: this.props.unitType,
             unitsDetail: [],
-            selectedLocations:this.props.loc,
+            selectedLocations: this.props.loc,
             units: []
         }
         this.unitsDetails = this.unitsDetails.bind(this);
@@ -24,7 +25,8 @@ class ViewUnits extends React.Component {
         this.getUnites = this.getUnites.bind(this)
         this.selectedUnit = this.selectedUnit.bind(this);
         this.locationDetails = this.locationDetails.bind(this);
-        this.getLocation=this.getLocation.bind(this)
+        this.getLocation = this.getLocation.bind(this)
+        this.selectedLocationDetails = this.selectedLocationDetails.bind(this)
 
     }
 
@@ -42,6 +44,8 @@ class ViewUnits extends React.Component {
     async locationDetails() {
         var location = await axios.get("http://localhost:3003/location").then(results => {
             var locationD = results.data.rows;
+            console.log('lllll',locationD);
+            
             this.setState({ locationDetail: locationD })
         })
     }
@@ -57,37 +61,42 @@ class ViewUnits extends React.Component {
         var availableUnits = details.data
         this.setState({ units: availableUnits })
     }
+    async selectedLocationDetails() {
+        var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
+        var availableUnitTypes=results.data
+        this.setState({availableUnitType:availableUnitTypes})
+        console.log('res', availableUnitTypes)
+    }
 
     getUnites(e) {
         e.preventDefault()
         this.props.selectedUnitType(e.target.value)
-        console.log('value',e.target.value)
+        console.log('value', e.target.value)
         setTimeout(() => {
             this.selectedUnit();
         }, 1000);
     }
     getLocation(e) {
+        
         e.preventDefault()
         this.props.selectedLocations(e.target.value)
-        console.log('this',e.target.value)
-        
+        console.log('yes am really called',e.target.value);
         setTimeout(() => {
-            this.locationDetails();
+            console.log('am I called')
+            this.selectedLocationDetails();
         }, 1000);
     }
     render() {
-        console.log('st', this.props);
-
-        console.log('locat', this.props.loc);
-
+        console.log('props',this.props)
         return (<div>
             <h1>Available unit/(s)</h1>
             <form >
                 <div className="blocks">
                     <select onChange={this.getUnites}>
                         <option value="Select unit type">Select Unit type:</option>
-                        {this.state.unitTypeDetail.length > 0 ? this.state.unitTypeDetail.map(item => {
-                            return <option key={this.state.unitTypeDetail.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
+                        {this.state.availableUnitType.length > 0 ? this.state.availableUnitType.map(item => {
+                            console.log('what is item',item)
+                            return <option key={this.state.availableUnitType.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
                         }) : null}
                     </select>
                     <br />
@@ -99,17 +108,16 @@ class ViewUnits extends React.Component {
                             return <option key={this.state.units.indexOf(unit)} value={unit}>{unit}</option>
                         }) : null}
                     </select><br />
+                    <h2 >location</h2>
                     <select onChange={this.getLocation}>
-                        <h2>location</h2>
                         <option value="select your your location">select your preferred location:</option>
                         {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
-                            console.log('what is this unit', location)
-                            return <option key={this.state.locationDetail.indexOf(location)} value={location}>{location.address1}{location.address2}{location.country}</option>
+                            console.log('what is this locat', location)
+                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
                         }) : null}
                     </select>
                 </div>
             </form>
-            {/* <button onClick={this.locationDetails}>loo</button> */}
         </div>
         )
     }

@@ -44,8 +44,6 @@ class SigningUp extends React.Component {
             email: this.state.email,
             password: this.state.password,
         }
-
-
         var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
         this.setState({ redirect: true })
     }
