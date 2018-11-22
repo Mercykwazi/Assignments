@@ -1,5 +1,5 @@
 import React from 'react';
-import * as actions from '../../actions/block';
+import * as actions from '../../../actions/block';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'

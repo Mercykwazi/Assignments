@@ -35,6 +35,14 @@ CREATE TABLE IF NOT EXISTS customer(
     id serial PRIMARY KEY,
     contact_name varchar(25) NOT NULL,
     contact_email varchar(25) NOT NULL,
-    password
+    password varchar(255) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS businessOwner(
+    id serial PRIMARY KEY,
+    contact_name varchar(25) NOT NULL,
+    contact_email varchar(25) NOT NULL,
+    password varchar(255) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );

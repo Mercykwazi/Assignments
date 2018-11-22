@@ -1,5 +1,7 @@
 import React from 'react';
-import * as actions from '../../actions/business';
+
+import * as actions from '../../../actions/business'
+
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';

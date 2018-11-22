@@ -12,26 +12,38 @@ class ViewUnits extends React.Component {
         super(props)
         this.state = {
             unitTypeDetail: [],
+            locationDetail: [],
             redirect: false,
             selectedUnitType: this.props.unitType,
             unitsDetail: [],
+            selectedLocations:this.props.loc,
             units: []
         }
         this.unitsDetails = this.unitsDetails.bind(this);
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
         this.getUnites = this.getUnites.bind(this)
-        this.selectedUnit = this.selectedUnit.bind(this)
+        this.selectedUnit = this.selectedUnit.bind(this);
+        this.locationDetails = this.locationDetails.bind(this);
+        this.getLocation=this.getLocation.bind(this)
+
     }
 
     componentDidMount() {
         this.unitTypeDetails()
         this.unitsDetails()
+        this.locationDetails()
     }
 
     async unitTypeDetails() {
         var business = await axios.get("http://localhost:3003/unitType/")
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
+    }
+    async locationDetails() {
+        var location = await axios.get("http://localhost:3003/location").then(results => {
+            var locationD = results.data.rows;
+            this.setState({ locationDetail: locationD })
+        })
     }
 
     async unitsDetails() {
@@ -43,20 +55,30 @@ class ViewUnits extends React.Component {
     async selectedUnit() {
         var details = await axios.get("http://localhost:3003/selectUnit/" + this.props.unitType)
         var availableUnits = details.data
-        console.log('av', availableUnits);
-
         this.setState({ units: availableUnits })
     }
 
     getUnites(e) {
         e.preventDefault()
         this.props.selectedUnitType(e.target.value)
+        console.log('value',e.target.value)
         setTimeout(() => {
             this.selectedUnit();
         }, 1000);
     }
+    getLocation(e) {
+        e.preventDefault()
+        this.props.selectedLocations(e.target.value)
+        console.log('this',e.target.value)
+        
+        setTimeout(() => {
+            this.locationDetails();
+        }, 1000);
+    }
     render() {
-        console.log('st', this.state.units);
+        console.log('st', this.props);
+
+        console.log('locat', this.props.loc);
 
         return (<div>
             <h1>Available unit/(s)</h1>
@@ -76,10 +98,18 @@ class ViewUnits extends React.Component {
                             console.log('what is this unit', unit)
                             return <option key={this.state.units.indexOf(unit)} value={unit}>{unit}</option>
                         }) : null}
+                    </select><br />
+                    <select onChange={this.getLocation}>
+                        <h2>location</h2>
+                        <option value="select your your location">select your preferred location:</option>
+                        {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
+                            console.log('what is this unit', location)
+                            return <option key={this.state.locationDetail.indexOf(location)} value={location}>{location.address1}{location.address2}{location.country}</option>
+                        }) : null}
                     </select>
                 </div>
             </form>
-
+            {/* <button onClick={this.locationDetails}>loo</button> */}
         </div>
         )
     }
@@ -91,6 +121,7 @@ const mapStateToProps = (state) => {
         units: state.units.unitName,
         business: state.viewBusiness.selectedBusiness,
         unitType: state.selectUnitType.selectUnit,
+        loc: state.selectUnitType.selectedLocation,
         state: state,
     }
 }
@@ -98,6 +129,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         selectedUnitType: unit => {
             dispatch(actions.selectedUnits(unit))
+        },
+        selectedLocations: location => {
+            dispatch(actions.selectLocation(location))
         }
     }
 }

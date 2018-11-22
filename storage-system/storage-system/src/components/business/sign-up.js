@@ -3,25 +3,20 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 
-class SignUp extends React.Component {
+class SigningUp extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             password: "",
             firstName: "",
-            lastName: "",
-            telephone: "",
             email: "",
             redirect: false,
             isPasswordVisible: false,
 
         }
-        this.businessName = this.businessName.bind(this)
         this.contactName = this.contactName.bind(this)
-        this.telephone = this.telephone.bind(this)
         this.email = this.email.bind(this)
         this.password = this.password.bind(this)
-        this.lastName = this.lastName.bind(this)
         this.saveData = this.saveData.bind(this)
     }
 
@@ -32,22 +27,7 @@ class SignUp extends React.Component {
         this.setState(change);
     }
 
-    businessName(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.setState(change);
-    }
     contactName(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.setState(change);
-    }
-    lastName(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.setState(change);
-    }
-    telephone(e) {
         var change = {};
         change[e.target.name] = e.target.value;
         this.setState(change);
@@ -59,22 +39,20 @@ class SignUp extends React.Component {
     }
     async saveData(e) {
         e.preventDefault()
-        var customerDetails = {
+        var businessDetails = {
             name: this.state.firstName,
-            surname: this.state.lastName,
-            phoneNumber: this.state.telephone,
             email: this.state.email,
             password: this.state.password,
         }
 
 
-        var results = await axios.post("http://localhost:3003/customer", customerDetails)
+        var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
         this.setState({ redirect: true })
     }
   
     render() {
         if (this.state.redirect) {
-            return <Redirect to='/view-units' />
+            return <Redirect to='/business' />
         }
         return (<div>
             <p className=''>Sign Up</p>
@@ -108,4 +86,4 @@ class SignUp extends React.Component {
 
 }
 
-export default (SignUp)
+export default (SigningUp)

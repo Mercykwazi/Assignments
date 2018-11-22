@@ -10,12 +10,13 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 var exphbs = require("express-handlebars");
-var passport     = require('passport');
-var flash        = require('connect-flash');
+var passport = require('passport');
+var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
-var session      = require('express-session'); 
+var session = require('express-session');
+const bcrypt = require('bcrypt');
 
-
+const saltRounds = 10;
 
 const pg = require('pg');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
@@ -87,6 +88,7 @@ app.get('/block/:businessName', async (req, res) => {
 app.get('/location', async (req, res) => {
   try {
     var allLocations = await client.query("SELECT address1,address2,country FROM location", (err, result) => {
+      console.log('allLocations',allLocations)
       res.send(result)
     })
 
@@ -119,16 +121,41 @@ app.get('/unitType/', async (req, res) => {
 })
 
 app.post('/customer', async (req, res) => {
-  const insertCustomerDetails = 'INSERT INTO customer(contact_name,surname,contact_email,contact_telephone,password) VALUES($1,$2,$3,$4,$5)';
-  const customerDetails = [req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.password]
-  try {
-    var results = await client.query(insertCustomerDetails, customerDetails)
-    res.send(results).status(201).end()
-  } catch (err) {
-    console.log(err);
-    res.status(500).end()
+  var hashedPassword;
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(req.body.password, salt, async function (err, hash) {
+      hashedPassword = hash
+      const insertCustomerDetails = 'INSERT INTO customer(contact_name,contact_email,password) VALUES($1,$2,$3)';
+      const customerDetails = [req.body.name, req.body.email, hashedPassword]
+      try {
+        var results = await client.query(insertCustomerDetails, customerDetails)
+        res.send(results).status(201).end()
+      } catch (err) {
+        console.log(err);
+        res.status(500).end()
 
-  }
+      }
+    });
+  });
+})
+
+app.post('/registerBusiness', async (req, res) => {
+  var hashedPassword;
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(req.body.password, salt, async function (err, hash) {
+      hashedPassword = hash
+      const insertCustomerDetails = 'INSERT INTO businessOwner(contact_name,contact_email,password) VALUES($1,$2,$3)';
+      const customerDetails = [req.body.name, req.body.email, hashedPassword]
+      try {
+        var results = await client.query(insertCustomerDetails, customerDetails)
+        res.send(results).status(201).end()
+      } catch (err) {
+        console.log(err);
+        res.status(500).end()
+
+      }
+    });
+  });
 })
 
 app.post('/units', async (req, res) => {

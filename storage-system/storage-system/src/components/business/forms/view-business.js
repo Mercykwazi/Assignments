@@ -1,5 +1,5 @@
 import React from 'react';
-import * as actions from '../../actions/view-business';
+import * as actions from '../../../actions/view-business';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'
