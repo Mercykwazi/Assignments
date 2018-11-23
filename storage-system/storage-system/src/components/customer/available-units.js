@@ -92,6 +92,16 @@ class ViewUnits extends React.Component {
             <h1>Available unit/(s)</h1>
             <form >
                 <div className="blocks">
+                    <h2 >location</h2>
+                    <select onChange={this.getLocation}>
+                        <option value="select your your location">select your preferred location:</option>
+                        {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
+                            console.log('what is this locat', location)
+                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
+                        }) : null}
+                    </select><br/>
+                    <h2 >unit-type</h2>
+                    
                     <select onChange={this.getUnites}>
                         <option value="Select unit type">Select Unit type:</option>
                         {this.state.availableUnitType.length > 0 ? this.state.availableUnitType.map(item => {
@@ -108,14 +118,6 @@ class ViewUnits extends React.Component {
                             return <option key={this.state.units.indexOf(unit)} value={unit}>{unit}</option>
                         }) : null}
                     </select><br />
-                    <h2 >location</h2>
-                    <select onChange={this.getLocation}>
-                        <option value="select your your location">select your preferred location:</option>
-                        {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
-                            console.log('what is this locat', location)
-                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
-                        }) : null}
-                    </select>
                 </div>
             </form>
         </div>

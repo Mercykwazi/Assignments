@@ -2,19 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import * as actions from '../../actions/log-in'
 
-class SigningUp extends React.Component {
+class LogIn extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            password: "",
-            firstName: "",
-            email: "",
+            signUpDetails: [],
+            email: this.props.email,
             redirect: false,
             isPasswordVisible: false,
 
         }
-        this.contactName = this.contactName.bind(this)
         this.email = this.email.bind(this)
         this.password = this.password.bind(this)
         this.saveData = this.saveData.bind(this)
@@ -24,44 +23,26 @@ class SigningUp extends React.Component {
     email(e) {
         var change = {};
         change[e.target.name] = e.target.value;
-        this.setState(change);
-    }
-
-    contactName(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
+        this.props.updatingEmail(e.target.value)
         this.setState(change);
     }
     password(e) {
-        var change = {};
-        change[e.target.name] = e.target.value;
-        this.setState(change);
+        this.props.updatingPassword(e.target.value)
     }
     async saveData(e) {
         e.preventDefault()
-        var businessDetails = {
-            name: this.state.firstName,
-            email: this.state.email,
-            password: this.state.password,
-        }
-        var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
-        this.setState({ redirect: true })
+        var customerDetails = "http://localhost:3003/customer/" + this.props.emailAddress + "/" + this.props.userPassword;
+        var results = await axios.get(customerDetails)
+        var signUpDetail = results.data
+        this.setState({ redirect: true, signUpDetails: signUpDetail })
     }
-  
+
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/business' />
-        }
         return (<div>
-            <p className=''>Sign Up</p>
-            <h1 >Fill in your personal details</h1>
+
             <form  >
                 <div className="business">
-                    <div >
-                        <label htmlFor="firstName">First Name:</label><br />
-                        <input name="firstName" type="text" onChange={this.contactName} value={this.state.firstName} required />
-                    </div>
-                    <br />
+                    <h1>Log in</h1>
                     <div >
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />
@@ -70,10 +51,9 @@ class SigningUp extends React.Component {
                         Password:<br />
                         {this.state.isPasswordVisible ?
                             <input name="password" type="text" onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} required /> :
-                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}<br/>
+                            <input type='password' onChange={this.password} value={this.props.userPassword} />}<br />
                         <p className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
-
                     <button className="button" onClick={this.saveData}>submit</button>
                 </div>
             </form>
@@ -83,5 +63,25 @@ class SigningUp extends React.Component {
     }
 
 }
+const mapStateToProps = (state) => {
+    return {
+        state: state,
+        emailAddress: state.logIn.email,
+        userPassword: state.logIn.password
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updatingEmail: email => {
+            dispatch(actions.emailAddress(email))
+        },
+        updatingPassword: text => {
+            dispatch(actions.password(text))
+        }
+    }
+}
 
-export default (SigningUp)
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn)

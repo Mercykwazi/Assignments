@@ -138,6 +138,29 @@ app.post('/customer', async (req, res) => {
     });
   });
 })
+//change get to post and then access the password in the body,use passport js to compare  the hashed from the database
+app.get('/customer/:email/:password', async (req, res) => {
+  console.log('what is the req',req.params)
+  var userEmail=req.params.email;
+  var userPassword=req.params.password;
+var hashPassword;
+  bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(userPassword, salt, function(err, hash) {
+     hashPassword=hash;
+     console.log('has',hashPassword);
+     
+    });
+});
+
+
+  var customerDetails = await client.query('SELECT * FROM customer')
+  var finalCustomerDetails = customerDetails.rows
+  try {
+    res.send(finalCustomerDetails).status(201).end()
+  } catch (err) {
+    res.status(500).end()
+  }
+})
 
 app.post('/registerBusiness', async (req, res) => {
   var hashedPassword;
@@ -173,6 +196,9 @@ app.post('/units', async (req, res) => {
   }
 
 })
+
+
+
 
 app.get('/units', async (req, res) => {
   try {

@@ -15,7 +15,7 @@ import SignUp from './components/customer/sign-up';
 import SigningUp from './components/business/sign-up';
 import './index.css'
 import ViewUnits from './components/customer/available-units';
-
+import LogIn from './components/customer/log-in'
 const app = document.getElementById("root")
 ReactDOM.render(
     <Provider store={store}>
@@ -32,6 +32,7 @@ ReactDOM.render(
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/signing-up' component={SigningUp} />
                 <Route path='/view-units' component={ViewUnits} />
+                <Route path='/log-in' component={LogIn}/>
             </div>
         </Router>
     </Provider>, app);
