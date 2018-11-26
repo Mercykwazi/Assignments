@@ -31,9 +31,13 @@ class LogIn extends React.Component {
     }
     async saveData(e) {
         e.preventDefault()
-        var customerDetails = "http://localhost:3003/customer/" + this.props.emailAddress + "/" + this.props.userPassword;
-        var results = await axios.get(customerDetails)
+        var customerDetails = {
+            email:this.props.emailAddress,
+            password:this.props.userPassword,
+        } 
+        var results = await axios.post("http://localhost:3003/signIn/",customerDetails)
         var signUpDetail = results.data
+        console.log('ress',signUpDetail)
         this.setState({ redirect: true, signUpDetails: signUpDetail })
     }
 

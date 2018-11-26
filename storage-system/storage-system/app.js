@@ -9,19 +9,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-var exphbs = require("express-handlebars");
-var passport = require('passport');
-var flash = require('connect-flash');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-const bcrypt = require('bcrypt');
-
+require('./config/passport')
+app.use('/auth', auth);
 const saltRounds = 10;
 
 const pg = require('pg');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 client.connect()
+const express = require('express');
+const router  = express.Router();
+const jwt = require('jsonwebtoken');
+const passport = require("passport");
+router.post('/login', function (req, res, next) {
+    passport.authenticate('local', {session: false}, (err, user, info) => {
+        if (err || !user) {
+            return res.status(400).json({
+                message: 'Something is not right',
+                user   : user
+            });
+        }
+       req.login(user, {session: false}, (err) => {
+           if (err) {
+               res.send(err);
+           }
+           // generate a signed son web token with the contents of user object and return it in the response
+           const token = jwt.sign(user, 'your_jwt_secret');
+           return res.json({user, token});
+        });
+    })(req, res);
+});
+
+
 
 
 app.post('/business', async (req, res) => {
@@ -138,23 +157,17 @@ app.post('/customer', async (req, res) => {
     });
   });
 })
+//Dkoy7yQT
 //change get to post and then access the password in the body,use passport js to compare  the hashed from the database
-app.get('/customer/:email/:password', async (req, res) => {
-  console.log('what is the req',req.params)
-  var userEmail=req.params.email;
-  var userPassword=req.params.password;
-var hashPassword;
-  bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(userPassword, salt, function(err, hash) {
-     hashPassword=hash;
-     console.log('has',hashPassword);
-     
-    });
-});
 
+
+
+
+app.post('/signIn', async (req, res) => {
 
   var customerDetails = await client.query('SELECT * FROM customer')
   var finalCustomerDetails = customerDetails.rows
+  console.log('what is the finalCustomer',finalCustomerDetails)
   try {
     res.send(finalCustomerDetails).status(201).end()
   } catch (err) {
