@@ -10,14 +10,13 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 require('./config/passport')
-app.use('/auth', auth);
+//app.use('/auth', auth);
 const saltRounds = 10;
 
 const pg = require('pg');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 client.connect()
-const express = require('express');
 const router  = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require("passport");
