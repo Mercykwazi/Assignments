@@ -170,7 +170,7 @@ module.exports = function businessRoutes(app) {
             res.status(500).end()
         }
     })
-    app.post('/registerBusiregisterBusinessness', async (req, res) => {
+    app.post('/registerBusiness', async (req, res) => {
         var hashedPassword;
         bcrypt.genSalt(saltRounds, function (err, salt) {
             bcrypt.hash(req.body.password, salt, async function (err, hash) {
