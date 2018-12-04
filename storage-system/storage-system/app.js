@@ -24,7 +24,7 @@ require("./routes/creat-token")
 const businessRoutes = require('./routes/business/business')
 const customerRoutes = require("./routes/customer/customer")
 customerRoutes(app);
-
+businessRoutes(app)
 app.listen(port, () => {
   console.log("server running on localhost:3003 ");
 });

@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 client.connect()
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -28,14 +29,14 @@ passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'mercy'
 },
-    function (jwtPayload, cb) {
-
-        return UserModel.findOneById(jwtPayload.id)
-            .then(user => {
-                return cb(null, user);
-            })
-            .catch(err => {
-                return cb(err);
-            });
-    }
-));
+function (jwtPayload, cb) {
+    console.log('what is jwt',jwtPayload)
+    // return UserModel.findOneById(jwtPayload.id)
+    //     .then(user => {
+        //         return cb(null, user);
+        //     })
+        //     .catch(err => {
+            //         return cb(err);
+            //     });
+        }
+    ));

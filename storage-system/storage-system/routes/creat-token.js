@@ -1,5 +1,6 @@
 var jwt = require('jsonwebtoken');
 module.exports=function generateToken(user) {
+  console.log("what is user",user)
   var u = {
    name: user.name,
    email: user.email,

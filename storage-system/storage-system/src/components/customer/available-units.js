@@ -7,6 +7,10 @@ import { log } from 'util';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 
+var protectRoutes = require("../protectedRoutes")
+//require("../../protectedRoutes")
+
+
 class ViewUnits extends React.Component {
     constructor(props) {
         super(props)
@@ -42,9 +46,9 @@ class ViewUnits extends React.Component {
         this.setState({ unitTypeDetail: unitsD })
     }
     async locationDetails() {
-        var location = await axios.get("http://localhost:3003/location").then(results => {
+        var location = await axios.get("http://localhost:3003/location",protectRoutes()).then(results => {
             var locationD = results.data.rows;
-            console.log('lllll',locationD);
+            console.log('locationss',location);
             
             this.setState({ locationDetail: locationD })
         })

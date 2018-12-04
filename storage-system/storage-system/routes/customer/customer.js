@@ -12,8 +12,10 @@ const bcrypt = require('bcrypt');
 const generateToken = require("../creat-token")
 const saltRounds = 10;
 
+
 module.exports = function customerRoutes(app) {
   app.post('/customer', (req, res) => {
+  passport.authenticate('jwt', {session: true})
     var hashedPassword;
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(req.body.password, salt, async function (err, hash) {
@@ -22,10 +24,8 @@ module.exports = function customerRoutes(app) {
         const customerDetails = [req.body.name, req.body.email, hashedPassword]
         try {
           var results = await client.query(insertCustomerDetails, customerDetails)
-          var token = generateToken(results)
-          console.log("res", token)
-
-          res.send(results).status(201).end()
+          var token = generateToken({ name: req.body.name, email: req.body.email });
+          res.send(token).status(201).end()
         } catch (err) {
           console.log(err);
           res.status(500).end()
@@ -33,19 +33,18 @@ module.exports = function customerRoutes(app) {
       });
     });
   })
+
+  app.post('/signIn', (req, res) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (err) {
+        res.status(401).json(info).end();
+      }
+      if (user) {
+        res.status(200).json(info).end();
+      } else {
+        res.status(401).json(info).end();
+      }
+    })(req, res);
+  })
+
 }
-
-  // app.post('/signIn', (req, res) => {
-  //   passport.authenticate('local', { session: false }, (err, user, info) => {
-  //     if (err) {
-  //       res.status(401).json(info).end();
-  //     }
-  //     if (user) {
-  //       res.status(200).json(info).end();
-  //     } else {
-  //       res.status(401).json(info).end();
-  //     }
-  //   })(req, res);
-  // })
-
-// }

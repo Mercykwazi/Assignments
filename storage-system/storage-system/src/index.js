@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Redirect } from 'react-router';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -15,12 +16,21 @@ import SignUp from './components/customer/sign-up';
 import SigningUp from './components/business/sign-up';
 import './index.css'
 import ViewUnits from './components/customer/available-units';
+//import { Redirect } from 'react-router';
 import LogIn from './components/customer/log-in'
 const app = document.getElementById("root")
+
+function checkUserStatus() {
+    var data = sessionStorage.getItem('jwtToken');
+    if(!data||data === ""){
+      return   <Redirect to='/sign-up' />
+    }
+}
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <div>
+                {checkUserStatus()}
                 <Route exact path='/' component={Welcome} />
                 <Route exact path='/business' component={props => <Business  {...props} />} />
                 <Route path='/view-business' component={ViewBusiness} />
@@ -32,7 +42,7 @@ ReactDOM.render(
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/signing-up' component={SigningUp} />
                 <Route path='/view-units' component={ViewUnits} />
-                <Route path='/log-in' component={LogIn}/>
+                <Route path='/log-in' component={LogIn} />
             </div>
         </Router>
     </Provider>, app);

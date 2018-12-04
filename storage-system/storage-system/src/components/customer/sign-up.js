@@ -69,9 +69,18 @@ class SignUp extends React.Component {
 
 
         var results = await axios.post("http://localhost:3003/customer", customerDetails)
-        this.setState({ redirect: true })
+        console.log('what is customer', results.data);
+        if (results.status != 200) {
+            console.log('this is not true')
+        } else {
+            console.log('this is true')
+            var checking = sessionStorage.setItem('jwtToken', results.data)
+               console.log('checking', checking)
+              this.setState({ redirect: true })
+
+        }
     }
-  
+
     render() {
         if (this.state.redirect) {
             return <Redirect to='/view-units' />
