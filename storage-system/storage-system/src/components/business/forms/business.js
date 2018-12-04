@@ -58,8 +58,6 @@ class Business extends React.Component {
             phoneNumber: this.props.telephone,
             email: this.props.email
         }
-
-
         var api = await axios.post("http://localhost:3003/business", businessDetails, protectRoutes())
         console.log('api', api)
         if (api.status === 201) {

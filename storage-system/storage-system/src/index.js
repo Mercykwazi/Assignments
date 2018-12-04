@@ -21,6 +21,7 @@ import LogIn from './components/customer/log-in'
 const app = document.getElementById("root")
 
 function checkUserStatus() {
+    console.log('this is still working')
     var data = sessionStorage.getItem('jwtToken');
     if(!data||data === ""){
       return   <Redirect to='/sign-up' />

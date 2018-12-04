@@ -6,8 +6,9 @@ import axios from 'axios';
 import { log } from 'util';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
+import {protectRoutes} from '../protectedRoutes'
 
-var protectRoutes = require("../protectedRoutes")
+//var protectRoutes = require("../protectedRoutes")
 //require("../../protectedRoutes")
 
 
@@ -91,7 +92,7 @@ class ViewUnits extends React.Component {
         }, 1000);
     }
     render() {
-        console.log('props',this.props)
+        console.log('props',protectRoutes())
         return (<div>
             <h1>Available unit/(s)</h1>
             <form >
