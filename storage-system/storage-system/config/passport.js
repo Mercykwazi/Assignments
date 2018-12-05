@@ -26,17 +26,30 @@ passport.use(new LocalStrategy({
 ));
 
 passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJWT.fromHeader("authorization"),
     secretOrKey: 'mercy'
 },
-function (jwtPayload, cb) {
-    console.log('what is jwt',jwtPayload)
-    // return UserModel.findOneById(jwtPayload.id)
-    //     .then(user => {
-        //         return cb(null, user);
-        //     })
-        //     .catch(err => {
-            //         return cb(err);
-            //     });
+    async function (jwt_payload, done) {
+        var availableUsers = await client.query('SELECT contact_name,contact_email FROM customer WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
+        console.log('jwt_payload :', availableUsers.rows[0]);
+        var user = availableUsers.rows[0]
+        try {
+            if (user.contact_name=== jwt_payload.name&& user.contact_email===jwt_payload.email) {
+                console.log("found user",user);
+                return done(null, user);
+            } else {
+                console.log("cannot find user");
+                return done(null, false);
+            }
+        } catch (e) {
+console.log('errr',e)
         }
-    ));
+         // });
+
+
+    }
+
+
+
+));
+

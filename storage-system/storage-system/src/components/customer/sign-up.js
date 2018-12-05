@@ -66,16 +66,11 @@ class SignUp extends React.Component {
             email: this.state.email,
             password: this.state.password,
         }
-
-
         var results = await axios.post("http://localhost:3003/customer", customerDetails)
         console.log('what is customer', results.data);
         if (results.status != 200) {
-            console.log('this is not true')
         } else {
-            console.log('this is true')
             var checking = sessionStorage.setItem('jwtToken', results.data)
-               console.log('checking', checking)
               this.setState({ redirect: true })
 
         }
@@ -114,7 +109,6 @@ class SignUp extends React.Component {
         </div>
         )
     }
-
 }
 
 export default (SignUp)

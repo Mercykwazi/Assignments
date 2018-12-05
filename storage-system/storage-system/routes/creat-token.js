@@ -8,6 +8,6 @@ module.exports=function generateToken(user) {
    id: user.id
   };
   return token = jwt.sign(u, "mercy", {
-     expiresIn: 60 * 60 * 24 // expires in 24 hours
+     expiresIn: 60 * 60 * 24 
   });
 }

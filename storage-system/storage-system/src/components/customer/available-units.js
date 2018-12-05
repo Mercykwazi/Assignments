@@ -6,7 +6,7 @@ import axios from 'axios';
 import { log } from 'util';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
-import {protectRoutes} from '../protectedRoutes'
+import { protectRoutes } from '../protectedRoutes'
 
 //var protectRoutes = require("../protectedRoutes")
 //require("../../protectedRoutes")
@@ -18,7 +18,7 @@ class ViewUnits extends React.Component {
         this.state = {
             unitTypeDetail: [],
             locationDetail: [],
-            availableUnitType:[],
+            availableUnitType: [],
             redirect: false,
             selectedUnitType: this.props.unitType,
             unitsDetail: [],
@@ -47,12 +47,19 @@ class ViewUnits extends React.Component {
         this.setState({ unitTypeDetail: unitsD })
     }
     async locationDetails() {
-        var location = await axios.get("http://localhost:3003/location",protectRoutes()).then(results => {
+        try {
+
+            const results = await axios.get("http://localhost:3003/location", protectRoutes())
             var locationD = results.data.rows;
-            console.log('locationss',location);
-            
+            console.log('locationss', locationD);
             this.setState({ locationDetail: locationD })
-        })
+        } catch (e) {
+            console.log(e)
+        }
+
+        // .then(results => {
+
+        // })
     }
 
     async unitsDetails() {
@@ -68,8 +75,8 @@ class ViewUnits extends React.Component {
     }
     async selectedLocationDetails() {
         var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
-        var availableUnitTypes=results.data
-        this.setState({availableUnitType:availableUnitTypes})
+        var availableUnitTypes = results.data
+        this.setState({ availableUnitType: availableUnitTypes })
         console.log('res', availableUnitTypes)
     }
 
@@ -82,17 +89,17 @@ class ViewUnits extends React.Component {
         }, 1000);
     }
     getLocation(e) {
-        
+
         e.preventDefault()
         this.props.selectedLocations(e.target.value)
-        console.log('yes am really called',e.target.value);
+        console.log('yes am really called', e.target.value);
         setTimeout(() => {
             console.log('am I called')
             this.selectedLocationDetails();
         }, 1000);
     }
     render() {
-        console.log('props',protectRoutes())
+        console.log('props', protectRoutes())
         return (<div>
             <h1>Available unit/(s)</h1>
             <form >
@@ -104,13 +111,13 @@ class ViewUnits extends React.Component {
                             console.log('what is this locat', location)
                             return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
                         }) : null}
-                    </select><br/>
+                    </select><br />
                     <h2 >unit-type</h2>
-                    
+
                     <select onChange={this.getUnites}>
                         <option value="Select unit type">Select Unit type:</option>
                         {this.state.availableUnitType.length > 0 ? this.state.availableUnitType.map(item => {
-                            console.log('what is item',item)
+                            console.log('what is item', item)
                             return <option key={this.state.availableUnitType.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
                         }) : null}
                     </select>

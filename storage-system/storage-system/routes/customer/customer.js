@@ -14,7 +14,7 @@ const saltRounds = 10;
 
 
 module.exports = function customerRoutes(app) {
-  app.post('/customer',  passport.authenticate('jwt', {session: true}), (req, res) => {
+  app.post('/customer',  (req, res) => {
 
     var hashedPassword;
     bcrypt.genSalt(saltRounds, function (err, salt) {
