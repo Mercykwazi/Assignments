@@ -4,13 +4,17 @@ const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 const generateToken = require("../creat-token")
 client.connect()
-//const router = express.Router();
+const express = require('express');
+const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require("passport");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+var { authMiddleware } = require('../../config/passport')
+const { jwtCheck } = require('../../config/jwt-check')
 module.exports = function businessRoutes(app) {
-    app.post('/business',passport.authenticate('jwt', {session: true}), async (req, res) => {
+    app.post('/business', authMiddleware, async (req, res) => {
+        console.log('object sjllllll :');
         const insertBusiness = 'INSERT INTO business ( business_name, contact_name,contact_email, contact_telephone)VALUES($1,$2,$3,$4)';
         const businessDetails = [req.body.businessName, req.body.contactName, req.body.email, req.body.phoneNumber];
         try {
@@ -22,7 +26,7 @@ module.exports = function businessRoutes(app) {
     });
 
 
-    app.get('/business',  async (req, res) => {
+    app.get('/business', async (req, res) => {
         try {
             var businessDetails = await client.query('SELECT id,business_name  FROM business', (err, result) => {
                 res.send(result)
@@ -47,7 +51,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/location',passport.authenticate('jwt', {session: true}), async (req, res) => {
+    app.get('/location', passport.authenticate('jwt', { session: true }), async (req, res) => {
         try {
             var allLocations = await client.query("SELECT * FROM location", (err, result) => {
                 console.log('allLocations', allLocations)
@@ -141,9 +145,6 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-
-
-
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
         var unitsDetails = await client.query('SELECT * FROM unit')
@@ -179,9 +180,9 @@ module.exports = function businessRoutes(app) {
                 const customerDetails = [req.body.name, req.body.email, hashedPassword]
                 try {
                     var results = await client.query(insertCustomerDetails, customerDetails);
-                    var token = generateToken(results)
-                    console.log('what is the token',token)
-                    res.send(results).status(201).end()
+                    var token = generateToken({ name: req.body.name, email: req.body.email }, "businessOwner");
+                    console.log('what is the token', token)
+                    res.send(token).status(201).end()
                 } catch (err) {
                     console.log(err);
                     res.status(500).end()
@@ -191,6 +192,7 @@ module.exports = function businessRoutes(app) {
         });
     })
 }
+
 
 
 

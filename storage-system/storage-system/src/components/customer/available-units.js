@@ -51,15 +51,11 @@ class ViewUnits extends React.Component {
 
             const results = await axios.get("http://localhost:3003/location", protectRoutes())
             var locationD = results.data.rows;
-            console.log('locationss', locationD);
+            console.log('locationss', results);
             this.setState({ locationDetail: locationD })
         } catch (e) {
             console.log(e)
         }
-
-        // .then(results => {
-
-        // })
     }
 
     async unitsDetails() {

@@ -24,7 +24,7 @@ module.exports = function customerRoutes(app) {
         const customerDetails = [req.body.name, req.body.email, hashedPassword]
         try {
           var results = await client.query(insertCustomerDetails, customerDetails)
-          var token = generateToken({ name: req.body.name, email: req.body.email });
+          var token = generateToken({ name: req.body.name, email: req.body.email } , "customer");
           res.send(token).status(201).end()
         } catch (err) {
           console.log(err);

@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 client.connect()
+const jwt=require("jsonwebtoken")
 
 passport.use(new LocalStrategy({
     usernameField: 'email',
@@ -30,26 +31,66 @@ passport.use(new JWTStrategy({
     secretOrKey: 'mercy'
 },
     async function (jwt_payload, done) {
-        var availableUsers = await client.query('SELECT contact_name,contact_email FROM customer WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
-        console.log('jwt_payload :', availableUsers.rows[0]);
-        var user = availableUsers.rows[0]
-        try {
-            if (user.contact_name=== jwt_payload.name&& user.contact_email===jwt_payload.email) {
-                console.log("found user",user);
-                return done(null, user);
-            } else {
-                console.log("cannot find user");
-                return done(null, false);
+        var availableCustomer = await client.query('SELECT contact_name,contact_email FROM customer WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
+        console.log('jwt_payload :', jwt_payload);
+        var customer = availableCustomer.rows[0]
+        var availableBusinessOwner = await client.query('SELECT contact_name,contact_email FROM businessOwner WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
+        var businessOwners = availableBusinessOwner.rows[0]
+        if (jwt_payload.authority === "customer") {
+            try {
+                if (customer.contact_name === jwt_payload.name && customer.contact_email === jwt_payload.email) {
+                    console.log("found customer", customer);
+                    return done(null, customer);
+                } else {
+                    console.log("cannot find customer");
+                    return done(null, false);
+                }
+            } catch (e) {
+                console.log('e', e)
             }
-        } catch (e) {
-console.log('errr',e)
+        } else if (jwt_payload.authority === "businessOwner") {
+            try {
+                if (businessOwners.contact_name === jwt_payload.name && businessOwners.contact_email === jwt_payload.email) {
+                    console.log('found the business Owner', businessOwners)
+                    return done(null, businessOwners)
+                } else {
+                    console.log('business owner not found')
+                    return done(null, false)
+                }
+            } catch (e) {
+                console.log('e', e)
+            }
         }
-         // });
 
 
     }
-
-
-
 ));
 
+
+function authMiddleware(req, res, next) {
+    var token = req.headers.authorization;
+    if (token) {
+
+        jwt.verify(token, "mercy", function (err, decoded) {
+            if (err) {
+                console.log("it all went sour")
+                
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                console.log("it all went good")
+                req.decoded = decoded; next();
+            }
+        });
+
+    } else {
+        console.log("it all went bad")
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+
+    }
+}
+
+
+module.exports = { authMiddleware }

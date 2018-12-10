@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
 import { Redirect } from 'react-router';
-var protectRoutes = require("../../protectedRoutes")
+//var protectRoutes = require("../../protectedRoutes")
+import {protectRoutes}  from '../../protectedRoutes'
 class Business extends React.Component {
     constructor(props) {
         super(props)
@@ -74,8 +75,8 @@ class Business extends React.Component {
             this.props.history.push('/view-business')
         }
         return (<div>
-            <div class="topnav">
-                <a class="active" href="/business">Register</a>
+            <div className="topnav">
+                <a className="active" href="/business">Register</a>
                 <a href="/view-business">view-business</a>
                 <a href="/location">Location</a>
                 <a href="/blocks">blocks</a>

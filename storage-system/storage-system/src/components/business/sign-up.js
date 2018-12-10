@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router';
-
+import { protectRoutes } from '../protectedRoutes'
 class SigningUp extends React.Component {
     constructor(props) {
         super(props)
@@ -45,13 +45,17 @@ class SigningUp extends React.Component {
             password: this.state.password,
         }
         var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
-        console.log("is this called?")
-        this.setState({ redirect: true })
+        if (results.status != 200) {
+            console.log('sorry you are not authorized')
+        } else {
+            var checking = sessionStorage.setItem('jwtToken', results.data)
+            this.setState({ redirect: true })
+        }
     }
-  
+
     render() {
         if (this.state.redirect) {
-            return <Redirect to='/business' />
+            return <Redirect to='/business'/>
         }
         return (<div>
             <p className=''>Sign Up</p>
@@ -67,14 +71,13 @@ class SigningUp extends React.Component {
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />
                     </div>
-                    <div className="password"   >
+                    <div className="password">
                         Password:<br />
                         {this.state.isPasswordVisible ?
                             <input name="password" type="text" onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} required /> :
-                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}<br/>
+                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}<br />
                         <p className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
-
                     <button className="button" onClick={this.saveData}>submit</button>
                 </div>
             </form>
