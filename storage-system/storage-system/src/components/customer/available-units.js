@@ -39,6 +39,7 @@ class ViewUnits extends React.Component {
         this.unitTypeDetails()
         this.unitsDetails()
         this.locationDetails()
+        
     }
 
     async unitTypeDetails() {
@@ -48,13 +49,11 @@ class ViewUnits extends React.Component {
     }
     async locationDetails() {
         try {
-
-            const results = await axios.get("http://localhost:3003/location", protectRoutes())
+            const results = await axios.get("http://localhost:3003/location")
             var locationD = results.data.rows;
-            console.log('locationss', results);
             this.setState({ locationDetail: locationD })
         } catch (e) {
-            console.log(e)
+            console.log("err",e)
         }
     }
 
@@ -73,29 +72,23 @@ class ViewUnits extends React.Component {
         var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
         var availableUnitTypes = results.data
         this.setState({ availableUnitType: availableUnitTypes })
-        console.log('res', availableUnitTypes)
     }
 
     getUnites(e) {
         e.preventDefault()
         this.props.selectedUnitType(e.target.value)
-        console.log('value', e.target.value)
         setTimeout(() => {
             this.selectedUnit();
         }, 1000);
     }
     getLocation(e) {
-
         e.preventDefault()
         this.props.selectedLocations(e.target.value)
-        console.log('yes am really called', e.target.value);
         setTimeout(() => {
-            console.log('am I called')
             this.selectedLocationDetails();
         }, 1000);
     }
     render() {
-        console.log('props', protectRoutes())
         return (<div>
             <h1>Available unit/(s)</h1>
             <form >
@@ -104,7 +97,6 @@ class ViewUnits extends React.Component {
                     <select onChange={this.getLocation}>
                         <option value="select your your location">select your preferred location:</option>
                         {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
-                            console.log('what is this locat', location)
                             return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
                         }) : null}
                     </select><br />
@@ -113,7 +105,6 @@ class ViewUnits extends React.Component {
                     <select onChange={this.getUnites}>
                         <option value="Select unit type">Select Unit type:</option>
                         {this.state.availableUnitType.length > 0 ? this.state.availableUnitType.map(item => {
-                            console.log('what is item', item)
                             return <option key={this.state.availableUnitType.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
                         }) : null}
                     </select>
@@ -122,7 +113,6 @@ class ViewUnits extends React.Component {
                     <select>
                         <option value="select your your unit">select your unit:</option>
                         {this.state.units.length > 0 ? this.state.units.map(unit => {
-                            console.log('what is this unit', unit)
                             return <option key={this.state.units.indexOf(unit)} value={unit}>{unit}</option>
                         }) : null}
                     </select><br />

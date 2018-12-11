@@ -7,7 +7,7 @@ import axios from 'axios';
 import { log } from 'util';
 import { Redirect } from 'react-router';
 //var protectRoutes = require("../../protectedRoutes")
-import {protectRoutes}  from '../../protectedRoutes'
+import { protectRoutes } from '../../protectedRoutes'
 class Business extends React.Component {
     constructor(props) {
         super(props)
@@ -18,6 +18,8 @@ class Business extends React.Component {
             telephone: this.props.telephone,
             email: this.props.email,
             redirect: false,
+            errorPresent: false,
+            errorMessage: ""
         }
         this.businessName = this.businessName.bind(this)
         this.contactName = this.contactName.bind(this)
@@ -62,11 +64,12 @@ class Business extends React.Component {
         var api = await axios.post("http://localhost:3003/business", businessDetails, protectRoutes())
         console.log('api', api)
         if (api.status === 201) {
-            this.setState({
-                redirect: true
-            })
-        } else if (api.status === 500) {
-
+            // this.setState({
+            //     redirect: true
+            // })
+        } else if (api.status === 203) {
+            console.log('api.data :', api.data);
+            this.setState({ errorMessage: api.data.message, errorPresent: true })
         }
     }
 
@@ -87,6 +90,9 @@ class Business extends React.Component {
 
             </div>
             <h1 >Register Your Business Below</h1>
+            {this.state.errorPresent && (
+                <h3 style={{ color: "white" }}>{this.state.errorMessage}</h3>
+            )}
             <form  >
                 <div className="business">
                     <div >
@@ -101,7 +107,7 @@ class Business extends React.Component {
                     <br />
                     <div >
                         <label htmlFor="telephone">Telephone:</label><br />
-                        <input name="telephone" type="number" onChange={this.telephone} value={this.state.telephone} required />
+                        <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} required />
                     </div>
                     <br />
                     <div >

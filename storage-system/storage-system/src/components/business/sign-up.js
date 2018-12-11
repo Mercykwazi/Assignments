@@ -12,14 +12,12 @@ class SigningUp extends React.Component {
             email: "",
             redirect: false,
             isPasswordVisible: false,
-
         }
         this.contactName = this.contactName.bind(this)
         this.email = this.email.bind(this)
         this.password = this.password.bind(this)
         this.saveData = this.saveData.bind(this)
     }
-
 
     email(e) {
         var change = {};
@@ -45,11 +43,12 @@ class SigningUp extends React.Component {
             password: this.state.password,
         }
         var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
+        console.log("results",results.data)
         if (results.status != 200) {
             console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
-            this.setState({ redirect: true })
+            //this.setState({ redirect: true })
         }
     }
 

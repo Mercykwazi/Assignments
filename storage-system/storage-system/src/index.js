@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { Redirect } from 'react-router';
 import store from './store/store';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Business from './components/business/forms/business';
@@ -17,12 +18,19 @@ import './index.css'
 import ViewUnits from './components/customer/available-units';
 import LogIn from './components/customer/log-in'
 const app = document.getElementById("root")
-
+function checkUserStatus() {
+    var data = sessionStorage.getItem('jwtToken');
+    console.log("jwt",data)
+    if(!data||data === ""){
+      return   <Redirect to='/' />
+    }
+}
 
 ReactDOM.render(
     <Provider store={store}>
         <Router>
             <div>
+            {checkUserStatus()}
                 <Route exact path='/' component={Welcome} />
                 {/* <Route exact path='/business ' component={props => <Business  {...props} />} /> */}
                 <Route path='/business' component={Business} />

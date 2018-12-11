@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
 const client = new pg.Client(connectionString);
 client.connect()
-const jwt=require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 
 passport.use(new LocalStrategy({
     usernameField: 'email',
@@ -69,26 +69,25 @@ passport.use(new JWTStrategy({
 
 function authMiddleware(req, res, next) {
     var token = req.headers.authorization;
-    if (token) {
+    try {
+        if (token) {
+            jwt.verify(token, "mercy", function (err, decoded) {
+                if (err) {
+                    res.status(203).json({ message: "Something went wrong!" }).end()
+                } else {
+                    req.decoded = decoded;
+                    console.log("what is decoded", req.decoded)
+                    // res.status(201).end()
+                    next();
+                }
+            });
 
-        jwt.verify(token, "mercy", function (err, decoded) {
-            if (err) {
-                console.log("it all went sour")
-                
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
-            } else {
-                console.log("it all went good")
-                req.decoded = decoded; next();
-            }
-        });
-
-    } else {
-        console.log("it all went bad")
-        return res.status(403).send({
-            success: false,
-            message: 'No token provided.'
-        });
-
+        } else {
+            console.log("it all went bad")
+            next(null, false, { message: "something went wrong!" })
+        }
+    } catch (error) {
+        next({ message: "something went wrong!" })
     }
 }
 
