@@ -8,6 +8,7 @@ import viewBlock from "./viewBlockReducer";
 import units from "./unitsReducer";
 import selectUnitType from "./selectedUnits";
 import logIn from './log-in'
+import businessAuth from './sign-up'
 export default combineReducers({
-    business, location, unitType, block, viewBusiness,viewBlock,units,selectUnitType,logIn
+    business, location, unitType, block, viewBusiness,viewBlock,units,selectUnitType,logIn,businessAuth
 });

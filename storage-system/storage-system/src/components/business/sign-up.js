@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router';
-import { protectRoutes } from '../protectedRoutes'
+import { protectRoutes } from '../protectedRoutes';
+import { checkUserStatus } from "../../index"
+import * as actions from '../../actions/register'
+import history from '../../history'
+
 class SigningUp extends React.Component {
     constructor(props) {
         super(props)
@@ -10,7 +14,6 @@ class SigningUp extends React.Component {
             password: "",
             firstName: "",
             email: "",
-            redirect: false,
             isPasswordVisible: false,
         }
         this.contactName = this.contactName.bind(this)
@@ -18,6 +21,12 @@ class SigningUp extends React.Component {
         this.password = this.password.bind(this)
         this.saveData = this.saveData.bind(this)
     }
+
+
+    componentDidMount() {
+        checkUserStatus()
+    }
+
 
     email(e) {
         var change = {};
@@ -43,19 +52,20 @@ class SigningUp extends React.Component {
             password: this.state.password,
         }
         var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
-        console.log("results",results.data)
+        console.log("results", results.data)
         if (results.status != 200) {
             console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
-            //this.setState({ redirect: true })
+            this.props.authorizeBusiness()
+            history.push('/business')
+
         }
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/business'/>
-        }
+
+        console.log("pro", this.props)
         return (<div>
             <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
@@ -86,5 +96,19 @@ class SigningUp extends React.Component {
     }
 
 }
+const mapStateToProps = (state) => {
+    return {
+        state: state
 
-export default (SigningUp)
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        authorizeBusiness: () => {
+            dispatch(actions.authorizeBusiness())
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SigningUp)
+
