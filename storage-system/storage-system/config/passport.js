@@ -19,12 +19,29 @@ passport.use(new LocalStrategy({
         if (customerDetails.rowCount > 0) {
             var passwordsMatch = await bcrypt.compare(password, customerDetails.rows[0].password);
             if (passwordsMatch) {
+                
                 return cb(null, customerDetails.rows[0], { message: 'Logged In Successfully' });
             }
         }
         return cb(null, false, { message: 'Incorrect email or password.' });
     }
 ));
+passport.use("businessLogIn",new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+},
+    async function (email, password, cb) {
+        var businessDetails = await client.query('SELECT * FROM businessOwner WHERE contact_email = $1;', [email])
+        if (businessDetails.rowCount > 0) {
+            var passwordsMatch = await bcrypt.compare(password, businessDetails.rows[0].password);
+            if (passwordsMatch) {
+                return cb(null, businessDetails.rows[0], { message: 'Logged In Successfully' });
+            }
+        }
+        return cb(null, false, { message: 'Incorrect email or password.' });
+    }
+));
+
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromHeader("authorization"),
@@ -84,7 +101,8 @@ function authMiddleware(req, res, next) {
 
         } else {
             console.log("it all went bad")
-            next(null, false, { message: "something went wrong!" })
+            res.status(401).json({message:"it went bad"})
+            //next(null, false, { message: "something went wrong!" })
         }
     } catch (error) {
         next({ message: "something went wrong!" })

@@ -14,7 +14,7 @@ const saltRounds = 10;
 
 
 module.exports = function customerRoutes(app) {
-  app.post('/customer',  (req, res) => {
+  app.post('/customer', (req, res) => {
 
     var hashedPassword;
     bcrypt.genSalt(saltRounds, function (err, salt) {
@@ -24,7 +24,7 @@ module.exports = function customerRoutes(app) {
         const customerDetails = [req.body.name, req.body.email, hashedPassword]
         try {
           var results = await client.query(insertCustomerDetails, customerDetails)
-          var token = generateToken({ name: req.body.name, email: req.body.email } , "customer");
+          var token = generateToken({ name: req.body.name, email: req.body.email }, "customer");
           res.send(token).status(201).end()
         } catch (err) {
           console.log(err);
@@ -35,16 +35,18 @@ module.exports = function customerRoutes(app) {
   })
 
   app.post('/signIn', (req, res) => {
-    passport.authenticate('local', { session: false }, (err, user, info) => {
+    var results = generateToken({ email: req.body.email }, "customer")
+    passport.authenticate('local', { session: true }, (err, user, info) => {
       if (err) {
         res.status(401).json(info).end();
       }
       if (user) {
-        res.status(200).json(info).end();
+        res.send(results).status(200).json(info).end();
       } else {
         res.status(401).json(info).end();
       }
     })(req, res);
   })
+
 
 }

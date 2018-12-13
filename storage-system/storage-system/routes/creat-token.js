@@ -4,8 +4,6 @@ module.exports=function generateToken(user , authority) {
   var u = {
    name: user.name,
    email: user.email,
-   admin: user.admin,
-   id: user.id,
    authority:authority
   };
   return token = jwt.sign(u, "mercy", {

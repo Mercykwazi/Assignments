@@ -1,11 +1,12 @@
 const authorizeBusiness = () => {
     return { type: "BUSINESS_AUTHENTICATED", value: true }
 }
-// const errors = err => {
-//  return { type: "BUSINESS_AUTHENTICATION_ERROR", value: err }
-// }
+const authorizeCustomer = () => {
+    return { type: "CUSTOMER_AUTHENTICATED", value: true }
+}
+
 
 module.exports = {
     authorizeBusiness,
-  //  errors,
+    authorizeCustomer
 }

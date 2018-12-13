@@ -2,22 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router';
-import * as actions from '../../actions/log-in'
-import * as customerLogIn from '../../actions/register'
-import { protectRoutes } from '../protectedRoutes';
+import * as actions from '../../actions/signIn'
 import history from '../../history'
+import { protectRoutes } from '../protectedRoutes';
 import { checkUserStatus } from '../../index'
-import jwtDecode from 'jwt-decode'
+import * as businessLogIn from '../../actions/register'
 
-class LogIn extends React.Component {
+class SignIn extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             signUpDetails: [],
             email: this.props.email,
             redirect: false,
-            password: this.props.userPassword,
             isPasswordVisible: false,
+
 
         }
         this.email = this.email.bind(this)
@@ -26,9 +25,8 @@ class LogIn extends React.Component {
     }
     componentDidMount() {
         checkUserStatus()
-        console.log('call me plz');
-
     }
+
 
     email(e) {
         var change = {};
@@ -45,16 +43,15 @@ class LogIn extends React.Component {
             email: this.props.emailAddress,
             password: this.props.userPassword,
         }
-        var results = await axios.post("http://localhost:3003/signIn/", customerDetails)
+        var results = await axios.post("http://localhost:3003/logIn/", customerDetails)
         if (results.status != 200) {
             console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
-          
-            protectRoutes()
-        this.props.authorizeCustomer()
             console.log('true')
-            history.push("/view-units")
+            protectRoutes()
+            this.props.authorizeBusiness()
+            history.push('/business')
         }
     }
 
@@ -87,19 +84,19 @@ class LogIn extends React.Component {
 const mapStateToProps = (state) => {
     return {
         state: state,
-        emailAddress: state.logIn.email,
-        userPassword: state.logIn.password
+        emailAddress: state.signIn.email,
+        userPassword: state.signIn.password
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
         updatingEmail: email => {
-            dispatch(actions.emailAddress(email))
+            dispatch(actions.userEmailAddress(email))
         },
         updatingPassword: text => {
-            dispatch(actions.password(text))
-        }, authorizeCustomer: () => {
-            dispatch(customerLogIn.authorizeCustomer())
+            dispatch(actions.userPassword(text))
+        }, authorizeBusiness: () => {
+            dispatch(businessLogIn.authorizeBusiness())
         },
     }
 }
@@ -107,4 +104,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn)
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

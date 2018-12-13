@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect } from 'react-router';
+import { Redirect,Link } from 'react-router-dom';
 import { protectRoutes } from '../protectedRoutes';
 import { checkUserStatus } from "../../index"
 import * as actions from '../../actions/register'
@@ -14,6 +14,7 @@ class SigningUp extends React.Component {
             password: "",
             firstName: "",
             email: "",
+            redirect: false,
             isPasswordVisible: false,
         }
         this.contactName = this.contactName.bind(this)
@@ -57,18 +58,23 @@ class SigningUp extends React.Component {
             console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
+            protectRoutes()
             this.props.authorizeBusiness()
             history.push('/business')
-
         }
+        
     }
 
-    render() {
 
-        console.log("pro", this.props)
+    render() {
+      
+
         return (<div>
             <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
+            <div className="signing"> 
+            <h2>SignUp</h2> || <Link to="/sign-in" > LogIn</Link>
+            </div>
             <form  >
                 <div className="business">
                     <div >

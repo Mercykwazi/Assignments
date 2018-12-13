@@ -18,49 +18,60 @@ import './index.css'
 import ViewUnits from './components/customer/available-units';
 import LogIn from './components/customer/log-in'
 import jwtDecode from 'jwt-decode'
-import history from './history'
+import history from './history';
+import SignIn from "./components/business/log-in"
 const app = document.getElementById("root")
 
-var token = sessionStorage.getItem('jwtToken');
-if (token) {
 
-    store.dispatch({ type: "BUSINESS_AUTHENTICATED", value: true })
-}
 export function checkUserStatus() {
-
+    var token = sessionStorage.getItem('jwtToken');
     if (token) {
         const decodedToken = jwtDecode(token)
         console.log("jwt", decodedToken)
         if (decodedToken.authority === "businessOwner") {
+            store.dispatch({ type: "BUSINESS_AUTHENTICATED", value: true })
             console.log("logged in")
             return history.push("/business")
         }
         if (decodedToken.authority === "customer") {
+            console.log("when am I called")
+            store.dispatch({ type: "CUSTOMER_AUTHENTICATED", value: true })
             return history.push('/view-units')
-
         }
-
     }
 }
-
-export const PrivateRouteBusinessOwner = ({
+export const PrivateRouteCustomer = ({
     component: Component,
     ...rest
 }) => {
-    let authenticated = store.getState().businessAuth.authenticated;
-    console.log("what is authenticated", authenticated)
+    let authenticated = store.getState().authenticate.authenticateCustomer;
+    console.log("what is authenticated", store.getState())
     return (
         <Route
             {...rest}
             render={props =>
-                authenticated ? <Route {...rest} /> : <Redirect to="/" />
+                authenticated ? <Component {...rest} /> : <Redirect to="/" />
             }
         />
     );
 }
 
 
-
+export const PrivateRouteBusinessOwner = ({
+    component: Component,
+    ...rest
+}) => {
+    let authenticated = store.getState().authenticate.authenticated;
+    //  console.log("what is authenticated", authenticated)
+    return (
+        <Route
+            {...rest}
+            render={props =>
+                authenticated ? <Component {...rest} /> : <Redirect to="/" />
+            }
+        />
+    );
+}
 
 ReactDOM.render(
     <Provider store={store}>
@@ -68,17 +79,18 @@ ReactDOM.render(
             <div>
                 <Route exact path='/' component={Welcome} />
                 {/* <Route exact path='/business ' component={props => <Business  {...props} />} /> */}
-                <Route path='/business' component={Business} />
-                <Route path='/view-business' component={ViewBusiness} />
-                <Route path='/location' component={Location} />
-                <Route path='/unit-type' component={UnitType} />
-                <Route path='/blocks' component={Block} />
-                <Route path='/view-blocks' component={ViewBlocks} />
-                <Route path='/units' component={Units} />
+                <PrivateRouteBusinessOwner path='/business' component={Business} />
+                <PrivateRouteBusinessOwner path='/view-business' component={ViewBusiness} />
+                <PrivateRouteBusinessOwner path='/location' component={Location} />
+                <PrivateRouteBusinessOwner path='/unit-type' component={UnitType} />
+                <PrivateRouteBusinessOwner path='/blocks' component={Block} />
+                <PrivateRouteBusinessOwner path='/view-blocks' component={ViewBlocks} />
+                <PrivateRouteBusinessOwner path='/units' component={Units} />
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/signing-up' component={SigningUp} />
-                <Route path='/view-units' component={ViewUnits} />
+                <PrivateRouteCustomer path='/view-units' component={ViewUnits} />
                 <Route path='/log-in' component={LogIn} />
+                <Route path="/sign-in" component={SignIn} />
             </div>
         </Router>
     </Provider>, app);

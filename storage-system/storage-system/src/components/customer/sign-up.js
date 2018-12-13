@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect } from 'react-router';
+import { Redirect, Link } from 'react-router-dom';
+import * as actions from '../../actions/register'
+import history from '../../history'
+import { protectRoutes } from '../protectedRoutes'
+import { checkUserStatus } from '../../index'
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -25,7 +29,9 @@ class SignUp extends React.Component {
         this.saveData = this.saveData.bind(this)
     }
 
-
+    componentDidMount() {
+        checkUserStatus()
+    }
     email(e) {
         var change = {};
         change[e.target.name] = e.target.value;
@@ -67,23 +73,25 @@ class SignUp extends React.Component {
             password: this.state.password,
         }
         var results = await axios.post("http://localhost:3003/customer", customerDetails)
-        console.log('what is customer', results.data);
         if (results.status != 200) {
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
-              this.setState({ redirect: true })
+            this.props.authorizeCustomer()
+            protectRoutes()
+            history.push('/view-units')
 
         }
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/view-units' />
-        }
+
         return (<div>
             <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
-            <form  >
+            <div className="signing"> 
+            <h2>SignUp</h2> || <Link to="/log-in" > LogIn</Link>
+            </div>
+            <form>
                 <div className="business">
                     <div >
                         <label htmlFor="firstName">First Name:</label><br />
@@ -110,5 +118,18 @@ class SignUp extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        state: state
 
-export default (SignUp)
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        authorizeCustomer: () => {
+            dispatch(actions.authorizeCustomer())
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

@@ -193,6 +193,25 @@ module.exports = function businessRoutes(app) {
             });
         });
     })
+
+    app.post('/logIn', (req, res) => {
+    var results= generateToken({email:req.body.email} , "businessOwner")
+        console.log('this reached here',results)
+        passport.authenticate('businessLogIn', { session: true }, (err, user, info) => {
+          if (err) {
+            res.status(401).json(info).end();
+          }
+          if (user) {
+            res.send(results).status(200).json(info).end();
+          } else {
+            res.status(401).json(info).end();
+          }
+        })(req, res);
+      })
+    
+    
+
+    
 }
 
 
