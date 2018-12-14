@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect,Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { protectRoutes } from '../protectedRoutes';
 import { checkUserStatus } from "../../index"
 import * as actions from '../../actions/register'
@@ -62,18 +62,14 @@ class SigningUp extends React.Component {
             this.props.authorizeBusiness()
             history.push('/business')
         }
-        
+
     }
-
-
     render() {
-      
-
         return (<div>
             <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
-            <div className="signing"> 
-            <h2>SignUp</h2> || <Link to="/sign-in" > LogIn</Link>
+            <div className="signing">
+                <h2>SignUp / <Link to="/sign-in" > LogIn</Link> </h2>
             </div>
             <form  >
                 <div className="business">

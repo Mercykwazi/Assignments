@@ -88,8 +88,8 @@ class SignUp extends React.Component {
         return (<div>
             <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
-            <div className="signing"> 
-            <h2>SignUp</h2> || <Link to="/log-in" > LogIn</Link>
+            <div className="signing">
+                <h2>SignUp / <Link to="/log-in" > LogIn</Link></h2>
             </div>
             <form>
                 <div className="business">
@@ -102,11 +102,11 @@ class SignUp extends React.Component {
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />
                     </div>
-                    <div className="password"   >
+                    <div className="password">
                         Password:<br />
                         {this.state.isPasswordVisible ?
                             <input name="password" type="text" onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} required /> :
-                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}
+                            <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}<br />
                         <p className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
 

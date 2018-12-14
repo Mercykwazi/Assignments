@@ -40,6 +40,7 @@ module.exports = function businessRoutes(app) {
     })
 
     app.post('/location', authMiddleware, async (req, res) => {
+        
         const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.business]);
         const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
         const locationDetails = [req.body.address1, req.body.address2, req.body.country, businessId.rows[0].id]
@@ -88,7 +89,7 @@ module.exports = function businessRoutes(app) {
     })
 
 
-    app.post('/unitType', authMiddleware, async (req, res) => {
+    app.post('/unitType', async (req, res) => {
         const insertUnitTypes = 'INSERT INTO unit_type(name,length,width,height)VALUES($1,$2,$3,$4)'
         const unitTypeDetails = [req.body.storageType, req.body.length, req.body.width, req.body.height]
         try {
@@ -101,7 +102,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/unitType/', authMiddleware, async (req, res) => {
+    app.get('/unitType/', async (req, res) => {
         try {
             var unitTypeDetails = await client.query('SELECT * FROM unit_type')
             res.send(unitTypeDetails).status(201).end()
@@ -111,7 +112,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/units', authMiddleware, async (req, res) => {
+    app.get('/units', async (req, res) => {
         try {
             var unitsDetails = await client.query('SELECT * FROM unit')
             res.send(unitsDetails).status(201).end()
@@ -121,7 +122,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/units', authMiddleware, async (req, res) => {
+    app.post('/units', async (req, res) => {
         var unitTypeId = req.body.foundObject.id
         var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.body.selectedBusiness])
         var insertUnits = 'INSERT INTO unit (name,block_id,unit_type_id) VALUES ($1,$2,$3)';
@@ -147,7 +148,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/selectUnit/:selectedUnitType', authMiddleware, async (req, res) => {
+    app.get('/selectUnit/:selectedUnitType', async (req, res) => {
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
         var unitsDetails = await client.query('SELECT * FROM unit')
         console.log('what is unitsD', unitsDetails)
