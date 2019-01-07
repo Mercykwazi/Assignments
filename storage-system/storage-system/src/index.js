@@ -63,7 +63,7 @@ export const PrivateRouteBusinessOwner = ({
     ...rest
 }) => {
     let authenticated = store.getState().authenticate.authenticated;
-    //  console.log("what is authenticated", authenticated)
+ console.log("what is authenticated", authenticated)
     return (
         <Route
             {...rest}

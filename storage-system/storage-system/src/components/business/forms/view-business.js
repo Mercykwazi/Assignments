@@ -21,6 +21,7 @@ class ViewBusiness extends React.Component {
 
     async businessDetails() {
         var business = await axios.get("http://localhost:3003/business").then(results => {
+            console.log("what is the buss", business)
             var businessD = results.data.rows;
             this.setState({ businessDetail: businessD })
         })
