@@ -1,12 +1,10 @@
 import React from 'react';
-
 import * as actions from '../../../actions/business'
-
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { log } from 'util';
 import { Redirect } from 'react-router';
-//var protectRoutes = require("../../protectedRoutes")
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { protectRoutes } from '../../protectedRoutes'
 class Business extends React.Component {
     constructor(props) {
@@ -64,9 +62,7 @@ class Business extends React.Component {
         var api = await axios.post("http://localhost:3003/business", businessDetails, protectRoutes())
         console.log('api', api)
         if (api.status === 201) {
-            // this.setState({
-            //     redirect: true
-            // })
+
         } else if (api.status === 203) {
             console.log('api.data :', api.data);
             this.setState({ errorMessage: api.data.message, errorPresent: true })
@@ -79,15 +75,13 @@ class Business extends React.Component {
         }
         return (<div>
             <div className="topnav">
-                <a className="active" href="/business">Register</a>
-                <a href="/view-business">view-business</a>
-                <a href="/location">Location</a>
-                <a href="/blocks">blocks</a>
-                <a href="/view-blocks">View-blocks</a>
-                <a href="/unit-type">unit-types</a>
-                <a href="/units">units</a>
-
-
+                < Link to={'/business'} className="active">Business</Link>
+                <Link to={'/view-business'}>view-business</Link>
+                <Link to={'/location'}>Location</Link>
+                <Link to={'/blocks'}>blocks</Link>
+                <Link to={'/view-blocks'}>view-blocks</Link>
+                <Link to={'/unit-type'}>unit-type</Link>
+                <Link to={'/units'}>units</Link>
             </div>
             <h1 >Register Your Business Below</h1>
             {this.state.errorPresent && (

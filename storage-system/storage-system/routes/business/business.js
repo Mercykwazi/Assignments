@@ -27,7 +27,7 @@ module.exports = function businessRoutes(app) {
         }
     });
 
-    app.get('/business', authMiddleware, async (req, res) => {
+    app.get('/business', async (req, res) => {
         try {
             var businessDetails = await client.query('SELECT id,business_name  FROM business', (err, result) => {
                 res.send(result)
@@ -39,7 +39,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/location', authMiddleware, async (req, res) => {
+    app.post('/location',  async (req, res) => {
         
         const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.business]);
         const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
@@ -66,7 +66,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/block', authMiddleware, async (req, res) => {
+    app.post('/block',  async (req, res) => {
         const businessId = await client.query('SELECT location.id FROM business INNER JOIN location on business.id = location.business_id WHERE business_name = $1;', [req.body.businessName]);
         const insertBlocks = 'INSERT INTO block(name,location_id)VALUES($1,$2)';
         const blocksDetails = [req.body.blockName, businessId.rows[0].id]
@@ -78,7 +78,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/block/:businessName', authMiddleware, async (req, res) => {
+    app.get('/block/:businessName', async (req, res) => {
         try {
             var blockDetails = await client.query('SELECT block.name FROM block INNER JOIN location ON block.location_id=location.id INNER JOIN business ON location.business_id=business.id  WHERE business.business_name=$1', [req.params.businessName])
             res.send(blockDetails.rows).status(201).end()
@@ -135,7 +135,7 @@ module.exports = function businessRoutes(app) {
             res.status(500).end()
         }
     })
-    app.get('/selectLocation/:selectedLocation', authMiddleware, async (req, res) => {
+    app.get('/selectLocation/:selectedLocation', async (req, res) => {
         console.log('req', req.params.selectedLocation)
         var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1', [req.params.selectedLocation])
         console.log('blockingDetails', blockDetails.rows)
@@ -209,10 +209,23 @@ module.exports = function businessRoutes(app) {
           }
         })(req, res);
       })
-    
-    
 
-    
+      app.get('/logout', function(req, res, next) {
+        console.log('what is loged out',req,res)
+          
+        if (req.session) {
+          // delete session object
+          req.session.destroy(function(err) {
+            if(err) {
+              return next(err);
+            } else {
+              return res.redirect('/');
+            }
+          });
+        }
+      });
+
+
 }
 
 
