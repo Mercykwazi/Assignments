@@ -14,13 +14,12 @@ var { authMiddleware } = require('../../config/passport')
 const { jwtCheck } = require('../../config/jwt-check')
 module.exports = function businessRoutes(app) {
     app.post('/business', authMiddleware, async (req, res) => {
-        console.log('req.decoded :', req.decoded);
-        const decodedValues=req.decoded
+        const decodedValues = req.decoded
         const insertBusiness = 'INSERT INTO business ( business_name, contact_name,contact_email, contact_telephone)VALUES($1,$2,$3,$4)';
         const businessDetails = [req.body.businessName, req.body.contactName, req.body.email, req.body.phoneNumber];
         try {
             var result = await client.query(insertBusiness, businessDetails)
-            
+
             res.status(201).send(decodedValues).end();
         } catch (error) {
             res.status(203).end();
@@ -39,8 +38,8 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/location',  async (req, res) => {
-        
+    app.post('/location', async (req, res) => {
+
         const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.business]);
         const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
         const locationDetails = [req.body.address1, req.body.address2, req.body.country, businessId.rows[0].id]
@@ -56,7 +55,6 @@ module.exports = function businessRoutes(app) {
     app.get('/location', async (req, res, info) => {
         try {
             var allLocations = await client.query("SELECT * FROM location", (err, result) => {
-                console.log('allLocations', allLocations)
                 res.send(result)
                 res.status(200).end()
             })
@@ -66,7 +64,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/block',  async (req, res) => {
+    app.post('/block', async (req, res) => {
         const businessId = await client.query('SELECT location.id FROM business INNER JOIN location on business.id = location.business_id WHERE business_name = $1;', [req.body.businessName]);
         const insertBlocks = 'INSERT INTO block(name,location_id)VALUES($1,$2)';
         const blocksDetails = [req.body.blockName, businessId.rows[0].id]
@@ -136,10 +134,9 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectLocation/:selectedLocation', async (req, res) => {
-        console.log('req', req.params.selectedLocation)
         var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1', [req.params.selectedLocation])
-        console.log('blockingDetails', blockDetails.rows)
         var finalBlockDetails = blockDetails.rows
+        console.log('FINA', finalBlockDetails)
         try {
             res.send(finalBlockDetails).status(201).end()
         } catch (err) {
@@ -147,11 +144,14 @@ module.exports = function businessRoutes(app) {
             res.status(500).end()
         }
     })
+    app.post("/reserved", async (req, res) => {
+        console.log("reserved", req.body)
+    })
+
 
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
         var unitsDetails = await client.query('SELECT * FROM unit')
-        console.log('what is unitsD', unitsDetails)
         var unitTypeDetails = await client.query('SELECT * FROM unit_type')
         var unitType = unitTypeDetails.rows
         var units = unitsDetails.rows;
@@ -165,7 +165,7 @@ module.exports = function businessRoutes(app) {
                 return unit.name
             }
         }).map(units => {
-            return units.name
+            return { name: units.name, id: units.id }
         })
         try {
             res.send(allAvailableUnits).status(201).end()
@@ -184,7 +184,6 @@ module.exports = function businessRoutes(app) {
                 try {
                     var results = await client.query(insertCustomerDetails, customerDetails);
                     var token = generateToken({ name: req.body.name, email: req.body.email }, "businessOwner");
-                    console.log('what is the token', token)
                     res.send(token).status(201).end()
                 } catch (err) {
                     console.log(err);
@@ -196,34 +195,33 @@ module.exports = function businessRoutes(app) {
     })
 
     app.post('/logIn', (req, res) => {
-    var results= generateToken({email:req.body.email} , "businessOwner")
-        console.log('this reached here',results)
+        var results = generateToken({ email: req.body.email }, "businessOwner")
         passport.authenticate('businessLogIn', { session: true }, (err, user, info) => {
-          if (err) {
-            res.status(401).json(info).end();
-          }
-          if (user) {
-            res.send(results).status(200).json(info).end();
-          } else {
-            res.status(401).json(info).end();
-          }
-        })(req, res);
-      })
-
-      app.get('/logout', function(req, res, next) {
-        console.log('what is loged out',req,res)
-          
-        if (req.session) {
-          // delete session object
-          req.session.destroy(function(err) {
-            if(err) {
-              return next(err);
-            } else {
-              return res.redirect('/');
+            if (err) {
+                res.status(401).json(info).end();
             }
-          });
-        }
-      });
+            if (user) {
+                res.send(results).status(200).json(info).end();
+            } else {
+                res.status(401).json(info).end();
+            }
+        })(req, res);
+    })
+
+    //   app.get('/logout', function(req, res, next) {
+    //     console.log('what is loged out',req,res)
+
+    //     if (req.session) {
+
+    //       req.session.destroy(function(err) {
+    //         if(err) {
+    //           return next(err);
+    //         } else {
+    //           return res.redirect('/');
+    //         }
+    //       });
+    //     }
+    //   });
 
 
 }

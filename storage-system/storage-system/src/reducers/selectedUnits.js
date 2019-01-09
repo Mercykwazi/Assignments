@@ -1,4 +1,4 @@
-export default function selectUnitType(state = { selectUnit: "", selectedLocation:"" }, action) {
+export default function selectUnitType(state = { selectUnit: "", selectedLocation:"",selectingUnit:"" }, action) {
     var newState = state;
     switch (action.type) {
         case "SELECT_UNIT":
@@ -7,6 +7,8 @@ export default function selectUnitType(state = { selectUnit: "", selectedLocatio
         case "SELECT_LOCATION":
             newState = { ...newState, selectedLocation: action.value }
             break;
+            case "SELECT_A_UNIT":
+            newState={...newState,selectingUnit:action.value}
         default:
             newState = { ...newState }
             break;

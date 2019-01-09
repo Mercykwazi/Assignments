@@ -23,7 +23,7 @@ class ViewUnits extends React.Component {
             selectedUnitType: this.props.unitType,
             unitsDetail: [],
             selectedLocations: this.props.loc,
-            units: []
+            units: [],
         }
         this.unitsDetails = this.unitsDetails.bind(this);
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
@@ -32,14 +32,29 @@ class ViewUnits extends React.Component {
         this.locationDetails = this.locationDetails.bind(this);
         this.getLocation = this.getLocation.bind(this)
         this.selectedLocationDetails = this.selectedLocationDetails.bind(this)
-
+        this.submitUnit = this.submitUnit.bind(this);
     }
 
     componentDidMount() {
         this.unitTypeDetails()
         this.unitsDetails()
         this.locationDetails()
+
+    }
+
+    handleChange(useSelection){
+
+        console.log(useSelection)
+    }
+
+
+   async submitUnit() {
+       // var reservedRoom ={reserved:this.refs.selectedUnit.value} 
+        var reservedRoom =this.refs.selectedUnit.value
+        console.log("res",reservedRoom);
         
+        var reservedDetails=await axios.post("http://localhost:3003/reserved/",{id : reservedRoom})
+        console.log("reeeee",reservedDetails)
     }
 
     async unitTypeDetails() {
@@ -51,9 +66,9 @@ class ViewUnits extends React.Component {
         try {
             const results = await axios.get("http://localhost:3003/location")
             var locationD = results.data.rows;
+
             this.setState({ locationDetail: locationD })
         } catch (e) {
-            console.log("err",e)
         }
     }
 
@@ -70,6 +85,7 @@ class ViewUnits extends React.Component {
     }
     async selectedLocationDetails() {
         var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
+
         var availableUnitTypes = results.data
         this.setState({ availableUnitType: availableUnitTypes })
     }
@@ -113,12 +129,13 @@ class ViewUnits extends React.Component {
                     <select>
                         <option value="select your your unit">select your unit:</option>
                         {this.state.units.length > 0 ? this.state.units.map(unit => {
-                            return <option key={this.state.units.indexOf(unit)} value={unit}>{unit}</option>
+                            return <option key={this.state.units.indexOf(unit)} ref="selectedUnit"   value={`${unit.id}`}>{unit.name}</option>
                         }) : null}
                     </select><br />
                 </div>
             </form>
-        </div>
+            <button className="button" onClick={this.submitUnit} >submit</button>
+        </div >
         )
     }
 
@@ -130,6 +147,7 @@ const mapStateToProps = (state) => {
         business: state.viewBusiness.selectedBusiness,
         unitType: state.selectUnitType.selectUnit,
         loc: state.selectUnitType.selectedLocation,
+        selectedUni: state.selectUnitType.selectingUnit,
         state: state,
     }
 }
@@ -140,6 +158,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         selectedLocations: location => {
             dispatch(actions.selectLocation(location))
+        },
+        selectedUnit: (units) => {
+            dispatch(actions.selectedUnit(units))
         }
     }
 }
