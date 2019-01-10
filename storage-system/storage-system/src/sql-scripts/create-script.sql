@@ -38,6 +38,12 @@ CREATE TABLE IF NOT EXISTS customer(
     password varchar(255) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );
+CREATE TABLE IF NOT EXISTS purchase_units (
+    id serial PRIMARY KEY,
+    customer_id INT REFERENCES customer(id) NOT NULL,
+    unit_id INT REFERENCES unit(id) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
+);                                                                                                                                                                                                                                                                                                                                                                                                                
 
 CREATE TABLE IF NOT EXISTS businessOwner(
     id serial PRIMARY KEY,

@@ -28,14 +28,11 @@ export function checkUserStatus() {
     var token = sessionStorage.getItem('jwtToken');
     if (token) {
         const decodedToken = jwtDecode(token)
-        console.log("jwt", decodedToken)
         if (decodedToken.authority === "businessOwner") {
             store.dispatch({ type: "BUSINESS_AUTHENTICATED", value: true })
-            console.log("logged in")
             return history.push("/business")
         }
         if (decodedToken.authority === "customer") {
-            console.log("when am I called")
             store.dispatch({ type: "CUSTOMER_AUTHENTICATED", value: true })
             return history.push('/view-units')
         }
@@ -46,7 +43,6 @@ export const PrivateRouteCustomer = ({
     ...rest
 }) => {
     let authenticated = store.getState().authenticate.authenticateCustomer;
-    console.log("what is authenticated", store.getState())
     return (
         <Route
             {...rest}
@@ -63,7 +59,6 @@ export const PrivateRouteBusinessOwner = ({
     ...rest
 }) => {
     let authenticated = store.getState().authenticate.authenticated;
- console.log("what is authenticated", authenticated)
     return (
         <Route
             {...rest}
