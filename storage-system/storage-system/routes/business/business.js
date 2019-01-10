@@ -12,6 +12,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var { authMiddleware } = require('../../config/passport')
 const { jwtCheck } = require('../../config/jwt-check')
+
 module.exports = function businessRoutes(app) {
     app.post('/business', authMiddleware, async (req, res) => {
         const decodedValues = req.decoded
@@ -145,6 +146,7 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.post("/reserved", async (req, res) => {
+      //  var customerDetails=await client.query('SELECT id  FROM customer where contact_email =$1',[req.body.email])
         console.log("reserved", req.body)
     })
 
