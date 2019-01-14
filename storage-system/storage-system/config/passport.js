@@ -10,7 +10,7 @@ const client = new pg.Client(connectionString);
 client.connect()
 const jwt = require("jsonwebtoken")
 
-passport.use(new LocalStrategy({
+passport.use('login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
 },
@@ -19,14 +19,14 @@ passport.use(new LocalStrategy({
         if (customerDetails.rowCount > 0) {
             var passwordsMatch = await bcrypt.compare(password, customerDetails.rows[0].password);
             if (passwordsMatch) {
-                
+
                 return cb(null, customerDetails.rows[0], { message: 'Logged In Successfully' });
             }
         }
         return cb(null, false, { message: 'Incorrect email or password.' });
     }
 ));
-passport.use("businessLogIn",new LocalStrategy({
+passport.use("businessLogIn", new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
 },
@@ -86,23 +86,23 @@ passport.use(new JWTStrategy({
 
 function authMiddleware(req, res, next) {
     var token = req.headers.authorization;
+    console.log("what is token", token)
     try {
         if (token) {
             jwt.verify(token, "mercy", function (err, decoded) {
                 if (err) {
+                    console.log('eee', err)
                     res.status(203).json({ message: "Something went wrong!" }).end()
                 } else {
+                    console.log('it went to else')
                     req.decoded = decoded;
-                    console.log("what is decoded", req.decoded)
-                    // res.status(201).end()
                     next();
                 }
             });
 
         } else {
             console.log("it all went bad")
-            res.status(401).json({message:"it went bad"})
-            //next(null, false, { message: "something went wrong!" })
+            res.status(401).json({ message: "it went bad" })
         }
     } catch (error) {
         next({ message: "something went wrong!" })
