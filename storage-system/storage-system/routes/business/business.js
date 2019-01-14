@@ -39,7 +39,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/location', async (req, res) => {
+    app.post('/location', authMiddleware, async (req, res) => {
 
         const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.business]);
         const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
@@ -53,7 +53,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/location', async (req, res, info) => {
+    app.get('/location', authMiddleware, async (req, res, info) => {
         try {
             var allLocations = await client.query("SELECT * FROM location", (err, result) => {
                 res.send(result)
@@ -65,7 +65,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/block', async (req, res) => {
+    app.post('/block', authMiddleware, async (req, res) => {
         const businessId = await client.query('SELECT location.id FROM business INNER JOIN location on business.id = location.business_id WHERE business_name = $1;', [req.body.businessName]);
         const insertBlocks = 'INSERT INTO block(name,location_id)VALUES($1,$2)';
         const blocksDetails = [req.body.blockName, businessId.rows[0].id]
@@ -88,7 +88,7 @@ module.exports = function businessRoutes(app) {
     })
 
 
-    app.post('/unitType', async (req, res) => {
+    app.post('/unitType', authMiddleware, async (req, res) => {
         const insertUnitTypes = 'INSERT INTO unit_type(name,length,width,height)VALUES($1,$2,$3,$4)'
         const unitTypeDetails = [req.body.storageType, req.body.length, req.body.width, req.body.height]
         try {
@@ -101,7 +101,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/unitType/', async (req, res) => {
+    app.get('/unitType/', authMiddleware, async (req, res) => {
         try {
             var unitTypeDetails = await client.query('SELECT * FROM unit_type')
             res.send(unitTypeDetails).status(201).end()
@@ -111,7 +111,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/units', async (req, res) => {
+    app.get('/units', authMiddleware, async (req, res) => {
         try {
             var unitsDetails = await client.query('SELECT * FROM unit')
             res.send(unitsDetails).status(201).end()
@@ -121,7 +121,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/units', async (req, res) => {
+    app.post('/units', authMiddleware, async (req, res) => {
         var unitTypeId = req.body.foundObject.id
         var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.body.selectedBusiness])
         var insertUnits = 'INSERT INTO unit (name,block_id,unit_type_id) VALUES ($1,$2,$3)';
@@ -137,7 +137,6 @@ module.exports = function businessRoutes(app) {
     app.get('/selectLocation/:selectedLocation', async (req, res) => {
         var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1', [req.params.selectedLocation])
         var finalBlockDetails = blockDetails.rows
-        console.log('FINA', finalBlockDetails)
         try {
             res.send(finalBlockDetails).status(201).end()
         } catch (err) {
@@ -146,8 +145,29 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.post("/reserved", async (req, res) => {
-      //  var customerDetails=await client.query('SELECT id  FROM customer where contact_email =$1',[req.body.email])
-        console.log("reserved", req.body)
+        var customerDetails = await client.query('SELECT id  FROM customer where contact_email =$1', [req.body.decodedToken.email])
+        var finalCustomerDetails = customerDetails.rows[0].id
+        var reservedDetails = 'INSERT INTO purchase_units(customer_id,unit_id) VALUES($1,$2)';
+        try {
+            var results = await client.query(reservedDetails, [finalCustomerDetails, req.body.id])
+            res.send(results).status(201)
+        } catch (err) {
+            console.log("err", err)
+            res.status(500).end()
+        }
+    })
+
+    app.get("/reserved/:decodedToken", async (req, res) => {
+        var user = await client.query('SELECT id FROM public.customer where contact_email=$1', [req.params.decodedToken])
+        var userDetails = user.rows[0].id
+        var unitName = await client.query('SELECT unit.name FROM purchase_units inner join unit on purchase_units.unit_id=unit.id where customer_id=$1', [userDetails])
+        var reservedRooms = unitName.rows
+        try {
+            res.send(reservedRooms).status(201)
+        } catch (err) {
+            console.log("err", err)
+            res.status(500).end()
+        }
     })
 
 
@@ -203,9 +223,9 @@ module.exports = function businessRoutes(app) {
                 res.status(401).json(info).end();
             }
             if (user) {
-                res.send(results).status(200).json(info).end();
+                res.send(results).end()
             } else {
-                res.status(401).json(info).end();
+                res.status(401).end();
             }
         })(req, res);
     })

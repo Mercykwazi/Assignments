@@ -7,10 +7,7 @@ import { log } from 'util';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 import { protectRoutes } from '../protectedRoutes'
-
-//var protectRoutes = require("../protectedRoutes")
-//require("../../protectedRoutes")
-
+import jwtDecode from 'jwt-decode'
 
 class ViewUnits extends React.Component {
     constructor(props) {
@@ -24,6 +21,7 @@ class ViewUnits extends React.Component {
             unitsDetail: [],
             selectedLocations: this.props.loc,
             units: [],
+            reservedRoomDetails: [],
         }
         this.unitsDetails = this.unitsDetails.bind(this);
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
@@ -33,6 +31,7 @@ class ViewUnits extends React.Component {
         this.getLocation = this.getLocation.bind(this)
         this.selectedLocationDetails = this.selectedLocationDetails.bind(this)
         this.submitUnit = this.submitUnit.bind(this);
+        this.reservedDetailsOfRoom = this.reservedDetailsOfRoom.bind(this)
     }
 
     componentDidMount() {
@@ -42,19 +41,22 @@ class ViewUnits extends React.Component {
 
     }
 
-    handleChange(useSelection){
 
-        console.log(useSelection)
+    async submitUnit() {
+        var reservedRoom = this.refs.selectedUnit.value
+        var token = sessionStorage.getItem('jwtToken');
+        const decodedToken = jwtDecode(token)
+        var reservedDetails = await axios.post("http://localhost:3003/reserved/", { id: reservedRoom, decodedToken: decodedToken })
     }
-
-
-   async submitUnit() {
-       // var reservedRoom ={reserved:this.refs.selectedUnit.value} 
-        var reservedRoom =this.refs.selectedUnit.value
-        console.log("res",reservedRoom);
-        
-        var reservedDetails=await axios.post("http://localhost:3003/reserved/",{id : reservedRoom})
-        console.log("reeeee",reservedDetails)
+    async reservedDetailsOfRoom() {
+        var token = sessionStorage.getItem('jwtToken');
+        const decodedToken = jwtDecode(token)
+        var decodedEmail = decodedToken.email
+        console.log("decoded", decodedToken.email)
+        var reservedDetails = await axios.get("http://localhost:3003/reserved/" + decodedEmail)
+        var results = reservedDetails.data
+        this.setState({ reservedRoomDetails: results })
+        console.log("reserved", results)
     }
 
     async unitTypeDetails() {
@@ -129,12 +131,14 @@ class ViewUnits extends React.Component {
                     <select>
                         <option value="select your your unit">select your unit:</option>
                         {this.state.units.length > 0 ? this.state.units.map(unit => {
-                            return <option key={this.state.units.indexOf(unit)} ref="selectedUnit"   value={`${unit.id}`}>{unit.name}</option>
+                            return <option key={this.state.units.indexOf(unit)} ref="selectedUnit" value={`${unit.id}`}>{unit.name}</option>
                         }) : null}
                     </select><br />
                 </div>
             </form>
-            <button className="button" onClick={this.submitUnit} >submit</button>
+            <button className="button" onClick={this.submitUnit} >submit</button><br /><br />
+            <button className="button" onClick={this.reservedDetailsOfRoom} >details</button>
+
         </div >
         )
     }

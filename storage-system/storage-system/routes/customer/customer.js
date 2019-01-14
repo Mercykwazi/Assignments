@@ -36,12 +36,12 @@ module.exports = function customerRoutes(app) {
 
   app.post('/signIn', (req, res) => {
     var results = generateToken({ email: req.body.email }, "customer")
-    passport.authenticate('local', { session: true }, (err, user, info) => {
+    passport.authenticate('login', { session: true }, (err, user, info) => {
       if (err) {
         res.status(401).json(info).end();
       }
       if (user) {
-        res.send(results).status(200).json(info).end();
+        res.send(results).end();
       } else {
         res.status(401).json(info).end();
       }

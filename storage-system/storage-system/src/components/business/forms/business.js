@@ -6,6 +6,8 @@ import { log } from 'util';
 import { Redirect } from 'react-router';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { protectRoutes } from '../../protectedRoutes'
+import history from '../../../history'
+
 class Business extends React.Component {
     constructor(props) {
         super(props)
@@ -70,7 +72,7 @@ class Business extends React.Component {
 
     render() {
         if (this.state.redirect) {
-            this.props.history.push('/view-business')
+            history.push('/view-business')
         }
         return (<div>
             <div className="topnav">

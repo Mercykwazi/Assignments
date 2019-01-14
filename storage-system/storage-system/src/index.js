@@ -74,7 +74,6 @@ ReactDOM.render(
         <Router history={history}>
             <div>
                 <Route exact path='/' component={Welcome} />
-                {/* <Route exact path='/business ' component={props => <Business  {...props} />} /> */}
                 <PrivateRouteBusinessOwner path='/business' component={Business} />
                 <PrivateRouteBusinessOwner path='/view-business' component={ViewBusiness} />
                 <PrivateRouteBusinessOwner path='/location' component={Location} />
