@@ -18,6 +18,7 @@ import ViewUnitType from './components/customer/selectUnitType'
 import './index.css'
 import ViewUnits from './components/customer/available-units';
 import LogIn from './components/customer/log-in'
+import RentedUnites from './components/customer/rented-units'
 import jwtDecode from 'jwt-decode'
 import history from './history';
 import SignIn from "./components/business/log-in"
@@ -86,6 +87,7 @@ ReactDOM.render(
                 <PrivateRouteCustomer path='/view-units' component={ViewUnits} />
                 <Route path='/log-in' component={LogIn} />
                 <Route path="/sign-in" component={SignIn} />
+                <Route path='/rented-Unites' component={RentedUnites}/>
                 <Route path="/select-unit-type" component={ViewUnitType} />
             </div>
         </Router>

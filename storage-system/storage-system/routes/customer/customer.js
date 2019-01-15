@@ -1,5 +1,5 @@
-var uid = require('uid2');
-var util = require('util');
+// var uid = require('uid2');
+// var util = require('util');
 const cors = require("cors");
 var bodyParser = require("body-parser");
 const pg = require('pg');

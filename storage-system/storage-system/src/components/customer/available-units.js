@@ -7,7 +7,11 @@ import { log } from 'util';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router'
 import { protectRoutes } from '../protectedRoutes'
-import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode';
+import history from '../../history'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+
 
 class ViewUnits extends React.Component {
     constructor(props) {
@@ -21,7 +25,6 @@ class ViewUnits extends React.Component {
             unitsDetail: [],
             selectedLocations: this.props.loc,
             units: [],
-            reservedRoomDetails: [],
         }
         this.unitsDetails = this.unitsDetails.bind(this);
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
@@ -31,7 +34,7 @@ class ViewUnits extends React.Component {
         this.getLocation = this.getLocation.bind(this)
         this.selectedLocationDetails = this.selectedLocationDetails.bind(this)
         this.submitUnit = this.submitUnit.bind(this);
-        this.reservedDetailsOfRoom = this.reservedDetailsOfRoom.bind(this)
+        this.viewReservedUnit = this.viewReservedUnit.bind(this)
     }
 
     componentDidMount() {
@@ -47,22 +50,19 @@ class ViewUnits extends React.Component {
         var token = sessionStorage.getItem('jwtToken');
         const decodedToken = jwtDecode(token)
         var reservedDetails = await axios.post("http://localhost:3003/reserved/", { id: reservedRoom, decodedToken: decodedToken })
+        history.push('/rented-Unites')
+    
     }
-    async reservedDetailsOfRoom() {
-        var token = sessionStorage.getItem('jwtToken');
-        const decodedToken = jwtDecode(token)
-        var decodedEmail = decodedToken.email
-        console.log("decoded", decodedToken.email)
-        var reservedDetails = await axios.get("http://localhost:3003/reserved/" + decodedEmail)
-        var results = reservedDetails.data
-        this.setState({ reservedRoomDetails: results })
-        console.log("reserved", results)
+    async viewReservedUnit() {
+        history.push('/rented-Unites')
+
     }
 
     async unitTypeDetails() {
         var business = await axios.get("http://localhost:3003/unitType/")
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
+        
     }
     async locationDetails() {
         try {
@@ -108,6 +108,10 @@ class ViewUnits extends React.Component {
     }
     render() {
         return (<div>
+            <div className="bottomnav">
+                < Link to={'/rented-Unites'} className="active">ViewUnits</Link>
+
+            </div>
             <h1>Available unit/(s)</h1>
             <form >
                 <div className="blocks">
@@ -136,9 +140,7 @@ class ViewUnits extends React.Component {
                     </select><br />
                 </div>
             </form>
-            <button className="button" onClick={this.submitUnit} >submit</button><br /><br />
-            <button className="button" onClick={this.reservedDetailsOfRoom} >details</button>
-
+            <div>  <button className="button" onClick={this.submitUnit} >Reserve</button></div><br />
         </div >
         )
     }
