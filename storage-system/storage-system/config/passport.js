@@ -86,7 +86,6 @@ passport.use(new JWTStrategy({
 
 function authMiddleware(req, res, next) {
     var token = req.headers.authorization;
-    console.log("what is token", token)
     try {
         if (token) {
             jwt.verify(token, "mercy", function (err, decoded) {
