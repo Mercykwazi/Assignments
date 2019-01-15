@@ -14,6 +14,7 @@ import Units from './components/business/forms/units';
 import Welcome from './components/welcome';
 import SignUp from './components/customer/sign-up';
 import SigningUp from './components/business/sign-up';
+import RentedBusinessUnites from './components/business/viewRentedUnites'
 import ViewUnitType from './components/customer/selectUnitType'
 import './index.css'
 import ViewUnits from './components/customer/available-units';
@@ -87,8 +88,9 @@ ReactDOM.render(
                 <PrivateRouteCustomer path='/view-units' component={ViewUnits} />
                 <Route path='/log-in' component={LogIn} />
                 <Route path="/sign-in" component={SignIn} />
-                <Route path='/rented-Unites' component={RentedUnites}/>
+                <Route path='/rented-Unites' component={RentedUnites} />
                 <Route path="/select-unit-type" component={ViewUnitType} />
+                <Route path="/business-unites" component={RentedBusinessUnites} />
             </div>
         </Router>
     </Provider>, app);
