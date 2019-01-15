@@ -160,16 +160,22 @@ module.exports = function businessRoutes(app) {
     app.get("/reserved/:decodedToken", async (req, res) => {
         var user = await client.query('SELECT id FROM public.customer where contact_email=$1', [req.params.decodedToken])
         var userDetails = user.rows[0].id
-        var unitName = await client.query('SELECT unit.name FROM purchase_units inner join unit on purchase_units.unit_id=unit.id where customer_id=$1', [userDetails])
-        var reservedRooms = unitName.rows
+        var unitTypeDetail = await client.query('select location.address1,location.address2,location.country ,unit_type.name, unit_type.height , unit_type.length , unit_type.width  from location inner join  block on block.location_id = location.id inner join unit on unit.block_id = block.id inner join unit_type on unit_type.id = unit.unit_type_id inner join purchase_units on unit.id=purchase_units.unit_id where customer_id=$1', [userDetails])
+        var finalUnitTypeDetails = unitTypeDetail.rows
+        console.log("what is the ", finalUnitTypeDetails)
         try {
-            res.send(reservedRooms).status(201)
+            res.send(finalUnitTypeDetails).status(201)
         } catch (err) {
             console.log("err", err)
             res.status(500).end()
         }
     })
 
+    app.get("/businessReservedRoom/:decodedToken", async (req, res) => {
+        console.log("req.params", req.params)
+        var user = await client.query('SELECT id FROM public.businessOwner where contact_email=$1', [req.params.decodedToken])
+        var userDetails = user.rows[0].id
+    })
 
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
