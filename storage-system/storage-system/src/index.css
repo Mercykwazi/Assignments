@@ -133,6 +133,19 @@ input {
     margin-right: 150px;
     color: white;   
 }
+
+  table, td, th {
+    border: 1px solid black;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th {
+    text-align: left;
+  }
 .business{
 text-align: center;
 margin-top: 50px;
