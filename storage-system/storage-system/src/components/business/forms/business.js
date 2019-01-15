@@ -83,6 +83,7 @@ class Business extends React.Component {
                 <Link to={'/view-blocks'}>view-blocks</Link>
                 <Link to={'/unit-type'}>unit-type</Link>
                 <Link to={'/units'}>units</Link>
+                <Link to={'/business-unites'}>View Reserved unites</Link>
             </div>
             <h1 >Register Your Business Below</h1>
             {this.state.errorPresent && (
