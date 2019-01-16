@@ -31,7 +31,7 @@ passport.use("businessLogIn", new LocalStrategy({
     passwordField: 'password'
 },
     async function (email, password, cb) {
-        var businessDetails = await client.query('SELECT * FROM businessOwner WHERE contact_email = $1;', [email])
+        var businessDetails = await client.query('SELECT * FROM business_owner WHERE contact_email = $1;', [email])
         if (businessDetails.rowCount > 0) {
             var passwordsMatch = await bcrypt.compare(password, businessDetails.rows[0].password);
             if (passwordsMatch) {
@@ -51,7 +51,7 @@ passport.use(new JWTStrategy({
         var availableCustomer = await client.query('SELECT contact_name,contact_email FROM customer WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
         console.log('jwt_payload :', jwt_payload);
         var customer = availableCustomer.rows[0]
-        var availableBusinessOwner = await client.query('SELECT contact_name,contact_email FROM businessOwner WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
+        var availableBusinessOwner = await client.query('SELECT contact_name,contact_email FROM business_owner WHERE contact_name= $1 AND contact_email=$2', [jwt_payload.name, jwt_payload.email])
         var businessOwners = availableBusinessOwner.rows[0]
         if (jwt_payload.authority === "customer") {
             try {
