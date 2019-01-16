@@ -62,8 +62,9 @@ class Business extends React.Component {
             email: this.props.email
         }
         var api = await axios.post("http://localhost:3003/business", businessDetails, protectRoutes())
-        if (api.status === 201) {
-            this.setState({ redirect: true })
+        console.log("err",api)
+        if (api.status === 200) {
+            history.push('/view-business')
 
         } else if (api.status === 203) {
             this.setState({ errorMessage: api.data.message, errorPresent: true })
@@ -71,9 +72,6 @@ class Business extends React.Component {
     }
 
     render() {
-        if (this.state.redirect) {
-            history.push('/view-business')
-        }
         return (<div>
             <div className="topnav">
                 < Link to={'/business'} className="active">Business</Link>
