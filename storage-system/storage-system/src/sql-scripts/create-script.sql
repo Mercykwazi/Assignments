@@ -1,8 +1,17 @@
+CREATE TABLE IF NOT EXISTS business_owner(
+    id serial PRIMARY KEY,
+    contact_name varchar(25) NOT NULL,
+    contact_email varchar(25) NOT NULL,
+    password varchar(255) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS business (
     id serial PRIMARY KEY,
     business_name varchar(50) NOT NULL,
     contact_name varchar(25) NOT NULL,
     contact_email varchar(25) NOT NULL,
+     business_owner_id INT REFERENCES business_owner(id) NOT NULL,
     contact_telephone varchar(25) NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );CREATE TABLE IF NOT EXISTS location (
@@ -45,10 +54,3 @@ CREATE TABLE IF NOT EXISTS purchase_units (
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );                                                                                                                                                                                                                                                                                                                                                                                                                
 
-CREATE TABLE IF NOT EXISTS businessOwner(
-    id serial PRIMARY KEY,
-    contact_name varchar(25) NOT NULL,
-    contact_email varchar(25) NOT NULL,
-    password varchar(255) NOT NULL,
-    created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
-);
