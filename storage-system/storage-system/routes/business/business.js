@@ -16,13 +16,15 @@ const { jwtCheck } = require('../../config/jwt-check')
 module.exports = function businessRoutes(app) {
     app.post('/business', authMiddleware, async (req, res) => {
         const decodedValues = req.decoded
-        const insertBusiness = 'INSERT INTO business ( business_name, contact_name,contact_email, contact_telephone)VALUES($1,$2,$3,$4)';
-        const businessDetails = [req.body.businessName, req.body.contactName, req.body.email, req.body.phoneNumber];
+        const businessId = await client.query("SELECT id FROM public.business_owner")
+        const businessOwnerId = businessId.rows[0].id
+        const insertBusiness = 'INSERT INTO business ( business_name, contact_name,contact_email,business_owner_id, contact_telephone)VALUES($1,$2,$3,$4,$5)';
+        const businessDetails = [req.body.businessName, req.body.contactName, req.body.email, businessOwnerId, req.body.phoneNumber];
         try {
             var result = await client.query(insertBusiness, businessDetails)
-
-            res.status(201).send(decodedValues).end();
-        } catch (error) {
+            res.send(result).status(200).end();
+        } catch (err) {
+            console.log("what is results", err)
             res.status(203).end();
         }
     });
@@ -112,6 +114,8 @@ module.exports = function businessRoutes(app) {
     })
 
     app.get('/units', authMiddleware, async (req, res) => {
+        var unitsExcluded=await client.query('SELECT  * FROM public.unit WHERE unit.id NOT IN (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)')
+     console.log("units",unitsExcluded)
         try {
             var unitsDetails = await client.query('SELECT * FROM unit')
             res.send(unitsDetails).status(201).end()
@@ -162,7 +166,6 @@ module.exports = function businessRoutes(app) {
         var userDetails = user.rows[0].id
         var unitTypeDetail = await client.query('select location.address1,location.address2,location.country ,unit_type.name, unit_type.height , unit_type.length , unit_type.width  from location inner join  block on block.location_id = location.id inner join unit on unit.block_id = block.id inner join unit_type on unit_type.id = unit.unit_type_id inner join purchase_units on unit.id=purchase_units.unit_id where customer_id=$1', [userDetails])
         var finalUnitTypeDetails = unitTypeDetail.rows
-        console.log("what is the ", finalUnitTypeDetails)
         try {
             res.send(finalUnitTypeDetails).status(201)
         } catch (err) {
@@ -172,9 +175,30 @@ module.exports = function businessRoutes(app) {
     })
 
     app.get("/businessReservedRoom/:decodedToken", async (req, res) => {
-        console.log("req.params", req.params)
-        var user = await client.query('SELECT id FROM public.businessOwner where contact_email=$1', [req.params.decodedToken])
+        var user = await client.query('SELECT id FROM public.business_owner where contact_email=$1', [req.params.decodedToken])
         var userDetails = user.rows[0].id
+        
+    var businessReserved = await client.query(` select location.address1 , location.address2 , location.country ,
+    unit.name ,unit_type.height , unit_type.width,
+    unit_type.name  ,
+    unit_type.length  , business.business_name 
+    ,customer.contact_name , customer.contact_email from purchase_units   
+    inner join  customer on purchase_units.customer_id = customer.id
+    inner join  unit on purchase_units.unit_id = unit.id
+    inner join  block on block.id = unit.block_id 
+    inner join  location on location.id = block.location_id      
+    inner join  business on business.id = location.business_id
+    inner join  unit_type on  unit.unit_type_id = unit_type.id       
+    where business.business_owner_id = $1;
+      `,[userDetails])
+      var finalReservedRooms=businessReserved.rows
+        try {
+            res.send(finalReservedRooms).status(200)
+        } catch (err) {
+            console.log("err",err)
+            res.status(500).end()
+        }
+
     })
 
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
@@ -207,11 +231,11 @@ module.exports = function businessRoutes(app) {
         bcrypt.genSalt(saltRounds, function (err, salt) {
             bcrypt.hash(req.body.password, salt, async function (err, hash) {
                 hashedPassword = hash
-                const insertCustomerDetails = 'INSERT INTO businessOwner(contact_name,contact_email,password) VALUES($1,$2,$3)';
+                const insertCustomerDetails = 'INSERT INTO business_owner(contact_name,contact_email,password) VALUES($1,$2,$3)';
                 const customerDetails = [req.body.name, req.body.email, hashedPassword]
                 try {
                     var results = await client.query(insertCustomerDetails, customerDetails);
-                    var token = generateToken({ name: req.body.name, email: req.body.email }, "businessOwner");
+                    var token = generateToken({ name: req.body.name, email: req.body.email }, "business_owner");
                     res.send(token).status(201).end()
                 } catch (err) {
                     console.log(err);
