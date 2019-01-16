@@ -76,6 +76,7 @@ class ViewUnits extends React.Component {
 
     async unitsDetails() {
         var details = await axios.get("http://localhost:3003/units/")
+        console.log("what are the detaisl",details)
         var unitDetail = details.data.rows;
         this.setState({ unitsDetail: unitDetail })
     }
