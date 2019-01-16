@@ -23,8 +23,8 @@ class RentedBusinessUnites extends React.Component {
         console.log("decoded", decodedEmail)
         var reservedDetails = await axios.get("http://localhost:3003/businessReservedRoom/" + decodedEmail)
         console.log("res", reservedDetails)
-        //   var results = reservedDetails.data
-        //   this.setState({ reservedRoomDetails: results })
+        var results = reservedDetails.data
+        this.setState({ reservedRoomDetails: results })
     }
     componentDidMount() {
         this.reservedRooms()
@@ -34,7 +34,7 @@ class RentedBusinessUnites extends React.Component {
         return (
             <div>
                 <h1 className="storage">your ranted unites </h1>
-                {/* <table >
+                <table >
                     <thead>
                         <tr>
                             <th>Physical Address</th>
@@ -44,6 +44,10 @@ class RentedBusinessUnites extends React.Component {
                             <th>Length</th>
                             <th>Width</th>
                             <th>Height</th>
+                            <th>Customer Name</th>
+                            <th>Customer EmailAddress</th>
+
+
                         </tr>
                     </thead>
                     <tbody>
@@ -56,11 +60,15 @@ class RentedBusinessUnites extends React.Component {
                                 <td>{room.length}</td>
                                 <td>{room.width}</td>
                                 <td>{room.height}</td>
+                                <td>{room.contact_name}</td>
+                                <td>{room.contact_email}</td>
+                                
+                                
 
                             </tr>
                         })}
                     </tbody>
-                </table> */}
+                </table>
                 <button onClick={this.reservedRooms}>reserve</button>
             </div>
 
