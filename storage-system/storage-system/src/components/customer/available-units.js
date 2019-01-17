@@ -51,7 +51,7 @@ class ViewUnits extends React.Component {
         const decodedToken = jwtDecode(token)
         var reservedDetails = await axios.post("http://localhost:3003/reserved/", { id: reservedRoom, decodedToken: decodedToken })
         history.push('/rented-Unites')
-    
+
     }
     async viewReservedUnit() {
         history.push('/rented-Unites')
@@ -62,13 +62,12 @@ class ViewUnits extends React.Component {
         var business = await axios.get("http://localhost:3003/unitType/")
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
-        
+
     }
     async locationDetails() {
         try {
             const results = await axios.get("http://localhost:3003/location")
             var locationD = results.data.rows;
-
             this.setState({ locationDetail: locationD })
         } catch (e) {
         }
@@ -76,8 +75,8 @@ class ViewUnits extends React.Component {
 
     async unitsDetails() {
         var details = await axios.get("http://localhost:3003/units/")
-        console.log("what are the detaisl",details)
-        var unitDetail = details.data.rows;
+
+        var unitDetail = details.data
         this.setState({ unitsDetail: unitDetail })
     }
 
@@ -88,7 +87,6 @@ class ViewUnits extends React.Component {
     }
     async selectedLocationDetails() {
         var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
-
         var availableUnitTypes = results.data
         this.setState({ availableUnitType: availableUnitTypes })
     }
