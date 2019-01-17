@@ -56,9 +56,15 @@ module.exports = function businessRoutes(app) {
     })
 
     app.get('/location', authMiddleware, async (req, res, info) => {
+        var testing=await client.query(`select * from unit inner join block on unit.block_id=block.id 
+        inner join location on block.location_id=location.id
+         WHERE unit.id NOT IN (select unit_id from purchase_units)
+
+        `)
+        console.log("locationT",testing)
         try {
             var allLocations = await client.query("SELECT * FROM location", (err, result) => {
-                res.send(result)
+                res.send(testing)
                 res.status(200).end()
             })
 
@@ -105,7 +111,8 @@ module.exports = function businessRoutes(app) {
 
     app.get('/unitType/', authMiddleware, async (req, res) => {
         try {
-            var unitTypeDetails = await client.query('SELECT * FROM unit_type')
+            var unitTypeDetails = await client.query(` select * from unit inner join unit_type on unit.id=unit_type.id where unit.id NOT IN (select unit_id from purchase_units);
+            `)
             res.send(unitTypeDetails).status(201).end()
         } catch (error) {
             console.log(error);
@@ -114,11 +121,11 @@ module.exports = function businessRoutes(app) {
     })
 
     app.get('/units', authMiddleware, async (req, res) => {
-        var unitsExcluded=await client.query('SELECT  * FROM public.unit WHERE unit.id NOT IN (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)')
-     console.log("units",unitsExcluded)
+        var unitsExcluded = await client.query('SELECT  * FROM public.unit WHERE unit.id NOT IN (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)')
+        var unitsToDisplay = unitsExcluded.rows
         try {
             var unitsDetails = await client.query('SELECT * FROM unit')
-            res.send(unitsDetails).status(201).end()
+            res.send(unitsToDisplay).status(201).end()
         } catch (err) {
             console.log(err)
             res.status(500)
@@ -139,7 +146,7 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectLocation/:selectedLocation', async (req, res) => {
-        var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1', [req.params.selectedLocation])
+       var blockDetails=await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1 and unit.id NOT IN (select unit_id from purchase_units)',[req.params.selectedLocation])
         var finalBlockDetails = blockDetails.rows
         try {
             res.send(finalBlockDetails).status(201).end()
@@ -177,8 +184,8 @@ module.exports = function businessRoutes(app) {
     app.get("/businessReservedRoom/:decodedToken", async (req, res) => {
         var user = await client.query('SELECT id FROM public.business_owner where contact_email=$1', [req.params.decodedToken])
         var userDetails = user.rows[0].id
-        
-    var businessReserved = await client.query(` select location.address1 , location.address2 , location.country ,
+
+        var businessReserved = await client.query(` select location.address1 , location.address2 , location.country ,
     unit.name ,unit_type.height , unit_type.width,
     unit_type.name  ,
     unit_type.length  , business.business_name 
@@ -190,12 +197,12 @@ module.exports = function businessRoutes(app) {
     inner join  business on business.id = location.business_id
     inner join  unit_type on  unit.unit_type_id = unit_type.id       
     where business.business_owner_id = $1;
-      `,[userDetails])
-      var finalReservedRooms=businessReserved.rows
+      `, [userDetails])
+        var finalReservedRooms = businessReserved.rows
         try {
             res.send(finalReservedRooms).status(200)
         } catch (err) {
-            console.log("err",err)
+            console.log("err", err)
             res.status(500).end()
         }
 
@@ -203,10 +210,13 @@ module.exports = function businessRoutes(app) {
 
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
-        var unitsDetails = await client.query('SELECT * FROM unit')
+        var unitsDetails = await client.query(`SELECT  * FROM public.unit WHERE unit.id NOT IN 
+        (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)`
+    )
         var unitTypeDetails = await client.query('SELECT * FROM unit_type')
         var unitType = unitTypeDetails.rows
         var units = unitsDetails.rows;
+        
         var results = unitType.find(item => {
             var returningObjects = item.name === selectedUnitTypes[0] && item.length === selectedUnitTypes[1] && item.width === selectedUnitTypes[2] && item.height === selectedUnitTypes[3]
             return returningObjects
