@@ -23,6 +23,7 @@ import RentedUnites from './components/customer/rented-units'
 import jwtDecode from 'jwt-decode'
 import history from './history';
 import SignIn from "./components/business/log-in"
+import LogOut from "./components/business/forms/log-out"
 const app = document.getElementById("root")
 
 
@@ -84,6 +85,7 @@ ReactDOM.render(
                 <PrivateRouteBusinessOwner path='/view-blocks' component={ViewBlocks} />
                 <PrivateRouteBusinessOwner path='/units' component={Units} />
                 <Route path='/sign-up' component={SignUp} />
+                <Route path='/log-out' component={LogOut} />
                 <Route path='/signing-up' component={SigningUp} />
                 <PrivateRouteCustomer path='/view-units' component={ViewUnits} />
                 <Route path='/log-in' component={LogIn} />
@@ -91,6 +93,7 @@ ReactDOM.render(
                 <Route path='/rented-Unites' component={RentedUnites} />
                 <Route path="/select-unit-type" component={ViewUnitType} />
                 <Route path="/business-unites" component={RentedBusinessUnites} />
+
             </div>
         </Router>
     </Provider>, app);
