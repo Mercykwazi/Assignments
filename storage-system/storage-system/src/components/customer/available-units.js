@@ -35,7 +35,9 @@ class ViewUnits extends React.Component {
         this.selectedLocationDetails = this.selectedLocationDetails.bind(this)
         this.submitUnit = this.submitUnit.bind(this);
         this.viewReservedUnit = this.viewReservedUnit.bind(this)
+        this.next=this.next.bind(this)
     }
+
 
     componentDidMount() {
         this.unitTypeDetails()
@@ -90,6 +92,9 @@ class ViewUnits extends React.Component {
         var availableUnitTypes = results.data
         this.setState({ availableUnitType: availableUnitTypes })
     }
+    async next(){
+        history.push("/select-unit-type")
+    }
 
     getUnites(e) {
         e.preventDefault()
@@ -121,6 +126,7 @@ class ViewUnits extends React.Component {
                             return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
                         }) : null}
                     </select><br />
+                    <button onClick={this.next}>Next</button>
                     <h2 >unit-type</h2>
 
                     <select onChange={this.getUnites}>

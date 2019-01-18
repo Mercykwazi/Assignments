@@ -19,20 +19,33 @@ class ViewUnitType extends React.Component {
             selectedLocations: this.props.loc,
         }
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
-        this.selectedLocationDetails = this.selectedLocationDetails.bind(this)
+        this.selectedLocationDetails = this.selectedLocationDetails.bind(this);
+        this.locationDetails = this.locationDetails.bind(this);
+        
     }
 
     componentDidMount() {
         this.unitTypeDetails()
+        this.locationDetails()
+        
     }
-
+    async locationDetails() {
+        try {
+            const results = await axios.get("http://localhost:3003/location",protectRoutes())
+            var locationD = results.data.rows;
+            this.setState({ locationDetail: locationD })
+        } catch (e) {
+        }
+    }
     async unitTypeDetails() {
-        var business = await axios.get("http://localhost:3003/unitType/")
+        var business = await axios.get("http://localhost:3003/unitType/",protectRoutes())
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
     }
     async selectedLocationDetails() {
-        var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
+        var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc,protectRoutes())
+        console.log('what is bus',results)
+        
         var availableUnitTypes = results.data
         this.setState({ availableUnitType: availableUnitTypes })
     }
@@ -41,10 +54,8 @@ class ViewUnitType extends React.Component {
         e.preventDefault()
         this.props.selectedUnitType(e.target.value)
     }
+
     render() {
-        console.log("selectedLocation", this.state.selectedLocations)
-        console.log("state",this.state)
-        console.log("props",this.props)
         return (<div>
             <h1>Available unit/(s)</h1>
             <form >
