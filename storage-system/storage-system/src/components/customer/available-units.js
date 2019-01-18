@@ -59,14 +59,14 @@ class ViewUnits extends React.Component {
     }
 
     async unitTypeDetails() {
-        var business = await axios.get("http://localhost:3003/unitType/")
+        var business = await axios.get("http://localhost:3003/unitType/",protectRoutes())
         var unitsD = business.data.rows;
         this.setState({ unitTypeDetail: unitsD })
 
     }
     async locationDetails() {
         try {
-            const results = await axios.get("http://localhost:3003/location")
+            const results = await axios.get("http://localhost:3003/location",protectRoutes())
             var locationD = results.data.rows;
             this.setState({ locationDetail: locationD })
         } catch (e) {
@@ -74,7 +74,7 @@ class ViewUnits extends React.Component {
     }
 
     async unitsDetails() {
-        var details = await axios.get("http://localhost:3003/units/")
+        var details = await axios.get("http://localhost:3003/units/",protectRoutes())
 
         var unitDetail = details.data
         this.setState({ unitsDetail: unitDetail })

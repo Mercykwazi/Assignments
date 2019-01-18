@@ -1,16 +1,22 @@
 html{
-background-color: rgba(2, 6, 12, 9)
+/* background-color: rgba(2, 6, 12, 9) */
+/* background: rgba(0,0,0,0.2);  */
+background-image: url("storage.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+
 }
+
 h1{
     text-align: center;
-    margin-top: 10px;
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    margin-top: 80px;
+    color: black;
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif */
 }
 h2{
     text-align: center;
     margin-top: 100px;
-    color: white;
+    color: black;
     margin-left: 80px;
     font-family: 'Times New Roman', Times, serif
 }
@@ -23,7 +29,7 @@ font-family: Arial, Helvetica, sans-serif;
   animation-fill-mode: forwards;
   text-align: center;
   font-size: 6vmin;
-  color: white;
+  color: black;
   font-family: sanFranciscoBold;
   font-weight: 200;
 }
@@ -68,7 +74,7 @@ font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 100px;
     margin-right: 150px;
     margin-left: 80px;
-    color: white;
+    color: black;
 }
 .blocks{
     text-align: center;
@@ -76,7 +82,7 @@ font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 100px;
     margin-right: 150px;
     margin-left: 80px;
-    color: white;
+    color: black;
 }
 .btn{
     background-color: white;
@@ -120,18 +126,18 @@ input {
 }
 .signing{
     text-align: center;
-    margin-top: 50px;
-    /* margin-bottom: 100px; */
-    margin-right: 450px;
-    margin-left: 80px;
-    color: white; 
+    margin-top: 50px; 
+     margin-bottom: 100px; 
+ margin-right: 450px;
+    margin-left: 80px; 
+    color: black; 
 }
 .selectedUnit{
     text-align: center;
     margin-top: 50px;
     margin-bottom: 100px;
     margin-right: 150px;
-    color: white;   
+    color: black;   
 }
 
   table, td, th {
@@ -148,23 +154,23 @@ input {
   }
 .business{
 text-align: center;
-margin-top: 50px;
+/* margin-top: 50px; */
 margin-bottom: 100px;
 margin-right: 150px;
-color: white;
+color: black;
 }
 .view-business{
     text-align: center;
     margin-top: 50px;
     margin-right: 150px;
     margin-left: 80px;
-    color: white;
+    color: black;
 }
 
 .units{
 text-align: center;
 margin-top: 190px;
-color: white
+color: black
 }
 .next{
     text-align: center;
@@ -280,3 +286,27 @@ input[type=email], select {
 
     color: white;
 }
+
+
+
+.login {
+     width: 900px;
+     position:fixed;
+     top: 50%; 
+    left: 35%;
+    margin: -184px 0px 0px -155px; 
+    background: rgba(0,0,0,0.2); 
+    padding: 20px 30px; 
+ border-radius: 5px; 
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.3),inset 0px 1px 0px rgba(255,255,255,0.07) 
+  }
+
+  /* input[type=email], select {
+    width: 28%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid green;
+    border-radius: 4px;
+    box-sizing: border-box;
+} */

@@ -36,6 +36,7 @@ export function checkUserStatus() {
             return history.push("/business")
         }
         if (decodedToken.authority === "customer") {
+            console.log("this is the customer")
             store.dispatch({ type: "CUSTOMER_AUTHENTICATED", value: true })
             return history.push('/view-units')
         }
@@ -93,6 +94,7 @@ ReactDOM.render(
                 <Route path='/rented-Unites' component={RentedUnites} />
                 <Route path="/select-unit-type" component={ViewUnitType} />
                 <Route path="/business-unites" component={RentedBusinessUnites} />
+
 
             </div>
         </Router>

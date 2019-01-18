@@ -62,7 +62,7 @@ class LogIn extends React.Component {
         return (<div>
 
             <form  >
-                <div className="business">
+                <div className="login">
                     <h1>Log in</h1>
                     <div >
                         <label htmlFor="email">Email:</label><br />
@@ -75,7 +75,7 @@ class LogIn extends React.Component {
                             <input type='password' onChange={this.password} value={this.props.userPassword} />}<br />
                         <p className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
-                    <button className="button" onClick={this.saveData}>submit</button>
+                    <button className="button" onClick={this.saveData}>Log in</button>
                 </div>
             </form>
 

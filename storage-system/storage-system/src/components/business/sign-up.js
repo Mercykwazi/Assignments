@@ -21,6 +21,7 @@ class SigningUp extends React.Component {
         this.email = this.email.bind(this)
         this.password = this.password.bind(this)
         this.saveData = this.saveData.bind(this)
+        this.logIn = this.logIn.bind(this)
     }
 
 
@@ -64,12 +65,15 @@ class SigningUp extends React.Component {
         }
 
     }
+    async logIn() {
+        history.push("/sign-in")
+    }
     render() {
         return (<div>
             <p className=''>Sign Up</p>
             <h1 >Fill in your personal details</h1>
             <div className="signing">
-                <h2>SignUp / <Link to="/sign-in" > LogIn</Link> </h2>
+            
             </div>
             <form  >
                 <div className="business">
@@ -89,10 +93,13 @@ class SigningUp extends React.Component {
                             <input type='password' onChange={(e) => this.setState({ password: e.target.value })} value={this.state.password} />}<br />
                         <p className='show' onClick={() => this.setState({ isPasswordVisible: !this.state.isPasswordVisible })}>{this.state.isPasswordVisible ? 'Hide' : 'Show'} Password</p>
                     </div>
-                    <button className="button" onClick={this.saveData}>submit</button>
+                    <button className="button" onClick={this.saveData}>sign up</button>
                 </div>
             </form>
-
+            <footer className="business">
+                <h1 >Already have an account?</h1>
+                <button className="button" onClick={this.logIn}>Log in</button>
+            </footer>
         </div>
         )
     }
