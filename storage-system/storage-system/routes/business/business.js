@@ -108,12 +108,13 @@ module.exports = function businessRoutes(app) {
 
         }
     })
+    
 
     app.get('/unitType/', authMiddleware, async (req, res) => {
         try {
-            var unitTypeDetails = await client.query(` select * from unit inner join unit_type on unit.id=unit_type.id where unit.id NOT IN (select unit_id from purchase_units);
-            `)
-            res.send(unitTypeDetails).status(201).end()
+          //  var unitTypeDetails = await client.query(` select * from unit inner join unit_type on unit.id=unit_type.id where unit.id NOT IN (select unit_id from purchase_units)`)
+          var unitTypeDetails=await client.query('select * from unit_type')
+          res.send(unitTypeDetails).status(201).end()
         } catch (error) {
             console.log(error);
             res.status(500).end();

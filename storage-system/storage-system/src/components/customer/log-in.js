@@ -54,7 +54,7 @@ class LogIn extends React.Component {
             protectRoutes()
         this.props.authorizeCustomer()
             console.log('true')
-            history.push("/view-units")
+            history.push("/view-location")
         }
     }
 

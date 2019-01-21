@@ -17,13 +17,14 @@ import SigningUp from './components/business/sign-up';
 import RentedBusinessUnites from './components/business/viewRentedUnites'
 import ViewUnitType from './components/customer/selectUnitType'
 import './index.css'
-import ViewUnits from './components/customer/available-units';
+import ViewLocation from './components/customer/available-units';
 import LogIn from './components/customer/log-in'
 import RentedUnites from './components/customer/rented-units'
 import jwtDecode from 'jwt-decode'
 import history from './history';
 import SignIn from "./components/business/log-in"
-import LogOut from "./components/business/forms/log-out"
+import LogOut from "./components/business/forms/log-out";
+import ViewUnits from "./components/customer/selectUnit"
 const app = document.getElementById("root")
 
 
@@ -38,7 +39,7 @@ export function checkUserStatus() {
         if (decodedToken.authority === "customer") {
             console.log("this is the customer")
             store.dispatch({ type: "CUSTOMER_AUTHENTICATED", value: true })
-            return history.push('/view-units')
+            return history.push('/view-location')
         }
     }
 }
@@ -88,13 +89,13 @@ ReactDOM.render(
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/log-out' component={LogOut} />
                 <Route path='/signing-up' component={SigningUp} />
-                <PrivateRouteCustomer path='/view-units' component={ViewUnits} />
+                <PrivateRouteCustomer path='/view-location' component={ViewLocation} />
                 <Route path='/log-in' component={LogIn} />
                 <Route path="/sign-in" component={SignIn} />
                 <Route path='/rented-Unites' component={RentedUnites} />
                 <Route path="/select-unit-type" component={ViewUnitType} />
                 <Route path="/business-unites" component={RentedBusinessUnites} />
-
+                <Route path="/View-units" component={ViewUnits} />
 
             </div>
         </Router>

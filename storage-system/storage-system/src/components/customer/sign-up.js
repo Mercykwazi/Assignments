@@ -79,7 +79,7 @@ class SignUp extends React.Component {
             var checking = sessionStorage.setItem('jwtToken', results.data)
             this.props.authorizeCustomer()
             protectRoutes()
-            history.push('/view-units')
+            history.push('/view-location')
 
         }
     }

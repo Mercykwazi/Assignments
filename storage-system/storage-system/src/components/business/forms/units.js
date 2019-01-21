@@ -3,6 +3,7 @@ import * as actions from '../../../actions/units';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'
+import { protectRoutes } from '../../protectedRoutes'
 
 
 class Units extends React.Component {
@@ -32,7 +33,8 @@ class Units extends React.Component {
         this.setState(change);
     }
     async unitTypeDetails() {
-        var results = await axios.get("http://localhost:3003/unitType/")
+        var results = await axios.get("http://localhost:3003/unitType/",protectRoutes())
+        console.log('res',results)
         var unitType = results.data.rows
         this.setState({ unitTypeDetail: unitType })
     }
@@ -60,6 +62,7 @@ class Units extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         return (<div>
             <div className="selectedUnit">
                 <p>Available unit types</p>
