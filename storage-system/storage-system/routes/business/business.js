@@ -266,13 +266,14 @@ module.exports = function businessRoutes(app) {
             }
             if (user) {
                 console.log("it went to user",user)
-                res.status(200).json(info).end()
+                res.send(results)
             } else {
                 console.log("it went to else",)
                 res.status(203).json(info).end();
             }
         })(req, res);
     })
+
 
     //   app.get('/logout', function(req, res, next) {
     //     console.log('what is loged out',req,res)
