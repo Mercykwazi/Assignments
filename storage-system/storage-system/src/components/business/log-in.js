@@ -16,7 +16,8 @@ class SignIn extends React.Component {
             email: this.props.email,
             redirect: false,
             isPasswordVisible: false,
-
+            error: false,
+            errorMessage: ""
 
         }
         this.email = this.email.bind(this)
@@ -44,7 +45,9 @@ class SignIn extends React.Component {
             password: this.props.userPassword,
         }
         var results = await axios.post("http://localhost:3003/logIn/", customerDetails)
+        console.log("statusCode", results.status)
         if (results.status != 200) {
+            this.setState({ error: true, errorMessage: results.data.message })
             console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
@@ -56,11 +59,14 @@ class SignIn extends React.Component {
     }
 
     render() {
+
         return (<div>
+            <p className='validation'>{this.state.errorMessage}</p>
 
             <form  >
                 <div className="login">
                     <h1>Log in</h1>
+
                     <div >
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />
@@ -75,6 +81,8 @@ class SignIn extends React.Component {
                     <button className="button" onClick={this.saveData}>Log in</button>
                 </div>
             </form>
+
+
         </div>
         )
     }

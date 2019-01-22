@@ -18,6 +18,8 @@ class LogIn extends React.Component {
             redirect: false,
             password: this.props.userPassword,
             isPasswordVisible: false,
+            error: false,
+            errorMessage: ""
 
         }
         this.email = this.email.bind(this)
@@ -47,20 +49,24 @@ class LogIn extends React.Component {
         }
         var results = await axios.post("http://localhost:3003/signIn/", customerDetails)
         if (results.status != 200) {
+            this.setState({ error: true, errorMessage: results.data.message })
+
             console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
-          
+
             protectRoutes()
-        this.props.authorizeCustomer()
+            this.props.authorizeCustomer()
             console.log('true')
             history.push("/view-location")
         }
     }
 
-    render() {
-        return (<div>
 
+    render() {
+     
+        return (<div>
+            <p className="validation">{this.state.errorMessage}</p>
             <form  >
                 <div className="login">
                     <h1>Log in</h1>

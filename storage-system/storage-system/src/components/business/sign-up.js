@@ -70,7 +70,7 @@ class SigningUp extends React.Component {
     }
     render() {
         return (<div>
-            <p className=''>Sign Up</p>
+          
             <h1 >Fill in your personal details</h1>
             <div className="signing">
             

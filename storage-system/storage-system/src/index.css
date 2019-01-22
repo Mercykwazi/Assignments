@@ -42,24 +42,25 @@ font-family: Arial, Helvetica, sans-serif;
     }
   }
   .getStarted{
-    font-size: 1rem;
+    font-size: 1.2rem;
     background: none;
     display: inline-block;
-    color: #015665;
+    color: black;
     text-decoration: none;
     padding: 1rem 2rem;
-    border: #015665 1px solid;
+ border: black 1px solid; 
     margin-left: 550px;
     margin-right: 250px;
     
   }
+ 
 .rentStorage{
-    font-size: 1rem;
+    font-size: 1.2rem;
     background: none;
     display: inline-block;
-    color: #015665;
+    color: black;
     padding: 1rem 2rem;
-    border: #015665 1px solid;
+    border: black 1px solid;
      margin-left: 90px;
 }
 
@@ -100,7 +101,7 @@ input {
     margin-bottom: 10px;
     margin-right: 10px;
     display: inline-block;
-    border: 1px solid green;
+    border: 1px solid white;
     border-radius: 4px;
     box-sizing: border-box;
     
@@ -114,15 +115,22 @@ input {
     display: inline-block;
     /* font-size: 16px; */
 }
+.validation{
+ color:red;
+ text-align:center;
+ font-size: 30px;
+ margin-top: 100px;   
+}
 .button {
-    background-color: #015665; /* Green */
+    background-color:	rgb(0, 0, 255); /* Green */
     border: #015665 1px solid;
     color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
+    
 }
 .signing{
     text-align: center;
@@ -187,7 +195,7 @@ input[type=text], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid green;
+     border: 1px solid white; 
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -196,7 +204,7 @@ input[type=number], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid green;
+     border: 1px solid white; 
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -206,7 +214,7 @@ input[type=tel], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid green;
+     border: 1px solid white;
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -216,13 +224,13 @@ input[type=email], select {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid green;
+    border: 1px solid white;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 .dropbtn {
-    background-color: #4CAF50;
+    background-color: white;
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -235,8 +243,8 @@ input[type=email], select {
 }
 
 .topnav {
-    margin-bottom: 80px;
-    background-color: #333;
+    margin-bottom: 110px;
+    background-color:burlywood;
     overflow: hidden;
 }
 .bottomnav {
@@ -248,11 +256,12 @@ input[type=email], select {
 /* Style the links inside the navigation bar */
 .topnav a {
     float: left;
-    color: #f2f2f2;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
+    /* margin-bottom:80px */
 }
 .bottomnav a {
     float: right;
@@ -276,7 +285,7 @@ input[type=email], select {
 
 /* Add a color to the active/current link */
 .topnav a.active {
-    background-color:  #015665;
+    background-color:  burlywood;
 
     color: white;
 }

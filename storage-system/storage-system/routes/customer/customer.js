@@ -38,13 +38,16 @@ module.exports = function customerRoutes(app) {
     var results = generateToken({ email: req.body.email }, "customer")
     passport.authenticate('login', { session: true }, (err, user, info) => {
       if (err) {
-        res.status(401).json(info).end();
-      }
-      if (user) {
-        res.send(results).end();
-      } else {
-        res.status(401).json(info).end();
-      }
+        console.log("it went to err",err)
+        res.status(203).json(info).end();
+    }
+    if (user) {
+        console.log("it went to user",user)
+        res.status(200).json(info).end()
+    } else {
+        console.log("it went to else",)
+        res.status(203).json(info).end();
+    }
     })(req, res);
   })
 
