@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'
 import { protectRoutes } from '../../protectedRoutes'
-
+import history from "../../../history"
 
 class Units extends React.Component {
     constructor(props) {
@@ -58,7 +58,7 @@ class Units extends React.Component {
     }
     next(e) {
         e.preventDefault()
-        this.setState({ redirect: true })
+        history.push('/business')
     }
 
     render() {
@@ -82,7 +82,7 @@ class Units extends React.Component {
                     </div>
                     <br />
                     <div></div><br />
-                    <button className="next" onClick={this.next}>next</button>
+                    <button className="next" onClick={this.next}>Done</button>
 
                 </div>
             </form>

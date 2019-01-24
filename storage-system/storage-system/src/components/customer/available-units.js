@@ -67,8 +67,8 @@ class ViewLocation extends React.Component {
     render() {
         return (<div>
             <div className="topnav">
-                < Link to={'/rented-Unites'} className="active">ViewUnits</Link>
-                <Link to={'/log-out'}>Log-out</Link>
+                <button> < Link to={'/rented-Unites'}>ViewUnits</Link></button>
+                <button>   <Link to={'/log-out'}>Log-out</Link></button>
 
             </div>
             <h1>Available unit/(s)</h1>
