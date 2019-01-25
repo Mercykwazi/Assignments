@@ -180,6 +180,12 @@ text-align: center;
 margin-top: 190px;
 color: black
 }
+.Done{
+    text-align: center;
+    font-size: 26px;
+    margin-left: 900px;
+    margin-bottom: 800px
+}
 .next{
     /* text-align: center;
     margin-top: 30px;

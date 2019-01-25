@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import history from "../../history"
 
 import { Redirect } from 'react-router';
 
@@ -13,6 +15,7 @@ class RentedUnites extends React.Component {
 
         }
         this.reservedDetailsOfRoom = this.reservedDetailsOfRoom.bind(this);
+        this.next=this.next.bind(this)
     }
 
 
@@ -28,9 +31,14 @@ class RentedUnites extends React.Component {
     componentDidMount() {
         this.reservedDetailsOfRoom()
     }
+    next(e) {
+        e.preventDefault()
+        history.push('/view-location')
+    }
+
 
     render() {
-        return (
+        return (    
             <div>
                 <h1 className="storage">your ranted unites </h1>
                 <table >
@@ -60,6 +68,7 @@ class RentedUnites extends React.Component {
                         })}
                     </tbody>
                 </table>
+                <button onClick={this.next} className="Done">Done</button>
             </div>
         )
     }
