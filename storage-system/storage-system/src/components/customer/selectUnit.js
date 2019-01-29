@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/selectUnits';
 import available from '../../actions/availableUnitType'
@@ -29,7 +28,7 @@ class ViewUnits extends React.Component {
     }
 
     componentDidMount() {
-    
+
         this.unitsDetails()
         this.selectedUnit()
 
@@ -48,7 +47,7 @@ class ViewUnits extends React.Component {
 
     }
 
-  
+
     async unitsDetails() {
         var details = await axios.get("http://localhost:3003/units/", protectRoutes())
         var unitDetail = details.data
@@ -59,12 +58,10 @@ class ViewUnits extends React.Component {
     async selectedUnit() {
         var details = await axios.get("http://localhost:3003/selectUnit/" + this.props.unitType)
         var availableUnits = details.data
-        console.log("when is this called",availableUnits);
-        
         this.props.availableUnit(availableUnits)
         this.setState({ units: availableUnits })
     }
-   
+
 
     render() {
 
@@ -79,9 +76,9 @@ class ViewUnits extends React.Component {
                             return <option key={this.state.units.indexOf(unit)} ref="selectedUnit" value={`${unit.id}`}>{unit.name}</option>
                         }) : null}
                     </select><br />
+                    <button className='button' onClick={this.submitUnit} >Reserve</button>
                 </div>
             </form>
-            <div>  <button className="button" onClick={this.submitUnit} >Reserve</button></div><br />
 
         </div>
         )

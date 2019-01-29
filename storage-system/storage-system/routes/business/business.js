@@ -24,17 +24,16 @@ module.exports = function businessRoutes(app) {
             var result = await client.query(insertBusiness, businessDetails)
             res.send(result).status(200).end();
         } catch (err) {
-            console.log("what is results", err)
+            console.log("err", err)
             res.status(203).end();
         }
     });
 
-    app.get('/business', async (req, res) => {
+    app.get('/business/:email', async (req, res) => {
         try {
-            var businessDetails = await client.query('SELECT id,business_name  FROM business', (err, result) => {
-                res.send(result)
-                res.status(201).end()
-            })
+            var businessDetails = await client.query('SELECT id, business_name FROM public.business where contact_email =$1', [req.params.email])
+            res.send(businessDetails)
+            res.status(201).end()
         } catch (error) {
             console.log(error);
             res.status(500).end();
@@ -56,12 +55,12 @@ module.exports = function businessRoutes(app) {
     })
 
     app.get('/location', authMiddleware, async (req, res, info) => {
-        var testing=await client.query(`select * from unit inner join block on unit.block_id=block.id 
+        var testing = await client.query(`select * from unit inner join block on unit.block_id=block.id 
         inner join location on block.location_id=location.id
          WHERE unit.id NOT IN (select unit_id from purchase_units)
 
         `)
-        console.log("locationT",testing)
+        console.log('testinLg',testing)
         try {
             var allLocations = await client.query("SELECT * FROM location", (err, result) => {
                 res.send(testing)
@@ -108,15 +107,15 @@ module.exports = function businessRoutes(app) {
 
         }
     })
-    
+
+
 
     app.get('/unitType/', authMiddleware, async (req, res) => {
         try {
-          //  var unitTypeDetails = await client.query(` select * from unit inner join unit_type on unit.id=unit_type.id where unit.id NOT IN (select unit_id from purchase_units)`)
-          var unitTypeDetails=await client.query('select * from unit_type')
-          res.send(unitTypeDetails).status(201).end()
-        } catch (error) {
-            console.log(error);
+            var unitTypeDetails = await client.query('select * from unit_type')
+            res.send(unitTypeDetails).status(201).end()
+        } catch (err) {
+            console.log(err);
             res.status(500).end();
         }
     })
@@ -134,12 +133,15 @@ module.exports = function businessRoutes(app) {
     })
 
     app.post('/units', authMiddleware, async (req, res) => {
+        console.log("req.body units",req.body)
         var unitTypeId = req.body.foundObject.id
         var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.body.selectedBusiness])
         var insertUnits = 'INSERT INTO unit (name,block_id,unit_type_id) VALUES ($1,$2,$3)';
+        console.log('blogD',blockDetails)
         var unitsDetails = [req.body.name, blockDetails.rows[0].id, unitTypeId];
         try {
             var results = await client.query(insertUnits, unitsDetails)
+            console.log("results",results)
             res.send(results).status(201)
         } catch (err) {
             console.log(err)
@@ -147,7 +149,7 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectLocation/:selectedLocation', async (req, res) => {
-       var blockDetails=await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1 and unit.id NOT IN (select unit_id from purchase_units)',[req.params.selectedLocation])
+        var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1 and unit.id NOT IN (select unit_id from purchase_units)', [req.params.selectedLocation])
         var finalBlockDetails = blockDetails.rows
         try {
             res.send(finalBlockDetails).status(201).end()
@@ -185,7 +187,6 @@ module.exports = function businessRoutes(app) {
     app.get("/businessReservedRoom/:decodedToken", async (req, res) => {
         var user = await client.query('SELECT id FROM public.business_owner where contact_email=$1', [req.params.decodedToken])
         var userDetails = user.rows[0].id
-
         var businessReserved = await client.query(` select location.address1 , location.address2 , location.country ,
     unit.name ,unit_type.height , unit_type.width,
     unit_type.name  ,
@@ -208,16 +209,27 @@ module.exports = function businessRoutes(app) {
         }
 
     })
-
+    app.get('/available-units', async (req, res) => {
+        var availableUnits = await client.query(`select location.address1,location.country,unit.name,unit.id  from unit inner join block on block_id=block.id inner join location on location_id=location.id  WHERE unit.id NOT IN
+        (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id);`
+        )
+        console.log("available", availableUnits)
+        try {
+            res.send(availableUnits)
+        } catch (err) {
+            console.log(err)
+            res.status(500).end()
+        }
+    })
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
         var unitsDetails = await client.query(`SELECT  * FROM public.unit WHERE unit.id NOT IN 
         (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)`
-    )
+        )
         var unitTypeDetails = await client.query('SELECT * FROM unit_type')
         var unitType = unitTypeDetails.rows
         var units = unitsDetails.rows;
-        
+
         var results = unitType.find(item => {
             var returningObjects = item.name === selectedUnitTypes[0] && item.length === selectedUnitTypes[1] && item.width === selectedUnitTypes[2] && item.height === selectedUnitTypes[3]
             return returningObjects
@@ -261,36 +273,16 @@ module.exports = function businessRoutes(app) {
         var results = generateToken({ email: req.body.email }, "businessOwner")
         passport.authenticate('businessLogIn', { session: true }, (err, user, info) => {
             if (err) {
-                console.log("it went to err",err)
+                console.log("it went to err", err)
                 res.status(203).json(info).end();
             }
             if (user) {
-                console.log("it went to user",user)
                 res.send(results)
             } else {
-                console.log("it went to else",)
                 res.status(203).json(info).end();
             }
         })(req, res);
     })
-
-
-    //   app.get('/logout', function(req, res, next) {
-    //     console.log('what is loged out',req,res)
-
-    //     if (req.session) {
-
-    //       req.session.destroy(function(err) {
-    //         if(err) {
-    //           return next(err);
-    //         } else {
-    //           return res.redirect('/');
-    //         }
-    //       });
-    //     }
-    //   });
-
-
 }
 
 

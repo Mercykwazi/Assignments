@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect, Link } from 'react-router-dom';
 import * as actions from '../../actions/register'
 import history from '../../history'
 import { protectRoutes } from '../protectedRoutes'
@@ -87,21 +86,13 @@ class SignUp extends React.Component {
         history.push("/log-in")
     }
 
-
-
     render() {
-
         return (<div>
             <h1 > Please Fill in your personal details</h1>
             <div className="signing">
             </div>
             <form>
                 <div className="business">
-                    <div >
-                        <label htmlFor="firstName">First Name:</label><br />
-                        <input name="firstName" type="text" onChange={this.contactName} value={this.state.firstName} required />
-                    </div>
-                    <br />
                     <div >
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />

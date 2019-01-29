@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS business (
 );CREATE TABLE IF NOT EXISTS unit_type (
     id serial PRIMARY KEY,
     name varchar(25) NOT NULL,
-    length NUMERIC(7, 2) NOT NULL,
-    width NUMERIC(7, 2) NOT NULL,
-    height NUMERIC(7, 2) NOT NULL,
+    length INT NOT NULL,
+    width INT NOT NULL,
+    height INT NOT NULL,
     created_at timestamp NOT NULL DEFAULT NOW() NOT NULL
 );CREATE TABLE IF NOT EXISTS unit(
     id serial PRIMARY KEY,

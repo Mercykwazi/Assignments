@@ -1,11 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import history from "../../history"
-
-import { Redirect } from 'react-router';
 
 class RentedUnites extends React.Component {
     constructor() {
@@ -15,16 +11,14 @@ class RentedUnites extends React.Component {
 
         }
         this.reservedDetailsOfRoom = this.reservedDetailsOfRoom.bind(this);
-        this.next=this.next.bind(this)
+        this.next = this.next.bind(this)
     }
-
 
     async reservedDetailsOfRoom() {
         var token = sessionStorage.getItem('jwtToken');
         const decodedToken = jwtDecode(token)
         var decodedEmail = decodedToken.email
         var reservedDetails = await axios.get("http://localhost:3003/reserved/" + decodedEmail)
-        console.log("res", reservedDetails)
         var results = reservedDetails.data
         this.setState({ reservedRoomDetails: results })
     }
@@ -35,10 +29,12 @@ class RentedUnites extends React.Component {
         e.preventDefault()
         history.push('/view-location')
     }
+    removeUnit(){
 
+    }
 
     render() {
-        return (    
+        return (
             <div>
                 <h1 className="storage">your ranted unites </h1>
                 <table >
@@ -51,6 +47,8 @@ class RentedUnites extends React.Component {
                             <th>Length</th>
                             <th>Width</th>
                             <th>Height</th>
+                            <th>RemoveOrder</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -63,11 +61,14 @@ class RentedUnites extends React.Component {
                                 <td>{room.length}</td>
                                 <td>{room.width}</td>
                                 <td>{room.height}</td>
+                                <td>{this.removeUnit}</td>
+                                
 
                             </tr>
                         })}
                     </tbody>
                 </table>
+                    <button className="button" onClick={this.removeUnit}>Remove</button><br/>
                 <button onClick={this.next} className="Done">Done</button>
             </div>
         )

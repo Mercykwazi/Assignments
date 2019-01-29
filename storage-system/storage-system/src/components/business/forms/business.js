@@ -2,8 +2,6 @@ import React from 'react';
 import * as actions from '../../../actions/business'
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { log } from 'util';
-import { Redirect } from 'react-router';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { protectRoutes } from '../../protectedRoutes'
 import history from '../../../history'
@@ -17,7 +15,6 @@ class Business extends React.Component {
             contactName: this.props.contactName,
             telephone: this.props.telephone,
             email: this.props.email,
-            redirect: false,
             errorPresent: false,
             errorMessage: ""
         }
@@ -62,12 +59,11 @@ class Business extends React.Component {
             email: this.props.email
         }
         var api = await axios.post("http://localhost:3003/business", businessDetails, protectRoutes())
-        console.log("err",api)
         if (api.status === 200) {
             history.push('/view-business')
 
         } else if (api.status === 203) {
-            this.setState({ errorMessage: api.data.message, errorPresent: true })
+            this.setState({ errorMessage: api.data.message, errorPresent: true, input: '' })
         }
     }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/selectUnits';
 import available from '../../actions/availableUnitType';
@@ -44,6 +43,7 @@ class ViewLocation extends React.Component {
             var locationD = results.data.rows;
             this.setState({ locationDetail: locationD })
         } catch (e) {
+            console.log("err",e)
         }
     }
 
@@ -71,17 +71,16 @@ class ViewLocation extends React.Component {
                 <button>   <Link to={'/log-out'}>Log-out</Link></button>
 
             </div>
-            <h1>Available unit/(s)</h1>
+            <h1>location</h1>
             <form >
                 <div className="blocks">
-                    <h2 >location</h2>
                     <select onChange={this.getLocation}>
                         <option value="select your your location">select your preferred location:</option>
                         {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
                             return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
                         }) : null}
                     </select><br />
-                    <button onClick={this.next}>Next</button>
+                    <button className='customerNextButton' onClick={this.next}>Next</button>
 
                 </div>
             </form>

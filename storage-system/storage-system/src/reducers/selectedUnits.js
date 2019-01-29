@@ -9,7 +9,8 @@ export default function selectUnitType(state = { selectUnit: "", selectedLocatio
             break;
             case "SELECT_A_UNIT":
             newState={...newState,selectingUnit:action.value}
-        default:
+       break;
+            default:
             newState = { ...newState }
             break;
     }

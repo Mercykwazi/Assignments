@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect } from 'react-router';
 import * as actions from '../../actions/signIn'
 import history from '../../history'
 import { protectRoutes } from '../protectedRoutes';
@@ -14,7 +13,6 @@ class SignIn extends React.Component {
         this.state = {
             signUpDetails: [],
             email: this.props.email,
-            redirect: false,
             isPasswordVisible: false,
             error: false,
             errorMessage: ""
@@ -45,13 +43,10 @@ class SignIn extends React.Component {
             password: this.props.userPassword,
         }
         var results = await axios.post("http://localhost:3003/logIn/", customerDetails)
-        console.log("statusCode", results.status)
         if (results.status != 200) {
             this.setState({ error: true, errorMessage: results.data.message })
-            console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
-            console.log('true')
             protectRoutes()
             this.props.authorizeBusiness()
             history.push('/business')

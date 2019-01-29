@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect } from 'react-router';
 import * as actions from '../../actions/log-in'
 import * as customerLogIn from '../../actions/register'
 import { protectRoutes } from '../protectedRoutes';
 import history from '../../history'
 import { checkUserStatus } from '../../index'
-import jwtDecode from 'jwt-decode'
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -15,7 +13,6 @@ class LogIn extends React.Component {
         this.state = {
             signUpDetails: [],
             email: this.props.email,
-            redirect: false,
             password: this.props.userPassword,
             isPasswordVisible: false,
             error: false,
@@ -28,8 +25,6 @@ class LogIn extends React.Component {
     }
     componentDidMount() {
         checkUserStatus()
-        console.log('call me plz');
-
     }
 
     email(e) {
@@ -50,14 +45,10 @@ class LogIn extends React.Component {
         var results = await axios.post("http://localhost:3003/signIn/", customerDetails)
         if (results.status != 200) {
             this.setState({ error: true, errorMessage: results.data.message })
-
-            console.log('sorry you are not authorized')
         } else {
-            var checking = sessionStorage.setItem('jwtToken', results.data)
-
+        var session= sessionStorage.setItem('jwtToken', results.data)
             protectRoutes()
             this.props.authorizeCustomer()
-            console.log('true')
             history.push("/view-location")
         }
     }

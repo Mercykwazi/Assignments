@@ -12,12 +12,13 @@ import ViewBusiness from './components/business/forms/view-business'
 import ViewBlocks from './components/business/forms/view-blocks';
 import Units from './components/business/forms/units';
 import Welcome from './components/welcome';
+import availableUnits from './components/view-units-available'
 import SignUp from './components/customer/sign-up';
 import SigningUp from './components/business/sign-up';
 import RentedBusinessUnites from './components/business/viewRentedUnites'
 import ViewUnitType from './components/customer/selectUnitType'
 import './index.css'
-import ViewLocation from './components/customer/available-units';
+import ViewLocation from './components/customer/select-location';
 import LogIn from './components/customer/log-in'
 import RentedUnites from './components/customer/rented-units'
 import jwtDecode from 'jwt-decode'
@@ -31,7 +32,11 @@ const app = document.getElementById("root")
 export function checkUserStatus() {
     var token = sessionStorage.getItem('jwtToken');
     if (token) {
+        console.log('this is true')
         const decodedToken = jwtDecode(token)
+        console.log('what is decodedToken',decodedToken)
+        
+        
         if (decodedToken.authority === "businessOwner") {
             store.dispatch({ type: "BUSINESS_AUTHENTICATED", value: true })
             return history.push("/business")
@@ -96,6 +101,8 @@ ReactDOM.render(
                 <Route path="/select-unit-type" component={ViewUnitType} />
                 <Route path="/business-unites" component={RentedBusinessUnites} />
                 <Route path="/View-units" component={ViewUnits} />
+                <Route path="/view-units-available" component={availableUnits} />
+                
 
             </div>
         </Router>

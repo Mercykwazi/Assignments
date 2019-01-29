@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/selectUnits';
 import axios from 'axios';
@@ -21,15 +20,15 @@ class ViewUnitType extends React.Component {
         }
         this.unitTypeDetails = this.unitTypeDetails.bind(this);
         this.selectedLocationDetails = this.selectedLocationDetails.bind(this);
-        this.getUnites=this.getUnites.bind(this)
-        this.next=this.next.bind(this)
+        this.getUnites = this.getUnites.bind(this)
+        this.next = this.next.bind(this)
 
     }
 
     componentDidMount() {
         this.unitTypeDetails()
     }
-    
+
     async next() {
         history.push("/view-units")
     }
@@ -58,13 +57,12 @@ class ViewUnitType extends React.Component {
                     <select onChange={this.getUnites}>
                         <option value="Select unit type">Select Unit type:</option>
                         {this.state.availableUnitType.length > 0 ? this.state.availableUnitType.map(item => {
-                            return <option key={this.state.availableUnitType.indexOf(item)} value={item.business_name}> {item.name} {item.length} {item.width} {item.height} </option>
+                            return <option key={this.state.availableUnitType.indexOf(item)} value={item.business_name}> {item.name} {item.length}(L), {item.width}(W), {item.height}(H) </option>
                         }) : null}
-                    </select>
-
+                    </select><br />
+                    <button className='customerNextButton' onClick={this.next}>Next</button>
                 </div>
             </form>
-            <button onClick={this.next}>Next</button>
         </div>
         )
     }
@@ -76,7 +74,7 @@ const mapStateToProps = (state) => {
         business: state.viewBusiness.selectedBusiness,
         unitType: state.selectUnitType.selectUnit,
         loc: state.selectUnitType.selectedLocation,
-        availableUnitType:state.availableUnitType.unitTypeAvailable,
+        availableUnitType: state.availableUnitType.unitTypeAvailable,
         state: state,
     }
 }

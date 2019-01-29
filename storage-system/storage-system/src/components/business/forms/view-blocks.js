@@ -20,10 +20,9 @@ class ViewBlocks extends React.Component {
     }
 
     async blocksDetails() {
-        var blocks = await axios.get("http://localhost:3003/block/" + this.props.selectedBusiness).then(results => {
-            var blocksD = results.data;
-            this.setState({ blocksDetail: blocksD })
-        })
+        var blocks = await axios.get("http://localhost:3003/block/" + this.props.selectedBusiness)
+          var blocksD = blocks.data;
+           this.setState({ blocksDetail: blocksD })
     }
 
     submitData() {

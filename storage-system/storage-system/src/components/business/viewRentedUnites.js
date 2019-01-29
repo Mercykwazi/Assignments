@@ -1,9 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-
-import { Redirect } from 'react-router';
 
 class RentedBusinessUnites extends React.Component {
     constructor() {

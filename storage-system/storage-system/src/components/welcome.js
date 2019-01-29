@@ -1,17 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
 import { Redirect } from 'react-router';
+import axios from 'axios';
+import history from '../history'
 
 class Welcome extends React.Component {
     constructor() {
         super()
         this.state = {
             redirectToBusiness: false,
-            redirectToCustomer: false
+            redirectToCustomer: false,
+            storage: []
         }
         this.registerStorage = this.registerStorage.bind(this);
-        this.rentStorage = this.rentStorage.bind(this)
+        this.rentStorage = this.rentStorage.bind(this);
+        this.viewStorage = this.viewStorage.bind(this);
     }
 
     registerStorage() {
@@ -19,7 +21,9 @@ class Welcome extends React.Component {
     }
     rentStorage() {
         this.setState({ redirectToCustomer: true })
-
+    }
+    async  viewStorage() {
+        history.push('/view-units-available')
     }
 
     render() {
@@ -31,9 +35,10 @@ class Welcome extends React.Component {
         }
         return (
             <div>
-                <h1 className="storage">Welcome to storage facility </h1>
-                <button className="getStarted" onClick={this.registerStorage}>Register Storage</button> <button className="rentStorage" onClick={this.rentStorage}>Rent Storage</button>
-
+                <h1 className="storage">Storage facility </h1>
+                <button className="getStarted" onClick={this.registerStorage}>Register Storage</button>
+                <button className="rentStorage" onClick={this.rentStorage}>Rent Storage</button>
+                <button className="viewStorage" onClick={this.viewStorage}>View Available units</button>
             </div>
         )
     }

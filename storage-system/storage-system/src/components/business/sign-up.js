@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Redirect, Link } from 'react-router-dom';
 import { protectRoutes } from '../protectedRoutes';
 import { checkUserStatus } from "../../index"
 import * as actions from '../../actions/register'
@@ -54,9 +53,7 @@ class SigningUp extends React.Component {
             password: this.state.password,
         }
         var results = await axios.post("http://localhost:3003/registerBusiness", businessDetails)
-        console.log("results", results.data)
         if (results.status != 200) {
-            console.log('sorry you are not authorized')
         } else {
             var checking = sessionStorage.setItem('jwtToken', results.data)
             protectRoutes()
@@ -70,18 +67,13 @@ class SigningUp extends React.Component {
     }
     render() {
         return (<div>
-          
+
             <h1 >Fill in your personal details</h1>
             <div className="signing">
-            
+
             </div>
             <form  >
                 <div className="business">
-                    <div >
-                        <label htmlFor="firstName">First Name:</label><br />
-                        <input name="firstName" type="text" onChange={this.contactName} value={this.state.firstName} required />
-                    </div>
-                    <br />
                     <div >
                         <label htmlFor="email">Email:</label><br />
                         <input name="email" type="email" onChange={this.email} value={this.state.email} required />

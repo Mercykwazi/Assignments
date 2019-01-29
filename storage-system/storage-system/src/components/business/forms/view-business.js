@@ -3,6 +3,7 @@ import * as actions from '../../../actions/view-business';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'
+import jwtDecode from 'jwt-decode';
 
 class ViewBusiness extends React.Component {
     constructor(props) {
@@ -20,10 +21,13 @@ class ViewBusiness extends React.Component {
     }
 
     async businessDetails() {
-        var business = await axios.get("http://localhost:3003/business").then(results => {
-                var businessD = results.data.rows;
-            this.setState({ businessDetail: businessD })
-        })
+        var token = sessionStorage.getItem('jwtToken');
+        const decodedToken = jwtDecode(token)
+        var decodedEmail = decodedToken.email
+        var business = await axios.get("http://localhost:3003/business/" + decodedEmail)
+        var businessD = business.data.rows;
+        this.setState({ businessDetail: businessD })
+
     }
 
     submitData() {
