@@ -24,14 +24,11 @@ class ViewUnits extends React.Component {
         this.unitsDetails = this.unitsDetails.bind(this)
         this.selectedUnit = this.selectedUnit.bind(this)
         this.submitUnit = this.submitUnit.bind(this)
-
     }
 
     componentDidMount() {
-
         this.unitsDetails()
         this.selectedUnit()
-
     }
 
     async submitUnit(e) {
