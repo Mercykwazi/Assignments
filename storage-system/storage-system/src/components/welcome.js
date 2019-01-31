@@ -35,9 +35,9 @@ class Welcome extends React.Component {
         }
         return (
             <div>
-                <h1 className="storage">Storage facility </h1>
+                <h1 className="storage">Welcome to Storage facility </h1>
                 <button className="getStarted" onClick={this.registerStorage}>Register Storage</button>
-                <button className="rentStorage" onClick={this.rentStorage}>Rent Storage</button>
+                <button className="rentStorage" onClick={this.rentStorage}>Rent a Storage</button><br/><br/>
                 <button className="viewStorage" onClick={this.viewStorage}>View Available units</button>
             </div>
         )
