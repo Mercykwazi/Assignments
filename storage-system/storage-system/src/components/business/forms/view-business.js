@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Redirect } from 'react-router'
 import jwtDecode from 'jwt-decode';
+import history from '../../../history'
 
 class ViewBusiness extends React.Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class ViewBusiness extends React.Component {
         this.state = {
             businessDetail: [],
             selectedBusiness: this.props.select,
-            redirect: false,
+            errorMessage: "",
+            err: false,
         }
         this.businessDetails = this.businessDetails.bind(this);
         this.submitData = this.submitData.bind(this)
@@ -25,22 +27,31 @@ class ViewBusiness extends React.Component {
         const decodedToken = jwtDecode(token)
         var decodedEmail = decodedToken.email
         var business = await axios.get("http://localhost:3003/business/" + decodedEmail)
+        console.log("business", business)
         var businessD = business.data.rows;
-        this.setState({ businessDetail: businessD })
+        if (businessD = ![]) {
+            console.log("this is true")
+            this.setState({ businessDetail: businessD })
+        } else {
+            this.setState({err:true,errorMessage:"please register your business first"})
+            console.log('this is falseee');
+
+        }
 
     }
 
     submitData() {
-        this.setState({ redirect: true })
+        history.push('/location')
     }
 
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/location' />
-        }
+       
         return (<div>
-            <h2>Select the Business</h2>
+            <h2>Select your business</h2>
+            {this.state.err && (
+            <h3 style={{ color: "red" }}>{this.state.errorMessage}</h3>
+        )}
             <div className="view-business">
                 <select onChange={(e) => this.props.setTheBusiness(e.target.value)}>
                     <option value="Select business">Select business:</option>

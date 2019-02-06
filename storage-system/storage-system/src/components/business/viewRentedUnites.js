@@ -26,7 +26,7 @@ class RentedBusinessUnites extends React.Component {
     render() {
         return (
             <div>
-                <h1 className="storage">your ranted unites </h1>
+                <h1 className="storage">Reserved Unites </h1>
                 <table >
                     <thead>
                         <tr>

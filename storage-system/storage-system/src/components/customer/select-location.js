@@ -43,7 +43,7 @@ class ViewLocation extends React.Component {
             var locationD = results.data.rows;
             this.setState({ locationDetail: locationD })
         } catch (e) {
-            console.log("err",e)
+            console.log("err", e)
         }
     }
 
@@ -77,7 +77,7 @@ class ViewLocation extends React.Component {
                     <select onChange={this.getLocation}>
                         <option value="select your your location">select your preferred location:</option>
                         {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
-                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
+                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.country}  {location.address2} </option>
                         }) : null}
                     </select><br />
                     <button className='customerNextButton' onClick={this.next}>Next</button>

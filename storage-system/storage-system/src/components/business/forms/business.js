@@ -84,7 +84,7 @@ class Business extends React.Component {
             {this.state.errorPresent && (
                 <h3 style={{ color: "white" }}>{this.state.errorMessage}</h3>
             )}
-            <form  >
+            <form>
                 <div className="business">
                     <div >
                         <label htmlFor="firstName" >Business Name:</label><br />
@@ -92,19 +92,15 @@ class Business extends React.Component {
                     </div>
                     <br />
                     <div >
-                        <label htmlFor="lastName">Contact Name:</label><br />
-                        <input name="contactName" type="text" onChange={this.contactName} value={this.state.contactName} required />
-                    </div>
-                    <br />
+                        <label htmlFor="email">Email:</label><br />
+                        <input name="email" type="email" onChange={this.email} value={this.state.email} required />
+                    </div><br/>
                     <div >
                         <label htmlFor="telephone">Telephone:</label><br />
                         <input name="telephone" type="tel" onChange={this.telephone} value={this.state.telephone} required />
                     </div>
                     <br />
-                    <div >
-                        <label htmlFor="email">Email:</label><br />
-                        <input name="email" type="email" onChange={this.email} value={this.state.email} required />
-                    </div>
+                  
                     <button className="button" onClick={this.saveData}>submit</button>
                 </div>
             </form>

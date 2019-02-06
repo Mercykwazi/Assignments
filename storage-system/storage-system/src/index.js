@@ -32,17 +32,12 @@ const app = document.getElementById("root")
 export function checkUserStatus() {
     var token = sessionStorage.getItem('jwtToken');
     if (token) {
-        console.log('this is true')
         const decodedToken = jwtDecode(token)
-        console.log('what is decodedToken',decodedToken)
-        
-        
-        if (decodedToken.authority === "businessOwner") {
+        if (decodedToken.authority === "business_owner") {
             store.dispatch({ type: "BUSINESS_AUTHENTICATED", value: true })
             return history.push("/business")
         }
         if (decodedToken.authority === "customer") {
-            console.log("this is the customer")
             store.dispatch({ type: "CUSTOMER_AUTHENTICATED", value: true })
             return history.push('/view-location')
         }

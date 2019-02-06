@@ -56,7 +56,7 @@ class Location extends React.Component {
             return <Redirect to='/blocks' />
         }
         return (<div>
-            <h1>Your location details below</h1>
+            <h1>Enter your location details below</h1>
             <form>
                 <div className="location">
                     <div >

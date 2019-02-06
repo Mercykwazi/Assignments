@@ -11,7 +11,6 @@ class availableUnits extends React.Component {
         this.viewStorage = this.viewStorage.bind(this);
     }
 
-
     async  viewStorage() {
         var storageDetails = await axios.get('http://localhost:3003/available-units')
         var finalStorageDetails = storageDetails.data.rows
@@ -34,7 +33,6 @@ class availableUnits extends React.Component {
                     </thead>
                     <tbody>
                         {this.state.storage.map(room => {
-                            console.log('what is room', room)
                             return <tr name={`row-${room.id}`} key={this.state.storage.indexOf(room)}>
                                 <td>{room.name}</td>
                                 <td>{room.address1}</td>

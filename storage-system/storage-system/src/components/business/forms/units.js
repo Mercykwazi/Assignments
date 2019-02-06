@@ -40,10 +40,8 @@ class Units extends React.Component {
     async unitsDetails(e) {
         e.preventDefault();
         var findTheItem = this.props.unitType.split(" ")
-        console.log("what is itemww", findTheItem)
         var unitType = this.state.unitTypeDetail
         var results = unitType.find(item => {
-            console.log("what is item", item)
             var returningObjects = item.name === findTheItem[0] && item.length === findTheItem[1] && item.width === findTheItem[2] && item.height === findTheItem[3]
             return item
         })
