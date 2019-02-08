@@ -27,6 +27,7 @@ class ViewUnitType extends React.Component {
 
     componentDidMount() {
         this.unitTypeDetails()
+        this.selectedLocationDetails()
     }
 
     async next() {
@@ -35,11 +36,13 @@ class ViewUnitType extends React.Component {
     async unitTypeDetails() {
         var business = await axios.get("http://localhost:3003/unitType/", protectRoutes())
         var unitsD = business.data.rows;
+        console.log("what is this",unitsD)
         this.setState({ unitTypeDetail: unitsD })
     }
     async selectedLocationDetails() {
         var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc, protectRoutes())
         var availableUnitTypes = results.data
+        console.log("availab",results)
         this.setState({ availableUnitType: availableUnitTypes })
     }
 

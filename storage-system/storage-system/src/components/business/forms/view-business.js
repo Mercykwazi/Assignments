@@ -29,15 +29,8 @@ class ViewBusiness extends React.Component {
         var business = await axios.get("http://localhost:3003/business/" + decodedEmail)
         console.log("business", business)
         var businessD = business.data.rows;
-        if (businessD = ![]) {
-            console.log("this is true")
             this.setState({ businessDetail: businessD })
-        } else {
-            this.setState({err:true,errorMessage:"please register your business first"})
-            console.log('this is falseee');
-
-        }
-
+        
     }
 
     submitData() {
@@ -49,9 +42,6 @@ class ViewBusiness extends React.Component {
        
         return (<div>
             <h2>Select your business</h2>
-            {this.state.err && (
-            <h3 style={{ color: "red" }}>{this.state.errorMessage}</h3>
-        )}
             <div className="view-business">
                 <select onChange={(e) => this.props.setTheBusiness(e.target.value)}>
                     <option value="Select business">Select business:</option>

@@ -8,7 +8,8 @@ class RentedUnites extends React.Component {
         super()
         this.state = {
             reservedRoomDetails: [],
-
+            errorMessage: "",
+            err: false,
         }
         this.reservedDetailsOfRoom = this.reservedDetailsOfRoom.bind(this);
         this.next = this.next.bind(this)
@@ -20,7 +21,6 @@ class RentedUnites extends React.Component {
         var decodedEmail = decodedToken.email
         var reservedDetails = await axios.get("http://localhost:3003/reserved/" + decodedEmail)
         var results = reservedDetails.data
-        console.log("what are my results",results)
         this.setState({ reservedRoomDetails: results })
     }
     componentDidMount() {
