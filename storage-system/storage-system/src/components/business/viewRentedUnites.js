@@ -37,7 +37,6 @@ class RentedBusinessUnites extends React.Component {
                             <th>Length</th>
                             <th>Width</th>
                             <th>Height</th>
-                            <th>Customer Name</th>
                             <th>Customer EmailAddress</th>
 
 
@@ -53,7 +52,6 @@ class RentedBusinessUnites extends React.Component {
                                 <td>{room.length}</td>
                                 <td>{room.width}</td>
                                 <td>{room.height}</td>
-                                <td>{room.contact_name}</td>
                                 <td>{room.contact_email}</td>
                             </tr>
                         })}
