@@ -138,6 +138,7 @@ module.exports = function businessRoutes(app) {
         var unitsDetails = [req.body.name, blockDetails.rows[0].id, unitTypeId];
         try {
             var results = await client.query(insertUnits, unitsDetails)
+            console.log('resultsss',results)
             res.send(results).status(201)
         } catch (err) {
             console.log(err)
@@ -233,7 +234,7 @@ module.exports = function businessRoutes(app) {
 
         var results = unitType.find(item => {
             var returningObjects = item.name === selectedUnitTypes[0] && item.length === selectedUnitTypes[1] && item.width === selectedUnitTypes[2] && item.height === selectedUnitTypes[3]
-          console.log("this is just a test hey",item)
+          console.log("this is just a test hey",returningObjects)
             return item
         })
         var allAvailableUnits = units.filter(unit => {
