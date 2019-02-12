@@ -37,7 +37,6 @@ class ViewUnits extends React.Component {
         var token = sessionStorage.getItem('jwtToken');
         const decodedToken = jwtDecode(token)
         var reservedDetails = await axios.post("http://localhost:3003/reserved/", { id: reservedRoom, decodedToken: decodedToken })
-        console.log("i reache here")
         history.push('/rented-Unites')
 
     }
@@ -55,9 +54,7 @@ class ViewUnits extends React.Component {
     }
 
     async selectedUnit() {
-        console.log("what is props",this.props.unitType)
         var details = await axios.get("http://localhost:3003/selectUnit/" + this.props.unitType)
-        console.log("what is this details",details)
         var availableUnits = details.data
         this.props.availableUnit(availableUnits)
         this.setState({ units: availableUnits })

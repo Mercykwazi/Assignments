@@ -1,3 +1,4 @@
+
 var express = require('express');
 const cors = require('cors');
 var bodyParser = require('body-parser');
@@ -17,5 +18,6 @@ const customerRoutes = require('./routes/customer/customer')
 customerRoutes(app);
 businessRoutes(app)
 app.listen(port, () => {
+  console.log('what is in',process.env.JWT_SECRET);
   console.log("server running on localhost:3003 ");
 });

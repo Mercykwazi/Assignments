@@ -8,7 +8,8 @@ class RentedUnites extends React.Component {
         super()
         this.state = {
             reservedRoomDetails: [],
-
+            errorMessage: "",
+            err: false,
         }
         this.reservedDetailsOfRoom = this.reservedDetailsOfRoom.bind(this);
         this.next = this.next.bind(this)
@@ -47,12 +48,13 @@ class RentedUnites extends React.Component {
                             <th>Length</th>
                             <th>Width</th>
                             <th>Height</th>
-                            <th>RemoveOrder</th>
+                            {/* <th>RemoveOrder</th> */}
                             
                         </tr>
                     </thead>
                     <tbody>
                         {this.state.reservedRoomDetails.map(room => {
+                            console.log("what is room",room)
                             return <tr name={`row-${room.id}`} key={this.state.reservedRoomDetails.indexOf(room)}>
                                 <td>{room.address1}</td>
                                 <td>{room.address2}</td>
@@ -61,14 +63,14 @@ class RentedUnites extends React.Component {
                                 <td>{room.length}</td>
                                 <td>{room.width}</td>
                                 <td>{room.height}</td>
-                                <td>{this.removeUnit}</td>
+                                {/* <td>{this.removeUnit}</td> */}
                                 
 
                             </tr>
                         })}
                     </tbody>
-                </table>
-                    <button className="button" onClick={this.removeUnit}>Remove</button><br/>
+                </table><br/>
+                    {/* <button className="button" onClick={this.removeUnit}>Remove</button><br/> */}
                 <button onClick={this.next} className="Done">Done</button>
             </div>
         )

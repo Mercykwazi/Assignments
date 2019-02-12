@@ -40,6 +40,7 @@ class Location extends React.Component {
     }
 
     async submitData(e) {
+        console.log("it reach mooo")
         e.preventDefault()
         var results = await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country, business: this.state.businessName })
         if (results.status === 201) {
@@ -56,7 +57,7 @@ class Location extends React.Component {
             return <Redirect to='/blocks' />
         }
         return (<div>
-            <h1>Your location details below</h1>
+            <h1>Enter your location details below</h1>
             <form>
                 <div className="location">
                     <div >

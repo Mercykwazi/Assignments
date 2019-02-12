@@ -14,7 +14,7 @@ var { authMiddleware } = require('../../config/passport')
 const { jwtCheck } = require('../../config/jwt-check')
 
 module.exports = function businessRoutes(app) {
-    app.post('/business', authMiddleware, async (req, res) => {
+    app.post('/business', async (req, res) => {
         const decodedValues = req.decoded
         const businessId = await client.query("SELECT id FROM public.business_owner")
         const businessOwnerId = businessId.rows[0].id
@@ -40,13 +40,13 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/location', authMiddleware, async (req, res) => {
-
+    app.post('/location', async (req, res) => {
         const businessId = await client.query('SELECT id FROM business WHERE business_name=$1', [req.body.business]);
         const insertLocations = 'INSERT INTO location(address1,address2,country,business_id)VALUES($1,$2,$3,$4)';
         const locationDetails = [req.body.address1, req.body.address2, req.body.country, businessId.rows[0].id]
         try {
             const Results = await client.query(insertLocations, locationDetails)
+            
             res.status(201).end()
         } catch (err) {
             console.log(err);
@@ -54,13 +54,12 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.get('/location', authMiddleware, async (req, res, info) => {
+    app.get('/location', async (req, res, info) => {
         var testing = await client.query(`select * from unit inner join block on unit.block_id=block.id 
         inner join location on block.location_id=location.id
          WHERE unit.id NOT IN (select unit_id from purchase_units)
 
         `)
-        console.log('testinLg',testing)
         try {
             var allLocations = await client.query("SELECT * FROM location", (err, result) => {
                 res.send(testing)
@@ -72,7 +71,7 @@ module.exports = function businessRoutes(app) {
         }
     })
 
-    app.post('/block', authMiddleware, async (req, res) => {
+    app.post('/block', async (req, res) => {
         const businessId = await client.query('SELECT location.id FROM business INNER JOIN location on business.id = location.business_id WHERE business_name = $1;', [req.body.businessName]);
         const insertBlocks = 'INSERT INTO block(name,location_id)VALUES($1,$2)';
         const blocksDetails = [req.body.blockName, businessId.rows[0].id]
@@ -95,7 +94,7 @@ module.exports = function businessRoutes(app) {
     })
 
 
-    app.post('/unitType', authMiddleware, async (req, res) => {
+    app.post('/unitType', async (req, res) => {
         const insertUnitTypes = 'INSERT INTO unit_type(name,length,width,height)VALUES($1,$2,$3,$4)'
         const unitTypeDetails = [req.body.storageType, req.body.length, req.body.width, req.body.height]
         try {
@@ -110,7 +109,7 @@ module.exports = function businessRoutes(app) {
 
 
 
-    app.get('/unitType/', authMiddleware, async (req, res) => {
+    app.get('/unitType/', async (req, res) => {
         try {
             var unitTypeDetails = await client.query('select * from unit_type')
             res.send(unitTypeDetails).status(201).end()
@@ -133,15 +132,12 @@ module.exports = function businessRoutes(app) {
     })
 
     app.post('/units', authMiddleware, async (req, res) => {
-        console.log("req.body units",req.body)
         var unitTypeId = req.body.foundObject.id
         var blockDetails = await client.query('SELECT block.id FROM business INNER JOIN location on business.id = location.business_id INNER JOIN block on location.id =block.id WHERE business.business_name = $1', [req.body.selectedBusiness])
         var insertUnits = 'INSERT INTO unit (name,block_id,unit_type_id) VALUES ($1,$2,$3)';
-        console.log('blogD',blockDetails)
         var unitsDetails = [req.body.name, blockDetails.rows[0].id, unitTypeId];
         try {
             var results = await client.query(insertUnits, unitsDetails)
-            console.log("results",results)
             res.send(results).status(201)
         } catch (err) {
             console.log(err)
@@ -149,8 +145,11 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectLocation/:selectedLocation', async (req, res) => {
+        console.log('params',req.params)
         var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1 and unit.id NOT IN (select unit_id from purchase_units)', [req.params.selectedLocation])
+      
         var finalBlockDetails = blockDetails.rows
+        console.log("final",finalBlockDetails)
         try {
             res.send(finalBlockDetails).status(201).end()
         } catch (err) {

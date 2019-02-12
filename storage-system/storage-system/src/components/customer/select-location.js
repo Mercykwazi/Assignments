@@ -41,15 +41,18 @@ class ViewLocation extends React.Component {
         try {
             const results = await axios.get("http://localhost:3003/location", protectRoutes())
             var locationD = results.data.rows;
+        console.log("location",locationD)
+
             this.setState({ locationDetail: locationD })
         } catch (e) {
-            console.log("err",e)
+            console.log("err", e)
         }
     }
 
     async selectedLocationDetails() {
         var results = await axios.get("http://localhost:3003/selectLocation/" + this.props.loc)
         var availableUnitTypes = results.data
+        console.log("aval",results)
         this.props.availableUnitType(availableUnitTypes)
         this.setState({ availableUnitType: availableUnitTypes })
     }
@@ -75,9 +78,9 @@ class ViewLocation extends React.Component {
             <form >
                 <div className="blocks">
                     <select onChange={this.getLocation}>
-                        <option value="select your your location">select your preferred location:</option>
+                        <option value="select your location">select your preferred location:</option>
                         {this.state.locationDetail.length > 0 ? this.state.locationDetail.map(location => {
-                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.address2} {location.country}</option>
+                            return <option key={this.state.locationDetail.indexOf(location)} value={location.id}>{location.country}  {location.address2} </option>
                         }) : null}
                     </select><br />
                     <button className='customerNextButton' onClick={this.next}>Next</button>
