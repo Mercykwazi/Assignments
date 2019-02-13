@@ -54,8 +54,12 @@ class ViewUnits extends React.Component {
     }
 
     async selectedUnit() {
+        console.log('this.state.unittype',this.props.unitType);
+        
         var details = await axios.get("http://localhost:3003/selectUnit/" + this.props.unitType)
         var availableUnits = details.data
+        console.log('available',availableUnits);
+        
         this.props.availableUnit(availableUnits)
         this.setState({ units: availableUnits })
     }

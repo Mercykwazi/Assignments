@@ -222,21 +222,21 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
-        console.log("req.boddd")
+        console.log("req.boddd",req.params)
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
+        console.log("selectedUnitTypes",selectedUnitTypes)
         var unitsDetails = await client.query(`SELECT  * FROM public.unit WHERE unit.id NOT IN 
         (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)`
         )
         var unitTypeDetails = await client.query('SELECT * FROM unit_type')
         var unitType = unitTypeDetails.rows
         var units = unitsDetails.rows;
-        console.log("what is units then",units)
+        console.log("what is units then",unitType)
 
         var results = unitType.find(item => {
-            var returningObjects = item.name === selectedUnitTypes[0] && item.length === selectedUnitTypes[1] && item.width === selectedUnitTypes[2] && item.height === selectedUnitTypes[3]
-          console.log("this is just a test hey",returningObjects)
-            return item
+            return item.name === selectedUnitTypes[0] && item.length === +selectedUnitTypes[1] && item.width === +selectedUnitTypes[2] && item.height === +selectedUnitTypes[3]
         })
+        console.log('results', results)
         var allAvailableUnits = units.filter(unit => {
             var foundId = unit.unit_type_id
             console.log("whai is this",foundId,results)

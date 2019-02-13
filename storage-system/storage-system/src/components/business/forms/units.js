@@ -51,12 +51,16 @@ class Units extends React.Component {
     console.log("unitthpede", this.state.unitTypeDetail);
     var unitType = this.state.unitTypeDetail;
     var results = unitType.find(item => {
-     return        item.name === findTheItem[0] &&        item.length === +findTheItem[1] &&        item.width === +findTheItem[2] &&        item.height === +findTheItem[3];
-     
+      return (
+        item.name === findTheItem[0] &&
+        item.length === +findTheItem[1] &&
+        item.width === +findTheItem[2] &&
+        item.height === +findTheItem[3]
+      );
     });
     console.log("returning objects", results);
     var units = {
-        name: this.props.units,
+      name: this.props.units,
       id: this.state.unitTypeDetail,
       selectedUnit: this.props.unitType,
       selectedBusiness: this.props.business,
@@ -88,12 +92,12 @@ class Units extends React.Component {
                   return (
                     <option
                       key={this.state.unitTypeDetail.indexOf(item)}
-                      value={`${item.name} ${item.length} ${
-                        item.width
-                      } ${item.height}`}
+                      value={`${item.name} ${item.length} ${item.width} ${
+                        item.height
+                      }`}
                     >
                       {" "}
-                      {item.name} {item.length}(L), {item.width}(W),{" "}
+                      {item.name}, {item.length}(L), {item.width}(W),{" "}
                       {item.height}(H){" "}
                     </option>
                   );
