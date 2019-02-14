@@ -108,8 +108,8 @@ class SignUp extends React.Component {
                     <button className="button" onClick={this.saveData}>sign up</button>
                 </div>
             </form>
-            <footer className="business">
-                <h1 >Already have an account?</h1>
+            <footer className="footer">
+                <p>Already have an account?</p>
                 <button className="button" onClick={this.logIn}>Log in</button>
             </footer>
         </div>
