@@ -46,9 +46,6 @@ class Units extends React.Component {
     console.log("nop");
 
     var findTheItem = this.props.unitType.split(" ");
-    console.log("find the ite", findTheItem);
-
-    console.log("unitthpede", this.state.unitTypeDetail);
     var unitType = this.state.unitTypeDetail;
     var results = unitType.find(item => {
       return (
@@ -75,7 +72,6 @@ class Units extends React.Component {
   }
 
   render() {
-    console.log("state", this.state);
     return (
       <div>
         <div className="selectedUnit">
@@ -97,7 +93,7 @@ class Units extends React.Component {
                       }`}
                     >
                       {" "}
-                      {item.name}, {item.length}(L), {item.width}(W),{" "}
+                      {item.name} {item.length}(L), {item.width}(W),{" "}
                       {item.height}(H){" "}
                     </option>
                   );

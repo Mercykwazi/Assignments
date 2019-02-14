@@ -33,7 +33,6 @@ export function checkUserStatus() {
     var token = sessionStorage.getItem('jwtToken');
     if (token) {
         const decodedToken = jwtDecode(token)
-        console.log('decodedToken',decodedToken)
         if (decodedToken.authority === "businessOwner") {
             store.dispatch({ type: "BUSINESS_AUTHENTICATED", value: true })
             return history.push("/business")

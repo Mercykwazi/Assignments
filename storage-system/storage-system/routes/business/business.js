@@ -138,7 +138,6 @@ module.exports = function businessRoutes(app) {
         var unitsDetails = [req.body.name, blockDetails.rows[0].id, unitTypeId];
         try {
             var results = await client.query(insertUnits, unitsDetails)
-            console.log('resultsss',results)
             res.send(results).status(201)
         } catch (err) {
             console.log(err)
@@ -146,11 +145,8 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectLocation/:selectedLocation', async (req, res) => {
-        console.log('params',req.params)
         var blockDetails = await client.query('SELECT unit_type.name,unit_type.length,unit_type.width,unit_type.height FROM unit_type INNER JOIN unit on unit_Type.id=unit.unit_Type_id INNER JOIN block on unit.block_id= block.id INNER JOIN location on block.location_id=location.id WHERE location.id=$1 and unit.id NOT IN (select unit_id from purchase_units)', [req.params.selectedLocation])
-      
         var finalBlockDetails = blockDetails.rows
-        console.log("final",finalBlockDetails)
         try {
             res.send(finalBlockDetails).status(201).end()
         } catch (err) {
@@ -222,24 +218,18 @@ module.exports = function businessRoutes(app) {
         }
     })
     app.get('/selectUnit/:selectedUnitType', async (req, res) => {
-        console.log("req.boddd",req.params)
         var selectedUnitTypes = req.params.selectedUnitType.split(" ")
-        console.log("selectedUnitTypes",selectedUnitTypes)
         var unitsDetails = await client.query(`SELECT  * FROM public.unit WHERE unit.id NOT IN 
         (SELECT purchase_units.unit_id FROM purchase_units inner join unit on purchase_units.unit_id = unit.id)`
         )
         var unitTypeDetails = await client.query('SELECT * FROM unit_type')
         var unitType = unitTypeDetails.rows
         var units = unitsDetails.rows;
-        console.log("what is units then",unitType)
-
         var results = unitType.find(item => {
             return item.name === selectedUnitTypes[0] && item.length === +selectedUnitTypes[1] && item.width === +selectedUnitTypes[2] && item.height === +selectedUnitTypes[3]
         })
-        console.log('results', results)
         var allAvailableUnits = units.filter(unit => {
             var foundId = unit.unit_type_id
-            console.log("whai is this",foundId,results)
             if (foundId === results.id) {
                 return unit.name
             }
