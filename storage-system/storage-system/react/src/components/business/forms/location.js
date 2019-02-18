@@ -41,7 +41,6 @@ class Location extends React.Component {
     }
 
     async submitData(e) {
-        console.log("it reach mooo")
         e.preventDefault()
         var results = await axios.post("http://localhost:3003/location", { address1: this.props.address1, address2: this.props.address2, country: this.props.country, business: this.state.businessName })
         if (results.status === 201) {

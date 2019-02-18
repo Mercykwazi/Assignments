@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 
 class availableUnits extends React.Component {
     constructor() {

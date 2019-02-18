@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import axios from 'axios';
 import history from '../history'
 
 class Welcome extends React.Component {

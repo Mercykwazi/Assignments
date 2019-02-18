@@ -42,10 +42,7 @@ class Units extends React.Component {
   }
 
   async unitsDetails(e) {
-    console.log("yes am");
     e.preventDefault();
-    console.log("nop");
-
     var findTheItem = this.props.unitType.split(" ");
     var unitType = this.state.unitTypeDetail;
     var results = unitType.find(item => {
@@ -56,7 +53,6 @@ class Units extends React.Component {
         item.height === +findTheItem[3]
       );
     });
-    console.log("returning objects", results);
     var units = {
       name: this.props.units,
       id: this.state.unitTypeDetail,

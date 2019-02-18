@@ -21,8 +21,8 @@ module.exports = function businessRoutes(app) {
         const decodedValues = req.decoded
         const businessId = await client.query("SELECT id FROM public.business_owner")
         const businessOwnerId = businessId.rows[0].id
-        const insertBusiness = 'INSERT INTO business ( business_name, contact_name,contact_email,business_owner_id, contact_telephone)VALUES($1,$2,$3,$4,$5)';
-        const businessDetails = [req.body.businessName, req.body.contactName, req.body.email, businessOwnerId, req.body.phoneNumber];
+        const insertBusiness = 'INSERT INTO business ( business_name, contact_email,business_owner_id, contact_telephone)VALUES($1,$2,$3,$4)';
+        const businessDetails = [req.body.businessName, req.body.email, businessOwnerId, req.body.phoneNumber];
         try {
             var result = await client.query(insertBusiness, businessDetails)
             res.send(result).status(200).end();

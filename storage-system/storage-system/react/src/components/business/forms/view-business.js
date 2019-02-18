@@ -29,7 +29,6 @@ class ViewBusiness extends React.Component {
         const decodedToken = jwtDecode(token)
         var decodedEmail = decodedToken.email
         var business = await axios.get("http://localhost:3003/business/" + decodedEmail)
-        console.log("business", business)
         var businessD = business.data.rows;
             this.setState({ businessDetail: businessD })
         

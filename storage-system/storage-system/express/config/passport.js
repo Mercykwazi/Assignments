@@ -123,7 +123,7 @@ function authMiddleware(req, res, next) {
   var token = req.headers.authorization;
   try {
     if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+      jwt.verify(token, "mercy", function(err, decoded) {
         if (err) {
           console.log("eee", err);
           res

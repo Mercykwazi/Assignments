@@ -54,7 +54,6 @@ class Business extends React.Component {
         e.preventDefault()
         var businessDetails = {
             businessName: this.props.name,
-            contactName: this.props.contactName,
             phoneNumber: this.props.telephone,
             email: this.props.email
         }
