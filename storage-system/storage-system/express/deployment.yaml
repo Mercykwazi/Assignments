@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: express-app
-          image: mercykwazi/storage-node-app
+          image: mercykwazi/api-storage-app
           ports:
-            - containerPort: 8096
+            - containerPort: 8081
         

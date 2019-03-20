@@ -1,4 +1,4 @@
-// require("dotenv").config();
+ require("dotenv").config();
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -6,7 +6,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = passportJWT.Strategy;
 const pg = require("pg");
 const bcrypt = require("bcrypt");
-const connectionString ='postgres://postgres:Gugulethu@localhost:5432/storage'
+const connectionString =process.env.CONNECTION_STRING
 const client = new pg.Client(connectionString);
 client.connect();
 const jwt = require("jsonwebtoken");
@@ -123,7 +123,7 @@ function authMiddleware(req, res, next) {
   var token = req.headers.authorization;
   try {
     if (token) {
-      jwt.verify(token, "mercy", function(err, decoded) {
+      jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
         if (err) {
           console.log("eee", err);
           res

@@ -34,6 +34,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "react-app-env": "^1.2.3",
     "react-country-region-selector": "^1.4.1",
     "react-select-country": "0.0.15"
   }

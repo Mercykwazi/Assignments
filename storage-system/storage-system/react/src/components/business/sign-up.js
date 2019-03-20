@@ -5,6 +5,10 @@ import { protectRoutes } from '../protectedRoutes';
 import { checkUserStatus } from "../../index"
 import * as actions from '../../actions/register'
 import history from '../../history'
+const dotenv = require('dotenv');
+//require('dotenv').config;
+
+
 
 class SigningUp extends React.Component {
     constructor(props) {
@@ -66,6 +70,7 @@ class SigningUp extends React.Component {
         history.push("/sign-in")
     }
     render() {
+        console.log("what is this",process.env.REACT_APP_TESTING)
         return (<div>
 
             <h1 >Fill in your personal details</h1>

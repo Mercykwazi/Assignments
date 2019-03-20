@@ -1,6 +1,8 @@
-
+const dotenv = require('dotenv');
+dotenv.config();
 const pg = require('pg');
-const connectionString = 'postgres://postgres:Gugulethu@localhost:5432/storage';
+const connectionString = process.env.CONNECTION_STRING;
+console.log('connectionString',connectionString)
 const client = new pg.Client(connectionString);
 const generateToken = require("../creat-token");
 client.connect()
@@ -15,9 +17,6 @@ const { jwtCheck } = require('../../config/jwt-check')
 
 module.exports = function businessRoutes(app) {
     app.post('/business', async (req, res) => {
-        console.log("this route is being called")
-        console.log("this route is being called2",req.body)
-
         const decodedValues = req.decoded
         const businessId = await client.query("SELECT id FROM public.business_owner")
         const businessOwnerId = businessId.rows[0].id
