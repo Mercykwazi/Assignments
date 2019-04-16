@@ -232,12 +232,14 @@ module.exports = function businessRoutes(app) {
         })
         var allAvailableUnits = units.filter(unit => {
             var foundId = unit.unit_type_id
+
             if (foundId === results.id) {
                 return unit.name
             }
         }).map(units => {
             return { name: units.name, id: units.id }
         })
+        console.log("what am I sending",results)
         try {
             res.send(allAvailableUnits).status(201).end()
 

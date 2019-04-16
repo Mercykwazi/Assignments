@@ -18,5 +18,5 @@ const customerRoutes = require('./routes/customer/customer')
 customerRoutes(app);
 businessRoutes(app);
 app.listen(port, () => {
-  console.log("server running on localhost:3003 ",process.env.POSTGRES_USER);
+  console.log("server running on localhost:3003 ");
 });

@@ -42,7 +42,7 @@ class ViewUnitType extends React.Component {
     this.setState({ unitTypeDetail: unitsD });
   }
   async selectedLocationDetails() {
-    console.log("what is this", this.props.loc);
+    console.log("what is this3", this.props.loc);
     var results = await axios.get(
       "http://localhost:3003/selectLocation/" + this.props.loc,
       protectRoutes()

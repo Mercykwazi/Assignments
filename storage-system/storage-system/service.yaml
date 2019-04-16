@@ -12,3 +12,5 @@ spec:
     nodePort: 30002
   selector:
     component : storage-system-postgres
+
+

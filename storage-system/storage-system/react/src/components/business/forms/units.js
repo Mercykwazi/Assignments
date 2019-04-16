@@ -60,8 +60,10 @@ class Units extends React.Component {
       selectedBusiness: this.props.business,
       foundObject: results
     };
-    var unitsResults = await axios.post("http://localhost:3003/units/", units);
-    console.log("results", unitsResults);
+
+    const api = process.env.REACT_APP_URL;
+
+    var unitsResults = await axios.post(api + "units/", units);
   }
   next(e) {
     e.preventDefault();
@@ -71,23 +73,24 @@ class Units extends React.Component {
   render() {
     return (
       <div>
-    <div className="topnav">
-    < Link to={'/business'} >Business</Link>
-    <Link to={'/view-business'} >view-business</Link>
-    <Link to={'/location'} >Location</Link>
-    <Link to={'/blocks'} >blocks</Link>
-    <Link to={'/view-blocks'} >view-blocks</Link>
-    <Link to={'/unit-type'} >unit-type</Link>
-    <Link to={'/units'} className="active">units</Link>
-    <Link to={'/log-out'}>Log-out</Link>
-    <Link to={'/business-unites'}>View Reserved unites</Link>
-</div>
+        <div className="topnav">
+          <Link to={"/business"}>Business</Link>
+          <Link to={"/view-business"}>view-business</Link>
+          <Link to={"/location"}>Location</Link>
+          <Link to={"/blocks"}>blocks</Link>
+          <Link to={"/view-blocks"}>view-blocks</Link>
+          <Link to={"/unit-type"}>unit-type</Link>
+          <Link to={"/units"} className="active">
+            units
+          </Link>
+          <Link to={"/log-out"}>Log-out</Link>
+          <Link to={"/business-unites"}>View Reserved unites</Link>
+        </div>
         <div className="selectedUnit">
           <p>Available unit types</p>
           <select
             onChange={e => {
               this.props.selectedUnitType(e.target.value);
-              console.log("e.target.value", e.target.value);
             }}
           >
             <option value="Select unit type">Select Unit type:</option>
@@ -120,7 +123,8 @@ class Units extends React.Component {
                 type="text"
                 onChange={this.unitName}
                 value={this.state.name}
-              />{" "}<br/>
+              />{" "}
+              <br />
               <button
                 className="btn"
                 onClick={this.unitsDetails}

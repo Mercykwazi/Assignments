@@ -18,3 +18,4 @@ COPY . .
 
 CMD ["node", "app.js"]
 EXPOSE 8081
+

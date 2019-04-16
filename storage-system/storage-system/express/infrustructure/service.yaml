@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: express-app
   labels:
-    component: server
+    app: express-app
 spec:
   type: NodePort
   ports:
   - port: 8081
-    name: http
     nodePort: 30009
+    targetPort: 8081
   selector:
-    component : storage-system-express
+    app : storage-system-express

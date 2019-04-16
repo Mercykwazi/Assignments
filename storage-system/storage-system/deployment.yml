@@ -17,3 +17,5 @@ spec:
           image: postgres
           ports:
             - containerPort: 8096
+
+    

@@ -13,7 +13,7 @@ spec:
         app: storage-system-ui
     spec:
       containers:
-        - name: ui-app
+        - name: storage-app-ui
           image: mercykwazi/storage-app-ui
           ports:
             - containerPort: 80
