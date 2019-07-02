@@ -1,20 +1,20 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: storage-system-ui
+  name: storage-systems-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: storage-system-ui
+      app: storage-app-ui
   template:
     metadata:
       labels:
-        app: storage-system-ui
+        app: storage-app-ui
     spec:
       containers:
         - name: storage-app-ui
-          image: mercykwazi/storage-app-ui
+          image: mercykwazi/storageappimage
           ports:
             - containerPort: 80
         
